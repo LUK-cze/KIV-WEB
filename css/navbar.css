@@ -1,0 +1,59 @@
+@charset "UTF-8";
+/* Import proměnných
+*/
+/*
+Moje paleta barev:
+*/
+/* ------------------------------- NAVBAR */
+.navbar {
+  margin-bottom: 0;
+  background-color: #FFE74C;
+  z-index: 9999;
+  border: 0;
+  font-size: 20px !important;
+  line-height: 1.42857143 !important;
+  letter-spacing: 4px;
+  border-radius: 0;
+  font-family: "VT323", monospace;
+}
+
+.navbar li a, .navbar .navbar-brand {
+  color: black;
+  transition: 0.3s;
+}
+
+.navbar-nav li a:hover, .navbar-nav li.active a {
+  color: #FF5964 !important;
+  background-color: #fff !important;
+  transition: 0.3s;
+}
+
+.navbar-default .navbar-toggle {
+  border-color: transparent;
+  color: #FF5964 !important;
+}
+
+.navbar-brand {
+  display: flex;
+  justify-content: center;
+  height: 60px;
+}
+
+.navbar-toggle {
+  position: relative;
+  float: right;
+  padding: 13px 10px;
+  margin-right: 15px;
+  margin-top: 8px;
+  margin-bottom: 8px;
+  background-color: transparent;
+  background-image: none;
+  border: 1px solid transparent;
+  border-radius: 4px;
+}
+
+/*  NAVBAR ------------------------------- */
+.glyphicon-tower {
+  color: #FF5964 !important;
+  size: 30px;
+}/*# sourceMappingURL=navbar.css.map */
