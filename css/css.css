@@ -21,4 +21,42 @@ Moje paleta barev:
 
 h1, h2, h3 {
   font-family: "VT323", monospace;
+}
+
+th, td {
+  padding: 3px;
+}
+
+.btn {
+  background-color: white;
+  border: none;
+  padding: 7px 16px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 2px 1px;
+  cursor: pointer;
+}
+
+.btn-sub {
+  border: 3px solid #6BF178;
+  transition-duration: 0.4s;
+}
+
+.btn-res {
+  border: 3px solid #FF5964;
+  transition-duration: 0.4s;
+}
+
+.btn-sub:hover {
+  background-color: #6BF178;
+}
+
+.btn-res:hover {
+  background-color: #FF5964;
+}
+
+.login {
+  border: solid 3px #FF5964;
 }/*# sourceMappingURL=css.css.map */

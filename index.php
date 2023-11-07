@@ -1,6 +1,6 @@
 <html lang="en">
 <head>
-  <title>U Pardála</title>
+  <title>Pár Pařmenů</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
@@ -10,6 +10,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+
+  <link rel="icon" href="icons/controller.svg" sizes="any" type="image/svg+xml">
 
   <link rel="stylesheet" href="css/css.css">
   <link rel="stylesheet" href="css/navbar.css">
@@ -53,9 +55,47 @@
       <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris...</p>
     </div>
     <div class="col-sm-4">
-      <h3>Registruj se!</h3>
-      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit...</p>
-      <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris...</p>
+    <div class="login">
+      <form action="/action_page.php">
+        <form autocomplete="off" action="vystup.php" target="_blank" method="POST"> <!-- _blank = otevre to na novy strance -->
+              <fieldset>
+                  <legend><h3>Registruj se!</h3></legend>
+                  <table>
+                      <tr>
+                          <td>
+                              <label for="jm">Jméno:</label>
+                          </td>
+                          <td>
+                              <input type="text" name="jmeno" id="jm">
+                          </td>
+                      </tr>
+                      <tr>
+                          <td>
+                              <label for="pr">Příjmení:</label>
+                          </td>
+                          <td>
+                              <input type="text" name="prijmeni" id="pr">
+                          </td>
+                      </tr>
+                      <tr>
+                          <td>
+                              <label for="em">E-mail:</label>
+                          </td>
+                          <td>
+                              <input type="email" name="email" id="em">
+                          </td>
+                      </tr>             
+                      <tr>
+                        <td>
+                            <input class="btn btn-sub" type="submit" value="Odeslat formulář">
+                        </td>  
+                        <td>    
+                            <input class="btn btn-res" type="reset" value="Smazat formulář">
+                        </td>
+                      </tr>
+                </fieldset>
+          </form>
+      </div>
     </div>
   </div>
 </div>
