@@ -20,8 +20,13 @@
     font-family: 'VT323', monospace;
 }
 
-h1, h2, h3{
+h1, h2, h3, h4{
     font-family: 'VT323', monospace;
+}
+
+p {
+  font-size: 17px;
+  text-align: justify;
 }
 
 th, td {
@@ -35,7 +40,7 @@ th, td {
     text-align: center;
     text-decoration: none;
     display: inline-block;
-    font-size: 16px;
+    font-size: 20px;
     margin: 2px 1px;
     cursor: pointer;
   }
@@ -44,11 +49,13 @@ th, td {
 .btn-sub {
     border: 3px solid $green;
     transition-duration: 0.4s;
+    color: $green;
 }
 
 .btn-res {
     border: 3px solid $pink;
     transition-duration: 0.4s;
+    color: $pink
   }
   
   .btn-sub:hover {
@@ -59,8 +66,76 @@ th, td {
     background-color: $pink;
   }
 
-  .login {
-    border: solid 3px $pink;
+  input{
+    padding: 0.2em; 
+    box-sizing: border-box;
+    width: 100% 
   }
 
+  .login{
+    border: solid 3px $red;
+    padding: 5px;
+    font-family: 'VT323', monospace;
+    border-radius: 10px;
+    box-shadow: 5px 0px 40px rgba(0,0,0, .5);
+    background-image: linear-gradient($pink 25% , $yellow);
 
+  }
+
+  .user {
+  position: relative;
+
+  input {
+    width: 100%;
+    height: 50px;
+    border: 2px solid $pink;
+    border-radius: 40px;
+    margin-bottom: 10px;
+    font-size: 20px;
+    outline: none;
+    transition-duration: 0.1s;
+
+    &::placeholder {
+      color: $pink;
+      padding: 0px 10px 0px 10px;
+      font-size: 20px;
+      background: transparent url(../icons/person.svg) no-repeat right 10px center;
+      background-size: 25px;
+    }
+  }
+
+  input:focus {
+    border: none;
+    color: $red;
+    border: solid $red;
+  }
+}
+
+  .pass {
+    position: relative;
+  
+    input {
+      width: 100%;
+      height: 50px;
+      border: 2px solid $pink;
+      border-radius: 40px;
+      margin-bottom: 10px;
+      font-size: 20px;
+      outline: none;
+      transition-duration: 0.1s;
+  
+      &::placeholder {
+        color: $pink;
+        padding: 0px 10px 0px 10px;
+        font-size: 20px;
+        background: transparent url(../icons/lock-fill.svg) no-repeat right 10px center;
+        background-size: 20px;
+      }
+    }
+
+    input:focus {
+      border: none;
+      color: $red;
+      border: solid $red;
+    }
+  }
