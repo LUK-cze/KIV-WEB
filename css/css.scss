@@ -139,3 +139,20 @@ th, td {
       border: solid $red;
     }
   }
+
+  .gray{
+    background-color: #F0F0F0;
+    margin-top: 50px;
+  }
+
+  .glyphicon-star{
+    background: -webkit-linear-gradient($pink 25%, $yellow);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .glyphicon-star-empty{
+    background: -webkit-linear-gradient(black, black);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
