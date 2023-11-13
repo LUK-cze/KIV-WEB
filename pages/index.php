@@ -16,11 +16,12 @@
 
   <link rel="stylesheet" href="../css/css.css">
   <link rel="stylesheet" href="../css/navbar.css">
+  <link rel="stylesheet" href="../css/login.css">
 
 
 
 </head>
-<body>
+<body data-spy="scroll" data-target=".navbar">
 
 <nav class="navbar navbar-default navbar-fixed-top">
     <div class="container">
@@ -37,6 +38,7 @@
           <li><a href="#about">CO JSME ZAČ?</a></li>
           <li><a href="#how">JAK TO FUGUJE?</a></li>
           <li><a href="#recenze">RECENZE</a></li>
+          <li><a href="registrace.php">ZAREGISTRUJ SE</a></li>
         </ul>
       </div>
     </div>
@@ -59,11 +61,11 @@
           <form action="/action_page.php" method="POST">
                 <fieldset>
                   <legend><h3>Přihlaš se!</h3></legend>
-                  <div class="user">
-                    <input type="text" name="jmeno" id="jmeno" placeholder="Jméno">
+                  <div class="email">
+                    <input type="text" name="email" id="email" placeholder="E-mail" required>
                   </div>
                   <div class="pass">
-                    <input type="password" name="heslo" id="heslo" placeholder="Heslo">
+                    <input type="password" name="heslo" id="heslo" placeholder="Heslo" required>
                   </div>
                 <input class="btn btn-sub" type="submit" value="Přihlásit se">
                 <input class="btn btn-res" type="reset" value="Smazat údaje">
@@ -76,7 +78,7 @@
     </div>
   </div>
 
-  <div class="container gray mt-5">
+  <div id="how" class="container gray mt-5">
     <div class="row">
       <div class="col-sm-12">
         <h1>Jak to funguje?</h1>

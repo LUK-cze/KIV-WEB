@@ -1,0 +1,188 @@
+@charset "UTF-8";
+/* Import proměnných
+
+Glyphikony jsou ze stránky: https://icons.getbootstrap.com/
+
+*/
+/*
+Moje paleta barev:
+*/
+input {
+  padding: 0.2em;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.login {
+  border: solid 3px #F8333C;
+  padding: 5px;
+  font-family: "VT323", monospace;
+  border-radius: 10px;
+  box-shadow: 5px 0px 40px rgba(0, 0, 0, 0.5);
+  background-image: linear-gradient(#FF5964 25%, #FFE74C);
+}
+
+.jmeno {
+  position: relative;
+}
+.jmeno input {
+  width: 100%;
+  height: 50px;
+  border: 2px solid #FF5964;
+  border-radius: 40px;
+  margin-bottom: 10px;
+  font-size: 20px;
+  outline: none;
+  transition-duration: 0.1s;
+}
+.jmeno input::-moz-placeholder {
+  color: #FF5964;
+  padding: 0px 10px 0px 10px;
+  font-size: 20px;
+  background: transparent url(../icons/person.svg) no-repeat right 10px center;
+  background-size: 25px;
+}
+.jmeno input::placeholder {
+  color: #FF5964;
+  padding: 0px 10px 0px 10px;
+  font-size: 20px;
+  background: transparent url(../icons/person.svg) no-repeat right 10px center;
+  background-size: 25px;
+}
+.jmeno input:focus {
+  border: none;
+  color: #F8333C;
+  border: solid #F8333C;
+}
+
+.prijmeni {
+  position: relative;
+}
+.prijmeni input {
+  width: 100%;
+  height: 50px;
+  border: 2px solid #FF5964;
+  border-radius: 40px;
+  margin-bottom: 10px;
+  font-size: 20px;
+  outline: none;
+  transition-duration: 0.1s;
+}
+.prijmeni input::-moz-placeholder {
+  color: #FF5964;
+  padding: 0px 10px 0px 10px;
+  font-size: 20px;
+  background: transparent url(../icons/gem.svg) no-repeat right 10px center;
+  background-size: 20px;
+}
+.prijmeni input::placeholder {
+  color: #FF5964;
+  padding: 0px 10px 0px 10px;
+  font-size: 20px;
+  background: transparent url(../icons/gem.svg) no-repeat right 10px center;
+  background-size: 20px;
+}
+.prijmeni input:focus {
+  border: none;
+  color: #F8333C;
+  border: solid #F8333C;
+}
+
+.gamertag {
+  position: relative;
+}
+.gamertag input {
+  width: 100%;
+  height: 50px;
+  border: 2px solid #FF5964;
+  border-radius: 40px;
+  margin-bottom: 10px;
+  font-size: 20px;
+  outline: none;
+  transition-duration: 0.1s;
+}
+.gamertag input::-moz-placeholder {
+  color: #FF5964;
+  padding: 0px 10px 0px 10px;
+  font-size: 20px;
+  background: transparent url(../icons/controller.svg) no-repeat right 10px center;
+  background-size: 20px;
+}
+.gamertag input::placeholder {
+  color: #FF5964;
+  padding: 0px 10px 0px 10px;
+  font-size: 20px;
+  background: transparent url(../icons/controller.svg) no-repeat right 10px center;
+  background-size: 20px;
+}
+.gamertag input:focus {
+  border: none;
+  color: #F8333C;
+  border: solid #F8333C;
+}
+
+.pass {
+  position: relative;
+}
+.pass input {
+  width: 100%;
+  height: 50px;
+  border: 2px solid #FF5964;
+  border-radius: 40px;
+  margin-bottom: 10px;
+  font-size: 20px;
+  outline: none;
+  transition-duration: 0.1s;
+}
+.pass input::-moz-placeholder {
+  color: #FF5964;
+  padding: 0px 10px 0px 10px;
+  font-size: 20px;
+  background: transparent url(../icons/lock-fill.svg) no-repeat right 10px center;
+  background-size: 20px;
+}
+.pass input::placeholder {
+  color: #FF5964;
+  padding: 0px 10px 0px 10px;
+  font-size: 20px;
+  background: transparent url(../icons/lock-fill.svg) no-repeat right 10px center;
+  background-size: 20px;
+}
+.pass input:focus {
+  border: none;
+  color: #F8333C;
+  border: solid #F8333C;
+}
+
+.email {
+  position: relative;
+}
+.email input {
+  width: 100%;
+  height: 50px;
+  border: 2px solid #FF5964;
+  border-radius: 40px;
+  margin-bottom: 10px;
+  font-size: 20px;
+  outline: none;
+  transition-duration: 0.1s;
+}
+.email input::-moz-placeholder {
+  color: #FF5964;
+  padding: 0px 10px 0px 10px;
+  font-size: 20px;
+  background: transparent url(../icons/envelope-paper-heart.svg) no-repeat right 10px center;
+  background-size: 20px;
+}
+.email input::placeholder {
+  color: #FF5964;
+  padding: 0px 10px 0px 10px;
+  font-size: 20px;
+  background: transparent url(../icons/envelope-paper-heart.svg) no-repeat right 10px center;
+  background-size: 20px;
+}
+.email input:focus {
+  border: none;
+  color: #F8333C;
+  border: solid #F8333C;
+}/*# sourceMappingURL=login.css.map */

@@ -14,6 +14,16 @@
     letter-spacing: 4px;
     border-radius: 0;
     font-family: 'VT323', monospace;
+
+    p {
+      font-size: 17px;
+    }
+
+    @media screen and (max-width: 767px) {
+      p {
+        font-size: 30px;
+      }
+    }
   }
   .navbar li a, .navbar .navbar-brand {
     color: black;

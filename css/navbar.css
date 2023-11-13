@@ -16,6 +16,14 @@ Moje paleta barev:
   border-radius: 0;
   font-family: "VT323", monospace;
 }
+.navbar p {
+  font-size: 17px;
+}
+@media screen and (max-width: 767px) {
+  .navbar p {
+    font-size: 30px;
+  }
+}
 
 .navbar li a, .navbar .navbar-brand {
   color: black;
