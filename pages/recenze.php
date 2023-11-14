@@ -35,9 +35,7 @@
       </div>
       <div class="collapse navbar-collapse" id="myNavbar">
         <ul class="nav navbar-nav navbar-right">
-          <li><a href="#about">CO JSME ZAČ?</a></li>
-          <li><a href="#how">JAK TO FUGUJE?</a></li>
-          <li><a href="recenze.php">RECENZE</a></li>
+          <li><a href="index.php">ZPĚT NA ÚVOD</a></li>
           <li><a href="registrace.php">ZAREGISTRUJ SE</a></li>
         </ul>
       </div>
@@ -51,31 +49,15 @@
   
 <div class="container mt-5">
   <div class="row">
-    <div class="col-sm-8">
-      <h3 id="about">Vítejte na webu Pár Pařmenů!</h3>
-      <p>Váši průvodci do světa her všech druhů! Jsme váš spolehlivý zdroj pro recenze a zábavné pohledy na hry z různých žánrů. Bez ohledu na to, zda jste vášnivým hráčem, kterému nikdy nic neunikne, nebo jen občasným hráčem hledajícím zábavu, na našem webu najdete informace, které potřebujete.</p>
-      <p>Naše vášeň pro hry nás spojuje, a my jsme tu, abychom vám pomohli najít ty nejlepší tituly a neustále rozšiřovat vaši herní obzory. Takže se pohodlně usaďte a připravte se na dobrodružství, které vás čeká na webu Pár Pařmenů!</p>
-    </div>
-    <div class="col-sm-4">
-        <div class="login">
-          <form action="/action_page.php" method="POST">
-                <fieldset>
-                  <legend><h3>Přihlaš se!</h3></legend>
-                  <div class="email">
-                    <input type="text" name="email" id="email" placeholder="E-mail" required>
-                  </div>
-                  <div class="pass">
-                    <input type="password" name="heslo" id="heslo" placeholder="Heslo" required>
-                  </div>
-                <input class="btn btn-sub" type="submit" value="Přihlásit se">
-                <input class="btn btn-res" type="reset" value="Smazat údaje">
-          </div>        
-                <h4>Nemáš ještě účet? Zaregistruj se <a href="registrace.php">ZDE</a>.</h4>
-
-                </fieldset>
-          </form>  
-        </div>  
-    </div>
+    <div class="col-sm-12">
+        <h1>Recenze</h1>
+        <p>Zde si můžete vybrat titul a prohlédnout si jeho hodnocení a základní informace. Po přihlášní můžete hodnit i vy.</p>
+        <br>
+        <h3>Vyhledej si hru:</h3>
+            <div class="vyhledat">
+                <input type="text" name="vyhledavani" id="vyhledavani" placeholder="VYHLEDEJ SI HRU">
+            </div>
+        </div>
   </div>
 
   <div id="how" class="container gray mt-5">
@@ -108,7 +90,7 @@
   </div>
 </div>
 
-  <div class="footer">
+<div class="footer">
     <h3>Autor: Matěj Putík</h3>
     <h3>KIV/WEB</h3>
     <h3>Osobní E-mail: DUKEczech@seznam.cz</h3>

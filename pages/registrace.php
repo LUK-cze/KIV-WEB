@@ -82,6 +82,12 @@
     </div>
   </div>
 
+  <div class="footer">
+    <h3>Autor: Matěj Putík</h3>
+    <h3>KIV/WEB</h3>
+    <h3>Osobní E-mail: DUKEczech@seznam.cz</h3>
+  </div>
+
 
 </body>
 </html>
