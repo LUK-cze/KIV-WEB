@@ -88,28 +88,34 @@ th, td {
 
   .footer {
     text-align: center;
-    padding: 3px;
+    position: fixed;
+    padding: 80px;
     color: black;
     margin-top: 30px;
-    font-size: 10px !important;
-
+    font-size: 1px !important;
     aspect-ratio: 960/200;
     width: 100%;
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
   
-    background-image: url('../svg/footer.svg');
+    background-image: url('../svg/footer2.svg');
+
+    h3{
+      font-size: 15px !important;
+      }
   
     @media screen and (max-width: 767px) {
-
       h3{
         font-size: 15px !important;
         }
-  
   }
 }
 
+.fixed-bottom{
+  padding-bottom: 0px;
+  margin-bottom: 0px;
+}
 .vyhledat {
   position: relative;
 

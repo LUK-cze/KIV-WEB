@@ -60,7 +60,17 @@ Moje paleta barev:
   border-radius: 4px;
 }
 
-/*  NAVBAR ------------------------------- */
+.dropdown-menu {
+  padding: 10px;
+  border-radius: 10px;
+  background-image: linear-gradient(#FF5964 1%, #FFE74C);
+}
+.dropdown-menu li {
+  padding: 5px;
+  font-size: 20px;
+}
+
+/* -------------------------------  NAVBAR ------------------------------- */
 .glyphicon-tower {
   color: #FF5964 !important;
   size: 30px;

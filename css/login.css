@@ -9,6 +9,7 @@ Moje paleta barev:
 */
 input {
   padding: 0.2em;
+  padding-left: 25px;
   box-sizing: border-box;
   width: 100%;
 }
@@ -37,14 +38,12 @@ input {
 }
 .jmeno input::-moz-placeholder {
   color: #FF5964;
-  padding: 0px 10px 0px 10px;
   font-size: 20px;
   background: transparent url(../icons/person.svg) no-repeat right 10px center;
   background-size: 25px;
 }
 .jmeno input::placeholder {
   color: #FF5964;
-  padding: 0px 10px 0px 10px;
   font-size: 20px;
   background: transparent url(../icons/person.svg) no-repeat right 10px center;
   background-size: 25px;
@@ -70,14 +69,12 @@ input {
 }
 .prijmeni input::-moz-placeholder {
   color: #FF5964;
-  padding: 0px 10px 0px 10px;
   font-size: 20px;
   background: transparent url(../icons/gem.svg) no-repeat right 10px center;
   background-size: 20px;
 }
 .prijmeni input::placeholder {
   color: #FF5964;
-  padding: 0px 10px 0px 10px;
   font-size: 20px;
   background: transparent url(../icons/gem.svg) no-repeat right 10px center;
   background-size: 20px;
@@ -103,14 +100,12 @@ input {
 }
 .gamertag input::-moz-placeholder {
   color: #FF5964;
-  padding: 0px 10px 0px 10px;
   font-size: 20px;
   background: transparent url(../icons/controller.svg) no-repeat right 10px center;
   background-size: 20px;
 }
 .gamertag input::placeholder {
   color: #FF5964;
-  padding: 0px 10px 0px 10px;
   font-size: 20px;
   background: transparent url(../icons/controller.svg) no-repeat right 10px center;
   background-size: 20px;
@@ -136,14 +131,12 @@ input {
 }
 .pass input::-moz-placeholder {
   color: #FF5964;
-  padding: 0px 10px 0px 10px;
   font-size: 20px;
   background: transparent url(../icons/lock-fill.svg) no-repeat right 10px center;
   background-size: 20px;
 }
 .pass input::placeholder {
   color: #FF5964;
-  padding: 0px 10px 0px 10px;
   font-size: 20px;
   background: transparent url(../icons/lock-fill.svg) no-repeat right 10px center;
   background-size: 20px;
@@ -169,19 +162,48 @@ input {
 }
 .email input::-moz-placeholder {
   color: #FF5964;
-  padding: 0px 10px 0px 10px;
   font-size: 20px;
   background: transparent url(../icons/envelope-paper-heart.svg) no-repeat right 10px center;
   background-size: 20px;
 }
 .email input::placeholder {
   color: #FF5964;
-  padding: 0px 10px 0px 10px;
   font-size: 20px;
   background: transparent url(../icons/envelope-paper-heart.svg) no-repeat right 10px center;
   background-size: 20px;
 }
 .email input:focus {
+  border: none;
+  color: #F8333C;
+  border: solid #F8333C;
+}
+
+.pravo {
+  position: relative;
+}
+.pravo input {
+  width: 100%;
+  height: 50px;
+  border: 2px solid #FF5964;
+  border-radius: 40px;
+  margin-bottom: 10px;
+  font-size: 20px;
+  outline: none;
+  transition-duration: 0.1s;
+}
+.pravo input::-moz-placeholder {
+  color: #FF5964;
+  font-size: 20px;
+  background: transparent url(../icons/envelope-paper-heart.svg) no-repeat right 10px center;
+  background-size: 20px;
+}
+.pravo input::placeholder {
+  color: #FF5964;
+  font-size: 20px;
+  background: transparent url(../icons/envelope-paper-heart.svg) no-repeat right 10px center;
+  background-size: 20px;
+}
+.pravo input:focus {
   border: none;
   color: #F8333C;
   border: solid #F8333C;

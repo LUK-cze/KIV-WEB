@@ -57,9 +57,25 @@
     border: 1px solid transparent;
     border-radius: 4px;
 }
- /*  NAVBAR ------------------------------- */
+
+
+// -------------------- DROPDOWN MENU V NAVBARU
+.dropdown-menu{
+  padding: 10px;
+  border-radius: 10px;
+  background-image: linear-gradient($pink 1% , $yellow);
+
+  li{
+    padding: 5px;
+    font-size: 20px;
+  }
+}
+
+
+ /* -------------------------------  NAVBAR ------------------------------- */
 
    .glyphicon-tower{
     color: $pink !important;
     size: 30px;
 }
+
