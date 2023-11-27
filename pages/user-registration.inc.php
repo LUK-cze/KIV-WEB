@@ -1,7 +1,14 @@
 <?php
-///////////////////////////////////////////////////////////////////
-////////////// Stranka pro registraci uzivatele ////////////////
-///////////////////////////////////////////////////////////////////
+
+/*
+
+╔══════════════════════════════════╗
+║                                  ║
+║            Registrace            ║
+║                                  ║
+╚══════════════════════════════════╝
+
+*/
 
     // nacteni souboru s funkcemi
     require_once("MyDatabase.class.php");
@@ -18,10 +25,6 @@
             && !empty($_POST['jmeno']) && !empty($_POST['email']) && !empty($_POST['pravo'])
             && $_POST['heslo'] == $_POST['heslo2']
         ){
-            // pozn.: heslo by melo byt sifrovano
-            // napr. password_hash($password, PASSWORD_BCRYPT) pro sifrovani
-            // a password_verify($password, $hash) pro kontrolu hesla.
-
             // --- Zde hashuji heslo. ---  
             // Nepoužívám md_5. Ikdyž je celkem dobrý dneska jde velmi lehce prolomit.
             // Proto používám BCRYPT 
@@ -32,6 +35,7 @@
 
             // mam vsechny atributy - ulozim uzivatele do DB
             $res = $myDB->addNewUser($_POST['login'], $hash, $_POST['jmeno'], $_POST['email'], $_POST['pravo']);
+            var_dump($res);
             // byl ulozen?
             if($res){
                 echo "OK: Uživatel byl přidán do databáze.";
@@ -57,7 +61,7 @@
   <div class="row">
     <div class="col-sm-12">
         <div class="login">
-          <form action="index.php" method="POST">
+          <form action="" method="POST">
                 <fieldset>
                   <legend><h3>Zaregistruj se</h3></legend>
                   <div class="email">
@@ -79,11 +83,12 @@
                     <input type="password" name="heslo" id="heslo" placeholder="Heslo" required>
                   </div>
                   <div class="pravo">
+                  <p>Zvol právo:</p>
                     <select name="pravo">
                         <?php
                         //Zde získám práve které si uživatel může zvolit
                         foreach($right as $r){
-                            echo"<option value='$r[id_pravo]' placeholder='Zvol si právo'>$r[nazev]</option>"; 
+                            echo"<option value='$r[id_pravo]'>$r[nazev]</option>"; 
                         }
                         ?>
                     </select>
@@ -91,7 +96,7 @@
                 <input class="btn btn-sub" type="submit" value="Registruj se">
                 <input class="btn btn-res" type="reset" value="Smazat údaje">
           </div>        
-                <h4>Maš už účet? Přihlaš se <a href="index.php">ZDE</a>.</h4>
+                <h4>Maš už účet? Přihlaš se <a href="index.php?page=login">ZDE</a>.</h4>
 
                 </fieldset>
           </form>  

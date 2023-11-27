@@ -1,13 +1,21 @@
 <?php
-///////////////////////////////////////////////////////
-////////////// Zakladni nastaveni webu ////////////////
-///////////////////////////////////////////////////////
 
-////// nastaveni pristupu k databazi ///////
+/*
 
-    // prihlasovaci udaje k databazi
-    define("DB_SERVER","localhost"); // https://students.kiv.zcu.cz nebo 147.228.63.10
-    define("DB_NAME","KIV/WEB");
+╔══════════════════════════════════╗
+║                                  ║
+║            Nastavení             ║
+║                                  ║
+╚══════════════════════════════════╝
+
+Zde je nastavení dostupných stránek (pole WEB_PAGES), defaultní stránka a
+přístup do databáze
+
+*/
+
+    // Údaje pro přihlášení do databáze
+    define("DB_SERVER","localhost");
+    define("DB_NAME","kivweb");
     define("DB_USER","root");
     define("DB_PASS","");
 
@@ -18,18 +26,20 @@
 
 ///// vsechny stranky webu ////////
 
-    // pripona souboru
+    // Definování přípony
     $phpExtension = ".inc.php";
 
-    // dostupne stranky webu
+    // Dostupné stránky mého webu
+    // První parametr (např. login) je klíč a druhý je název souboru, který pod ním mám 
     define("WEB_PAGES", [
         'login' => "user-login".$phpExtension,
         'registrace' => "user-registration".$phpExtension,
         'uprava' => "user-update".$phpExtension,
-        'management' => "user-management".$phpExtension
+        'management' => "user-management".$phpExtension,
+        'profil' => "user-profile".$phpExtension
     ]);
 
-    // defaultni/vychozi stranka webu
+    // Defaultni/výchozí stránka webu
     define("WEB_PAGE_DEFAULT_KEY", 'login');
 
 ?>

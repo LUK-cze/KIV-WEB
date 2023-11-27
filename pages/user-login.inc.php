@@ -1,19 +1,29 @@
 <?php
-///////////////////////////////////////////////////////////////////
-////////////// Stranka pro prihlaseni/odhlaseni uzivatele ////////////////
-///////////////////////////////////////////////////////////////////
+/*
 
-    // nacteni souboru s funkcemi
+╔══════════════════════════════════╗
+║                                  ║
+║              Login               ║
+║                                  ║
+╚══════════════════════════════════╝
+
+Zde je úvodní stránka s loginem.
+Je zde i nějaký obsah co se úkáže uživateli a když je uživatel přihlášen,
+vypíší se mu jeho informace 
+
+*/
+
+    // Načítání souboru s databázovými funkcemi
     require_once("MyDatabase.class.php");
     $myDB = new MyDatabase();
 
-    // nacteni hlavicky stranky
+    // Načítání modulu hlavičky, který je v souboru ZakladHTML.class.php
     require_once("ZakladHTML.class.php");
     ZakladHTML::createHeader("Přihlášení a odhlášení uživatele");
 
-    // zpracovani odeslanych formularu
+    // Zpracování odesílaných formulářů
     if(isset($_POST['action'])){
-        // prihlaseni
+        // přihlášení, pokud je vloženo login(username) a heslo
         if($_POST['action'] == 'login' && isset($_POST['login']) && isset($_POST['heslo'])){
             // pokusim se prihlasit uzivatele
             $res = $myDB->userLogin($_POST['login'], $_POST['heslo']);
@@ -23,26 +33,25 @@
                 echo "ERROR: Přihlášení uživatele se nezdařilo.";
             }
         }
-        // odhlaseni
+        // Odhlášení
         else if($_POST['action'] == 'logout'){
-            // odhlasim uzivatele
             $myDB->userLogout();
             echo "OK: Uživatel byl odhlášen.";
         }
-        // neznama akce
+        // Když se něco pokazí
         else {
             echo "WARNING: Neznámá akce.";
         }
         echo "<br>";
     }
 
-    // pokud je uzivatel prihlasen, tak ziskam jeho data
+    // Pokud je uživatel už přihlášen tak získám jeho data
     if($myDB->isUserLogged()){
         // ziskam data prihlasenoho uzivatele
         $user = $myDB->getLoggedUserData();
     }
 
-    ///////////// PRO NEPRIHLASENE UZIVATELE ///////////////
+    ///////////// 😡 --- PRO NEPŘIHLÁŠENÉ UŽIVATELE --- 😡 ///////////////
     // pokud uzivatel neni prihlasen nebo nebyla ziskana jeho data, tak vypisu prihlasovaci formular
     if(!$myDB->isUserLogged()){
 ?>
@@ -67,7 +76,7 @@
                         <input class="btn btn-sub" type="submit" value="Přihlásit se">
                         <input class="btn btn-res" type="reset" value="Smazat údaje">
                 </div>        
-                        <h4>Nemáš ještě účet? Zaregistruj se <a href="registrace.php">ZDE</a>.</h4>
+                        <h4>Nemáš ještě účet? Zaregistruj se <a href="index.php?page=registrace">ZDE</a>.</h4>
 
                         </fieldset>
                 </form>  
@@ -79,7 +88,7 @@
 
     } else {
 
-    ///////////// PRO PRIHLASENE UZIVATELE /////////////
+    ///////////// 🤑 --- PRO PRIHLASENE UZIVATELE --- 🤑 /////////////
         // ziskam nazev prava uzivatele, abych ho mohl vypsat
         $pravo = $myDB->getRightById($user["id_pravo"]);
         // ziskam nazev
@@ -121,6 +130,6 @@
     }
     ///////////// KONEC: PRO PRIHLASENE UZIVATELE ///////////////
 
-    // paticka
+    // Patička co je vytvořena v jiném soboru (viz. hlavička ⬆⬆⬆)
     ZakladHTML::createFooter();
 ?>
