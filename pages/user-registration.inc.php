@@ -14,6 +14,9 @@
     require_once("MyDatabase.class.php");
     $myDB = new MyDatabase();
 
+    $rights = $myDB -> getAllRights();
+
+
     // nacteni hlavicky stranky
     require_once("ZakladHTML.class.php");
     ZakladHTML::createHeader("Registrace nového uživatele");
@@ -32,6 +35,7 @@
             // Jinak se nám do sloupečku s heslem ani nevyjde.
             $heslo = $_POST['heslo'];
             $hash = password_hash($heslo, PASSWORD_BCRYPT);
+
 
             // mam vsechny atributy - ulozim uzivatele do DB
             $res = $myDB->addNewUser($_POST['login'], $hash, $_POST['jmeno'], $_POST['email'], $_POST['pravo']);
@@ -61,7 +65,7 @@
   <div class="row">
     <div class="col-sm-12">
         <div class="login">
-          <form action="" method="POST">
+          <form action="" method="POST" oninput="x.value=(heslo.value==heslo2.value)?'OK':'Hesla nejsou stejná!'">
                 <fieldset>
                   <legend><h3>Zaregistruj se</h3></legend>
                   <div class="email">
@@ -79,20 +83,34 @@
                   <div class="gamertag">
                     <input type="text" name="login" id="login" placeholder="Přezdívka" required>
                   </div>
-                  <div class="pass">
-                    <input type="password" name="heslo" id="heslo" placeholder="Heslo" required>
+
+                  <!-- Hesla (i jeho input na kontrolu jestli se hesla schodují) -->
+                  <div class="row">
+                    <br>
+                    <div class="pass col-sm-6">
+                      <input type="password" name="heslo" id="heslo" placeholder="Heslo" required>
+                    </div>
+                    <div class="pass col-sm-6">
+                      <input type="password" name="heslo2" id="heslo2" placeholder="Napište heslo znovu" required>
+                    </div>
                   </div>
-                  <div class="pravo">
-                  <p>Zvol právo:</p>
-                    <select name="pravo">
-                        <?php
-                        //Zde získám práve které si uživatel může zvolit
-                        foreach($right as $r){
-                            echo"<option value='$r[id_pravo]'>$r[nazev]</option>"; 
-                        }
-                        ?>
-                    </select>
-                  </div>
+                  <div class="row">
+                    <div class="col-sm-6 pravo">
+                     <p>Zvol právo:</p>
+                    </div>
+                    <div class="col-sm-6 pravo">
+                      <select name="pravo">
+                          <?php
+                          //Zde získám práve které si uživatel může zvolit
+                          foreach($rights as $r){
+                              echo"<option value='$r[id_pravo]'>$r[nazev]</option>"; 
+                          }
+                          ?>
+                      </select>
+                      Ověření hesla: <output name="x" for="heslo heslo2"></output>
+                    </div>
+                </div>
+
                 <input class="btn btn-sub" type="submit" value="Registruj se">
                 <input class="btn btn-res" type="reset" value="Smazat údaje">
           </div>        
@@ -115,6 +133,6 @@
     }
     ///////////// KONEC: PRO PRIHLASENE UZIVATELE ///////////////
 
-    // paticka
+    // Patička co je vytvořena v jiném soboru (viz. hlavička ⬆⬆⬆)
     ZakladHTML::createFooter();
 ?>

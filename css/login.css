@@ -181,30 +181,36 @@ input {
 .pravo {
   position: relative;
 }
-.pravo input {
-  width: 100%;
-  height: 50px;
-  border: 2px solid #FF5964;
-  border-radius: 40px;
-  margin-bottom: 10px;
-  font-size: 20px;
+.pravo p {
+  font-size: 35px;
+}
+
+select {
+  transition: border-color 0.3s ease-in-out;
   outline: none;
-  transition-duration: 0.1s;
+  border: 3px solid #FF5964;
+  border-radius: 5px;
+  height: 50px;
+  width: 400px;
+  font-size: 25px;
+  background-image: linear-gradient(#FF5964 1%, #FFE74C);
+  margin-bottom: 10px;
 }
-.pravo input::-moz-placeholder {
-  color: #FF5964;
-  font-size: 20px;
-  background: transparent url(../icons/envelope-paper-heart.svg) no-repeat right 10px center;
-  background-size: 20px;
+@media screen and (max-width: 1000px) {
+  select {
+    width: 300px;
+  }
 }
-.pravo input::placeholder {
-  color: #FF5964;
-  font-size: 20px;
-  background: transparent url(../icons/envelope-paper-heart.svg) no-repeat right 10px center;
-  background-size: 20px;
+@media screen and (max-width: 767px) {
+  select {
+    width: 200px;
+  }
 }
-.pravo input:focus {
-  border: none;
-  color: #F8333C;
-  border: solid #F8333C;
+select:hover {
+  cursor: pointer;
+}
+select:focus {
+  background-color: #f8f8f8;
+  background-image: linear-gradient(#FFE74C 1%, #FF5964);
+  border-color: #FFE74C;
 }/*# sourceMappingURL=login.css.map */

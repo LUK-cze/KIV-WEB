@@ -10,6 +10,8 @@
 ║                                  ║
 ╚══════════════════════════════════╝
 
+Zde se nachází různé funkce pro práci s databázi
+
 */
 
 /**
@@ -187,7 +189,7 @@ class MyDatabase {
      */
     public function getAllRights(){
         // ziskam vsechna prava z DB razena dle ID a vratim je
-        $rights = $this->selectFromTable(TABLE_PRAVO, "", "vaha ASC, nazev ASC");
+        $rights = $this->selectFromTable(TABLE_PRAVO);
         return $rights;
     }
 

@@ -19,9 +19,11 @@ přístup do databáze
     define("DB_USER","root");
     define("DB_PASS","");
 
-    // definice konkretnich nazvu tabulek
+    // Názvy vytvořených tabulek
     define("TABLE_UZIVATEL","uzivatele");
     define("TABLE_PRAVO","pravo");
+    define("TABLE_HRY","hry");
+    define("TABLE_ZANRY","zanry");
 
 
 ///// vsechny stranky webu ////////
