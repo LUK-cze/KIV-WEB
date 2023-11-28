@@ -1,7 +1,4 @@
 <?php
-//////////////////////////////////////////////////////////////
-////////////// Vlastni trida pro praci s databazi ////////////////
-//////////////////////////////////////////////////////////////
 
 /*
 ╔══════════════════════════════════╗
@@ -10,76 +7,59 @@
 ║                                  ║
 ╚══════════════════════════════════╝
 
-Zde se nachází různé funkce pro práci s databázi
+Zde si tvoříme fukce, se ktrýmy pracuje s databází
 
 */
-
-/**
- * Vlastni trida spravujici databazi.
- */
 class MyDatabase {
+    /*
+      MyDatabase constructor.
+      Inicializace připojení k databazi a pokud ma být spravovano přihlašení uživatele, tak i vlastni objekt pro spravu session.
+    */
 
-    /** @var PDO $pdo  PDO objekt pro praci s databazi. */
     private $pdo;
 
-    /** @var MySession $mySession  Vlastni objekt pro spravu session. */
+    /** @var MySession $mySession  Vlastní objekt pro správu session. */
     private $mySession;
-    /** @var string KEY_USER  Klic pro data uzivatele, ktera jsou ulozena v session. */
+    /** @var string KEY_USER Klíč pro data uživatele, která jsou uložena v session. */
     private const KEY_USER = "current_user_id";
 
-    /**
-     * MyDatabase constructor.
-     * Inicializace pripojeni k databazi a pokud ma byt spravovano prihlaseni uzivatele,
-     * tak i vlastni objekt pro spravu session.
-     * Pozn.: v samostatne praci by sprava prihlaseni uzivatele mela byt v samostatne tride.
-     * Pozn.2: take je mozne do samostatne tridy vytahnout konkretni funkce pro praci s databazi.
-     */
+
     public function __construct(){
-        // inicialilzuju pripojeni k databazi - informace beru ze settings
+        // Inicializace připojení k databázi
         $this->pdo = new PDO("mysql:host=".DB_SERVER.";dbname=".DB_NAME, DB_USER, DB_PASS);
-        $this->pdo->exec("set names utf8"); // Toto nemusm využívat v lokální databázi. Co to dělá, jen to aby mi byla přdávána data v databázi v utf8
-        // nastavení PDO error módu na výjimku, tj. každá chyba při práci s PDO bude výjimkou
+        $this->pdo->exec("set names utf8"); // Toto nemusím využívat v lokální databázi. Co to dělá, jen to aby mi byla předávána data v databázi v utf8
+        // Nastavení PDO error módu na výjimku, tj. každá chyba při práci s PDO bude výjimkou
         $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        // inicializuju objekt pro praci se session - pouzito pro spravu prihlaseni uzivatele
-        // pozn.: v samostatne praci vytvorte pro spravu prihlaseni uzivatele samostatnou tridu.
         require_once("MySessions.class.php");
         $this->mySession = new MySession();
     }
 
 
-    ///////////////////  Obecne funkce  ////////////////////////////////////////////
+    // --- Obecne funkce ---
 
-    /**
-     *  Provede dotaz a bud vrati ziskana data, nebo pri chybe ji vypise a vrati null.
-     *  Varianta, pokud NENI pouzit PDO::ERRMODE_EXCEPTION
-     *
-     *  @param string $dotaz        SQL dotaz.
-     *  @return PDOStatement|null    Vysledek dotazu.
-     */
+    
+    //Provede dotaz a bud vrati získana data, nebo při chybe je vypíše a vratí null.
     private function executeQueryWithoutException(string $dotaz){
-        // vykonam dotaz
+        // Vykonání dotazu
         $res = $this->pdo->query($dotaz);
-        // pokud neni false, tak vratim vysledek, jinak null
+        // Pokud není false, tak vrátím výsledek, jinak null
         if ($res != false) {
-            // neni false
+            // Zde je OK
             return $res;
         } else {
-            // je false - vypisu prislusnou chybu a vratim null
+            // Zde je false - vypíšu příslušnou chybu a vrátím null
             $error = $this->pdo->errorInfo();
             echo $error[2];
             return null;
         }
     }
 
-    /**
-     *  Provede dotaz a bud vrati ziskana data, nebo pri chybe ji vypise a vrati null.
-     *  Varianta, pokud je pouzit PDO::ERRMODE_EXCEPTION
-     *
-     *  @param string $dotaz        SQL dotaz.
-     *  @return PDOStatement|null    Vysledek dotazu.
-     */
+    /*
+       Provede dotaz a bud vrátí získaná data, nebo při chybe je vypíše a vratí null.
+       Varianta, pokud je pouzit PDO::ERRMODE_EXCEPTION
+    */
     private function executeQuery(string $dotaz){
-        // vykonam dotaz
+        // Vykonám dotaz
         try {
             $res = $this->pdo->query($dotaz);
             return $res;
@@ -91,39 +71,34 @@ class MyDatabase {
     }
 
     /**
-     * Jednoduche cteni z prislusne DB tabulky.
+     * Čtení z tabulky
      *
-     * @param string $tableName         Nazev tabulky.
-     * @param string $whereStatement    Pripadne omezeni na ziskani radek tabulky. Default "".
-     * @param string $orderByStatement  Pripadne razeni ziskanych radek tabulky. Default "".
-     * @return array                    Vraci pole ziskanych radek tabulky.
+     * @param string $tableName         Název tabulky.
+     * @param string $whereStatement    Připadné omezení na získaný řádek tabulky. Default "".
+     * @param string $orderByStatement  Připadné řazení získaných řádek tabulky. Default "".
+     * @return array                    Vrací pole získaných řádek tabulky.
      */
     public function selectFromTable(string $tableName, string $whereStatement = "", string $orderByStatement = ""):array {
         // slozim dotaz
         $q = "SELECT * FROM ".$tableName
             .(($whereStatement == "") ? "" : " WHERE $whereStatement") // Když nemám whereStatement tak ho nebudu vyplňovat, ale pokud jo tak S MEZEROU dopňím WHERE a kde
             .(($orderByStatement == "") ? "" : " ORDER BY $orderByStatement"); // To samý, ale s orderem
-        // provedu ho a vratim vysledek
+        // Provedu ho a vratim vysledek
         $obj = $this->executeQuery($q);
-        // pokud je null, tak vratim prazdne pole
+        // Pokud je null, tak vratim prazdne pole
         if($obj == null){
             return [];
         }
-        // projdu jednotlive ziskane radky tabulky
-        /*while($row = $vystup->fetch(PDO::FETCH_ASSOC)){
-            $pole[] = $row['login'].'<br>';
-        }*/
-        // prevedu vsechny ziskane radky tabulky na pole
         return $obj->fetchAll();
     }
 
     /**
-     * Jednoduche vlozeni do prislusne tabulky.
+     * Vložení do tabulky
      *
-     * @param string $tableName         Nazev tabulky.
-     * @param string $insertStatement   Text s nazvy sloupcu pro insert.
-     * @param string $insertValues      Text s hodnotami pro prislusne sloupce.
-     * @return bool                     Vlozeno v poradku?
+     * @param string $tableName         Název tabulky.
+     * @param string $insertStatement   Text s názvy sloupců pro insert.
+     * @param string $insertValues      Text s hodnotami pro příslušné sloupce.
+     * @return bool                     Vlozeno v pořádku?
      */
     public function insertIntoTable(string $tableName, string $insertStatement, string $insertValues):bool {
         // slozim dotaz
@@ -189,7 +164,7 @@ class MyDatabase {
      */
     public function getAllRights(){
         // ziskam vsechna prava z DB razena dle ID a vratim je
-        $rights = $this->selectFromTable(TABLE_PRAVO);
+        $rights = $this->selectFromTable(TABLE_PRAVO, "", "vaha ASC, nazev ASC");
         return $rights;
     }
 
@@ -219,11 +194,11 @@ class MyDatabase {
      * @param int $idPravo      Je cizim klicem do tabulky s pravy.
      * @return bool             Vlozen v poradku?
      */
-    public function addNewUser(string $login, string $heslo, string $jmeno, string $email, int $idPravo = 4){
+    public function addNewUser(string $login, string $heslo, string $jmeno, string $prijmeni, string $email, int $idPravo = 4){
         // hlavicka pro vlozeni do tabulky uzivatelu
-        $insertStatement = "login, heslo, jmeno, email, id_pravo";
+        $insertStatement = "login, heslo, jmeno, prijmeni, email, id_pravo";
         // hodnoty pro vlozeni do tabulky uzivatelu
-        $insertValues = "'$login', '$heslo', '$jmeno', '$email', $idPravo";
+        $insertValues = "'$login', '$heslo', '$jmeno', '$prijmeni', '$email', $idPravo";
         // provedu dotaz a vratim jeho vysledek
         return $this->insertIntoTable(TABLE_UZIVATEL, $insertStatement, $insertValues);
     }
@@ -235,13 +210,14 @@ class MyDatabase {
      * @param string $login     Login.
      * @param string $heslo     Heslo.
      * @param string $jmeno     Jmeno.
+     * @param string $prijmeni  Příjmení
      * @param string $email     E-mail.
      * @param int $idPravo      ID prava.
      * @return bool             Bylo upraveno?
      */
-    public function updateUser(int $idUzivatel, string $login, string $heslo, string $jmeno, string $email, int $idPravo){
+    public function updateUser(int $idUzivatel, string $login, string $heslo, string $jmeno, string $prijmeni, string $email, int $idPravo){
         // slozim cast s hodnotami
-        $updateStatementWithValues = "login='$login', heslo='$heslo', jmeno='$jmeno', email='$email', id_pravo='$idPravo'";
+        $updateStatementWithValues = "login='$login', heslo='$heslo', jmeno='$jmeno', prijmeni='$prijmeni', email='$email', id_pravo='$idPravo'";
         // podminka
         $whereStatement = "id_uzivatel=$idUzivatel";
         // provedu update

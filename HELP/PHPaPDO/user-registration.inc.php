@@ -15,7 +15,7 @@
     if(!empty($_POST['potvrzeni'])){
         // mam vsechny pozadovane hodnoty?
         if(!empty($_POST['login']) && !empty($_POST['heslo']) && !empty($_POST['heslo2'])
-            && !empty($_POST['jmeno']) && !empty($_POST['email']) && !empty($_POST['pravo'])
+            && !empty($_POST['jmeno']) && !empty($_POST['prijmeni']) && !empty($_POST['email']) && !empty($_POST['pravo'])
             && $_POST['heslo'] == $_POST['heslo2']
         ){
             // pozn.: heslo by melo byt sifrovano
@@ -23,7 +23,7 @@
             // a password_verify($password, $hash) pro kontrolu hesla.
 
             // mam vsechny atributy - ulozim uzivatele do DB
-            $res = $myDB->addNewUser($_POST['login'], $_POST['heslo'], $_POST['jmeno'], $_POST['email'], $_POST['pravo']);
+            $res = $myDB->addNewUser($_POST['login'], $_POST['heslo'], $_POST['jmeno'], $_POST['prijmeni'], $_POST['email'], $_POST['pravo']);
             // byl ulozen?
             if($res){
                 echo "OK: Uživatel byl přidán do databáze.";

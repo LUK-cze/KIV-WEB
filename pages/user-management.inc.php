@@ -1,46 +1,53 @@
 <?php
-///////////////////////////////////////////////////////////////////
-////////////// Stranka pro spravu uzivatelu ////////////////
-///////////////////////////////////////////////////////////////////
+/*
 
-    // nacteni souboru s funkcemi 
+╔══════════════════════════════════╗
+║                                  ║
+║          USER managment          ║
+║                                  ║
+╚══════════════════════════════════╝
+
+Zde můžou uživatelé s dostatečným právem upravovat zaregistrovane uživatele
+*/
+
+    // Načtení souboru s funkcemi k práci s databází 
     require_once("MyDatabase.class.php"); // ZAJÍMAVOST: Zde nemusím používat závorky, ale je dobré je tu mít
     $myDB = new MyDatabase();
 
-    // nacteni hlavicky stranky
+    // Načtení hlavičky
     require_once("ZakladHTML.class.php");
     ZakladHTML::createHeader("Správa uživatelů");
 
-    // pokud je uzivatel prihlasen, tak ziskam jeho data
+    // Pokud je uživatel přihlášen, tak získám jeho data
     if($myDB->isUserLogged()){
-        // ziskam data prihlasenoho uzivatele
+        // Získání data přihlášeného uživatele
         $userData = $myDB->getLoggedUserData();
     }
 
-    ///////////// PRO NEPRIHLASENE UZIVATELE ///////////////
+    // 😡 --- PRO NEPŘIHLÁŠENÉ UŽIVATELE --- 😡
     if(!$myDB->isUserLogged()){
 ?>
         <div>
             <b>Tato strána je dostupná pouze přihlášeným uživatelům.</b>
         </div>
 <?php
-    ///////////// KONEC: PRO NEPRIHLASENE UZIVATELE ///////////////
+    // 😡 --- KONEC: PRO NEPŘIHLÁŠENÉ UŽIVATELE --- 😡
     } else if($userData['id_pravo'] > 2) {
-    ///////////// PRO PRIHLASENE UZIVATELE BEZ PRAVA ADMIN ///////////////
+    // ------------------- PRO PŘIHLÁŠÉNE UŽIVATELE BEZ PRÁVA ADMIN -------------------
 ?>
         <div>
             <b>Správu uživatelů mohou provádět pouze uživatelé s právem Administrátor.</b>
         </div>
 <?php
-    ///////////// KONEC: PRO PRIHLASENE UZIVATELE BEZ PRAVA ADMIN ///////////////
+    //------------------- KONEC: PRO PŘIHLÁŠÉNE UŽIVATELE BEZ PRÁVA ADMIN -------------------
     } else {
-    ///////////// PRO PRIHLASENE UZIVATELE S PRAVEM ADMIN ///////////////
+    // 🤑 --- PRO PŘIHLÁŠÉNE UŽIVATELE S PRÁVEM ADMIN --- 🤑
 
-        // zpracovani formulare pro smazani uzivatele
+        // Zpracování formuláře pro smazání uživatele
         if(!empty($_POST['id_uzivatel'])){
-            // smazu daneho uzivatele z databaze
+            // Smazání daného uživatele z databáze
             $res = $myDB->deleteFromTable(TABLE_UZIVATEL, "id_uzivatel='$_POST[id_uzivatel]'");
-            // vysledek mazani
+            // Vyýsledek smazání
             if($res){
                 echo "OK: Uživatel byl smazán z databáze.";
             } else {
@@ -48,7 +55,7 @@
             }
         }
 
-        // ziskam data vsech uzivatelu
+        // Získám data všch uživatelů
         // Dávám ho až sem aby se aktulizovala tabulka, když někoho smažu
         $users = $myDB->getAllUsers();
 ?>
@@ -56,9 +63,9 @@
         <table border="1">
             <tr><th>ID</th><th>Login</th><th>Jméno</th><th>E-mail</th><th>Právo</th><th>Akce</th></tr>
             <?php
-                // projdu uzivatele a vypisu je
+                // Pocházení uživatelů a jejich vypsání
                 foreach ($users as $u) {
-                    echo "<tr><td>$u[id_uzivatel]</td><td>$u[login]</td><td>$u[jmeno]</td><td>$u[email]</td><td>$u[id_pravo]</td><td>"
+                    echo "<tr><td>$u[id_uzivatel]</td><td>$u[login]</td><td>$u[jmeno]</td><td>$u[prijmeni]</td><td>$u[email]</td><td>$u[id_pravo]</td><td>"
                         ."<form action='' method='POST'>
                               <input type='hidden' name='id_uzivatel' value='$u[id_uzivatel]'>
                               <input type='submit' name='potvrzeni' value='Smazat'>
@@ -68,13 +75,7 @@
             ?>
         </table>
 <?php
-    /* // akce by mela obsahovat formular s tlacitkem:
-        <form action='' method='POST'>
-            <input type='hidden' name='id_uzivatel' value='....'>
-            <input type='submit' name='potvrzeni' value='Smazat'>
-        </form>
-    */
-    ///////////// KONEC: PRO PRIHLASENE UZIVATELE S PRAVEM ADMIN ///////////////
+    // 🤑 --- KONEC: PRO PŘIHLÁŠÉNE UŽIVATELE S PRÁVEM ADMIN --- 🤑
     }
 
     // paticka

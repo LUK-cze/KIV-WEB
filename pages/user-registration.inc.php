@@ -10,6 +10,17 @@
 
 */
 
+// ---------------------- DEBUG ----------------------
+function debug_to_console($data) {
+  $output = $data;
+  if (is_array($output))
+      $output = implode(',', $output);
+
+  echo "<script>console.log('Debug Objects: " . $output . "' );</script>";
+}
+// ---------------------- DEBUG ----------------------
+
+
     // nacteni souboru s funkcemi
     require_once("MyDatabase.class.php");
     $myDB = new MyDatabase();
@@ -25,7 +36,7 @@
     if(!empty($_POST['potvrzeni'])){
         // mam vsechny pozadovane hodnoty?
         if(!empty($_POST['login']) && !empty($_POST['heslo']) && !empty($_POST['heslo2'])
-            && !empty($_POST['jmeno']) && !empty($_POST['email']) && !empty($_POST['pravo'])
+            && !empty($_POST['jmeno']) && !empty($_POST['prijmeni']) && !empty($_POST['email']) && !empty($_POST['pravo'])
             && $_POST['heslo'] == $_POST['heslo2']
         ){
             // --- Zde hashuji heslo. ---  
@@ -37,18 +48,20 @@
             $hash = password_hash($heslo, PASSWORD_BCRYPT);
 
 
-            // mam vsechny atributy - ulozim uzivatele do DB
-            $res = $myDB->addNewUser($_POST['login'], $hash, $_POST['jmeno'], $_POST['email'], $_POST['pravo']);
-            var_dump($res);
-            // byl ulozen?
+            // Ukládání do databáze
+            $res = $myDB->addNewUser($_POST['login'], $hash, $_POST['jmeno'], $_POST['prijmeni'], $_POST['email'], $_POST['pravo']);
+            // Kontrola
             if($res){
                 echo "OK: Uživatel byl přidán do databáze.";
+                debug_to_console("OK: Uživatel byl přidán do databáze.");
             } else {
                 echo "ERROR: Uložení uživatele se nezdařilo.";
+                debug_to_console("ERROR: Uložení uživatele se nezdařilo.");
             }
         } else {
-            // nemam vsechny atributy
+            // Nebyli přijaté všchny atrituty (Nemělo by se to stát, protože toto kontoluji v HTML)
             echo "ERROR: Nebyly přijaty požadované atributy uživatele.";
+            debug_to_console("ERROR: Nebyly přijaty požadované atributy uživatele.");
         }
         echo "<br><br>";
     }
@@ -58,7 +71,7 @@
         $user = $myDB->getLoggedUserData();
     }
     
-    ///////////// PRO NEPRIHLASENE UZIVATELE ///////////////
+    // 😡 ---  PRO NEPRIHLASENE UZIVATELE --- 😡
     if(!$myDB->isUserLogged()){
 ?>
 <div class="container mt-5">
@@ -107,7 +120,6 @@
                           }
                           ?>
                       </select>
-                      Ověření hesla: <output name="x" for="heslo heslo2"></output>
                     </div>
                 </div>
 
@@ -115,6 +127,7 @@
                 <input class="btn btn-res" type="reset" value="Smazat údaje">
           </div>        
                 <h4>Maš už účet? Přihlaš se <a href="index.php?page=login">ZDE</a>.</h4>
+                <h5>Ověření hesla: <output name="x" for="heslo heslo2"></output></h5>
 
                 </fieldset>
           </form>  
@@ -122,16 +135,16 @@
     </div>
   </div>
 <?php
-    ///////////// KONEC: PRO NEPRIHLASENE UZIVATELE ///////////////
+    // 😡 --- KONEC: PRO NEPRIHLASENE UZIVATELE --- 😡
     } else {
-    ///////////// PRO PRIHLASENE UZIVATELE ///////////////
+    // 🤑 --- PRO PRIHLASENE UZIVATELE --- 🤑
 ?>
         <div>
             <b>Si již přihlášený jako <?php echo $user['login'] ; ?> a znovu se registrovat nemůžeš.</b>
         </div>
 <?php
     }
-    ///////////// KONEC: PRO PRIHLASENE UZIVATELE ///////////////
+    // 🤑 --- KONEC: PRO PRIHLASENE UZIVATELE --- 🤑
 
     // Patička co je vytvořena v jiném soboru (viz. hlavička ⬆⬆⬆)
     ZakladHTML::createFooter();

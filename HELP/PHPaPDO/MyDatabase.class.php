@@ -208,11 +208,11 @@ class MyDatabase {
      * @param int $idPravo      Je cizim klicem do tabulky s pravy.
      * @return bool             Vlozen v poradku?
      */
-    public function addNewUser(string $login, string $heslo, string $jmeno, string $email, int $idPravo = 4){
+    public function addNewUser(string $login, string $heslo, string $jmeno, string $prijmeni, string $email, int $idPravo = 4){
         // hlavicka pro vlozeni do tabulky uzivatelu
-        $insertStatement = "login, heslo, jmeno, email, id_pravo";
+        $insertStatement = "login, heslo, jmeno, prijmeni, email, id_pravo";
         // hodnoty pro vlozeni do tabulky uzivatelu
-        $insertValues = "'$login', '$heslo', '$jmeno', '$email', $idPravo";
+        $insertValues = "'$login', '$heslo', '$jmeno', '$prijmeni', '$email', $idPravo";
         // provedu dotaz a vratim jeho vysledek
         return $this->insertIntoTable(TABLE_UZIVATEL, $insertStatement, $insertValues);
     }
@@ -228,9 +228,9 @@ class MyDatabase {
      * @param int $idPravo      ID prava.
      * @return bool             Bylo upraveno?
      */
-    public function updateUser(int $idUzivatel, string $login, string $heslo, string $jmeno, string $email, int $idPravo){
+    public function updateUser(int $idUzivatel, string $login, string $heslo, string $jmeno, string $prijmeni, string $email, int $idPravo){
         // slozim cast s hodnotami
-        $updateStatementWithValues = "login='$login', heslo='$heslo', jmeno='$jmeno', email='$email', id_pravo='$idPravo'";
+        $updateStatementWithValues = "login='$login', heslo='$heslo', jmeno='$jmeno', prijmeni='$prijmeni', email='$email', id_pravo='$idPravo'";
         // podminka
         $whereStatement = "id_uzivatel=$idUzivatel";
         // provedu update

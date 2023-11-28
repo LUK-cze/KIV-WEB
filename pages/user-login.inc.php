@@ -64,7 +64,7 @@ vypíší se mu jeho informace
             </div>
             <div class="col-sm-4">
                 <div class="login">
-                <form action="index.php?page=uprava" method="POST">
+                <form action="" method="POST"> <!-- index.php?page=uprava -->
                         <fieldset>
                         <legend><h3>Přihlaš se!</h3></legend>
                         <div class="gamertag">

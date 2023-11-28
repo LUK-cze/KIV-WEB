@@ -38,7 +38,8 @@ přístup do databáze
         'registrace' => "user-registration".$phpExtension,
         'uprava' => "user-update".$phpExtension,
         'management' => "user-management".$phpExtension,
-        'profil' => "user-profile".$phpExtension
+        'profil' => "user-profile".$phpExtension,
+        'recenze' => "recenze".$phpExtension
     ]);
 
     // Defaultni/výchozí stránka webu

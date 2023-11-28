@@ -1,62 +1,70 @@
 <?php
-///////////////////////////////////////////////////////////////////
-////////////// Stranka pro upravu osobnich udaju uzivatele ////////////////
-///////////////////////////////////////////////////////////////////
+/*
 
-    // nacteni souboru s funkcemi
+╔══════════════════════════════════╗
+║                                  ║
+║         Update uživatele         ║
+║                                  ║
+╚══════════════════════════════════╝
+
+Zde si uživatel může upravit svoje údaje co má uložené v databázi
+
+*/
+
+    // Načítání funkce pro práci s databází
     require_once("MyDatabase.class.php");
     $myDB = new MyDatabase();
 
-    // nacteni hlavicky stranky
+    // Naše hlavička stránky
     require_once("ZakladHTML.class.php");
     ZakladHTML::createHeader("Úprava osobních údajů uživatele");
 
-    // pokud je uzivatel prihlasen, tak ziskam jeho data
+    // Pokud je uživatel přihlášen, tak získám jeho data
     if($myDB->isUserLogged()){
-        // ziskam data prihlasenoho uzivatele
+        // Získání dat
         $userData = $myDB->getLoggedUserData();
     }
 
-    ///////////// PRO NEPRIHLASENE UZIVATELE ///////////////
+    // 😡 --- PRO NEPRIHLASENE UZIVATELE --- 😡
     if(!$myDB->isUserLogged()){
 ?>
         <div>
             <b>Osobní údaje mohou měnit pouze přihlášení uživatelé.</b>
         </div>
 <?php
-    ///////////// KONEC: PRO NEPRIHLASENE UZIVATELE ///////////////
+    // 😡 --- KONEC: PRO NEPRIHLASENE UZIVATELE --- 😡
     } else {
-    ///////////// PRO PRIHLASENE UZIVATELE ///////////////
+    // 🤑 --- PRO PRIHLASENE UZIVATELE --- 🤑
 
-        // zpracovani odeslanych formularu
+        // Zpracování odeslaných formulářů
         if(isset($_POST['potvrzeni'])){
-            // mam vsechny pozadovane hodnoty?
+            // Kontrola, jestli mám všchny požadované hodnoty
             if(isset($_POST['id_uzivatel']) && isset($_POST['heslo']) && isset($_POST['heslo2'])
                 && isset($_POST['jmeno']) && isset($_POST['email']) && isset($_POST['pravo'])
                 && $_POST['heslo'] == $_POST['heslo2']
                 && $_POST['heslo'] != "" && $_POST['jmeno'] != "" && $_POST['email'] != ""
                 && $_POST['pravo'] > 0
-                // je soucasnym uzivatelem a zadal spravne heslo?
+                // Je současným uživatelem a zadal správné heslo?
                 && $_POST['id_uzivatel'] == $userData['id_uzivatel']
             ){
-                // bylo zadano sprevne soucasne heslo?
+                // Bylo zadáno správné současné heslo?
                 if($_POST['heslo_puvodni'] == $userData['heslo']){
-                    // bylo a mam vsechny atributy - ulozim uzivatele do DB
-                    $res = $myDB->updateUser($userData['id_uzivatel'], $userData['login'], $_POST['heslo'], $_POST['jmeno'], $_POST['email'], $_POST['pravo']);
-                    // byl ulozen?
+                    // Jestli ano tak uložím všchny atributy do batabáze (uživatele)
+                    $res = $myDB->updateUser($userData['id_uzivatel'], $userData['login'], $_POST['heslo'], $_POST['jmeno'], $_POST['prijmeni'], $_POST['email'], $_POST['pravo']);
+                    // Kontrola jestli byl uložen
                     if($res){
                         echo "OK: Uživatel byl upraven.";
-                        // nactu znovu jeho aktualni data
+                        // Zde načítam znovu jeho uložená data (už upravená)
                         $userData = $myDB->getLoggedUserData();
                     } else {
                         echo "ERROR: Upravení uživatele se nezdařilo.";
                     }
                 } else {
-                    // nebylo
+                    // Chyba
                     echo "ERROR: Zadané současné heslo uživatele není správné.";
                 }
             } else {
-                // nemam vsechny atributy
+                // Nebyli zadené všchny atributy
                 echo "ERROR: Nebyly přijaty požadované atributy uživatele.";
             }
             echo "<br><br>";
@@ -74,14 +82,15 @@
                 <tr><td>Heslo 2:</td><td><input type="password" name="heslo2" id="pas2"></td></tr>
                 <tr><td>Ověření hesla:</td><td><output name="x" for="pas1 pas2"></output></td></tr>
                 <tr><td>Jméno:</td><td><input type="text" name="jmeno" value="<?php echo $userData['jmeno']; ?>" required></td></tr>
+                <tr><td>Příjmení:</td><td><input type="text" name="prijmeni" value="<?php echo $userData['prijmeni']; ?>" required></td></tr>
                 <tr><td>E-mail:</td><td><input type="email" name="email" value="<?php echo $userData['email']; ?>" required></td></tr>
                 <tr><td>Právo:</td>
                     <td>
                         <select name="pravo">
                             <?php
-                            // ziskam vsechna prava
+                            // Získám všchny práva
                             $rights = $myDB->getAllRights();
-                            // projdu je a vypisu
+                            // Projdu je a vypíšu
                             foreach($rights as $r){
                                 $selected = ($userData['id_pravo'] == $r['id_pravo']) ? "selected" : "";
                                 echo "<option value='$r[id_pravo]' $selected>$r[nazev]</option>";
@@ -97,8 +106,8 @@
         </form>
 <?php
     }
-    ///////////// KONEC: PRO PRIHLASENE UZIVATELE ///////////////
+    // 🤑 --- KONEC: PRO PRIHLASENE UZIVATELE --- 🤑
 
-    // paticka
+    // Patička (viz ZakladHTML)
     ZakladHTML::createFooter();
 ?>
