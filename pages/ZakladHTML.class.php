@@ -65,7 +65,8 @@ class ZakladHTML {
                 <ul class="nav navbar-nav navbar-right">
                 <li><a href="#about">CO JSME ZAČ?</a></li>
                 <li><a href="#how">JAK TO FUGUJE?</a></li>
-                <li><a href="recenze.php">RECENZE</a></li>
+                <li><a href="index.php?page=recenze">RECENZE</a></li>
+                <li><a href="index.php?page=hry">HRY</a></li>
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">JÁ
                       <span class="caret"></span></a>

@@ -110,7 +110,7 @@ class MyDatabase {
     }
 
     /**
-     * Jednoducha uprava radku databazove tabulky.
+     * Jednoduchá úprava řádku databázové tabulky.
      *
      * @param string $tableName                     Nazev tabulky.
      * @param string $updateStatementWithValues     Cela cast updatu s hodnotami.
@@ -145,6 +145,7 @@ class MyDatabase {
     ///////////////////  KONEC: Obecne funkce  ////////////////////////////////////////////
 
     ///////////////////  Konkretni funkce  ////////////////////////////////////////////
+    // Tyto funkce jsou pro práci s databází a braní z ní dat a nebo input do databáze
 
     /**
      * Ziskani zaznamu vsech uzivatelu aplikace.
@@ -239,13 +240,13 @@ class MyDatabase {
         // ziskam uzivatele z DB - primo overuju login i heslo
         $where = "login='$login' AND heslo='$heslo'";
         $user = $this->selectFromTable(TABLE_UZIVATEL, $where);
-        // ziskal jsem uzivatele
+        // ziskal jsem uzivatele(Jestli zde vůbec nějakýho najdu)
         if(count($user)){
             // ziskal - ulozim ID prvniho nalezeneho uzivatele do session
             $this->mySession->addSession(self::KEY_USER, $user[0]['id_uzivatel']);
             return true;
         }
-        // neziskal jsem uzivatele
+        // neziskal jsem uzivatele(Zádného uživatele jsem nenašel)
         return false;
     }
 
@@ -297,6 +298,27 @@ class MyDatabase {
         }
         // uzivatel neni prihlasen - vracim null
         return null;
+    }
+
+
+    // Tato funkce přidává fotku uživateli
+    public function addFoto(int $idUzivatel, string $foto){
+        // Update fotky (defaultně je null)
+        $updateStatementWithValues = "foto='$foto'";
+        // Podmínka, lterá zjistí pro jakého uživatele to je pomocí ID
+        $whereStatement = "id_uzivatel=$idUzivatel";
+        // Nahrání fotky do databáze
+        return $this->updateInTable(TABLE_UZIVATEL, $updateStatementWithValues, $whereStatement);
+    }
+
+    // Funkce pro vložení hry do databáze
+    public function addNewGame(string $nazev_hry, int $id_zanry, string $foto_hry, string $popisek_hry){
+        // Hlavička pro vložení úživatelů do tabulky
+        $insertStatement = "nazev_hry, id_zanru, foto_hry, popisek_hry";
+        // Hodnoty pro vložení do tabulky s hrami
+        $insertValues = "'$nazev_hry', '$id_zanry', '$foto_hry', '$popisek_hry'";
+        //Provedu výsledek a vrátím ho
+        return $this->insertIntoTable(TABLE_UZIVATEL, $insertStatement, $insertValues);
     }
 
     ///////////////////  KONEC: Sprava prihlaseni uzivatele  ////////////////////////////////////////

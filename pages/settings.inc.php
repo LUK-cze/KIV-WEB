@@ -39,7 +39,8 @@ přístup do databáze
         'uprava' => "user-update".$phpExtension,
         'management' => "user-management".$phpExtension,
         'profil' => "user-profile".$phpExtension,
-        'recenze' => "recenze".$phpExtension
+        'recenze' => "recenze".$phpExtension,
+        'hry' => "games".$phpExtension
     ]);
 
     // Defaultni/výchozí stránka webu
