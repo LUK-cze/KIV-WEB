@@ -21,6 +21,11 @@ vypíší se mu jeho informace
     require_once("ZakladHTML.class.php");
     ZakladHTML::createHeader("Přihlášení a odhlášení uživatele");
 
+    /*
+var_dump($_POST);
+die;
+*/
+
     // Zpracování odesílaných formulářů
     if(isset($_POST['action'])){
         // přihlášení, pokud je vloženo login(username) a heslo
@@ -43,6 +48,7 @@ vypíší se mu jeho informace
             echo "WARNING: Neznámá akce.";
         }
         echo "<br>";
+        die;
     }
 
     // Pokud je uživatel už přihlášen tak získám jeho data
@@ -73,8 +79,8 @@ vypíší se mu jeho informace
                         <div class="pass">
                             <input type="password" name="heslo" id="heslo" placeholder="Heslo" required>
                         </div>
-                        <input class="btn btn-sub" type="submit" value="Přihlásit se">
-                        <input class="btn btn-res" type="reset" value="Smazat údaje">
+                        <button class="btn btn-sub" type="submit" name="action" value="login">Přihlásit se</button>
+                        <button class="btn btn-res" type="reset" value="">Smazat údaje</button>
                 </div>        
                         <h4>Nemáš ještě účet? Zaregistruj se <a href="index.php?page=registrace">ZDE</a>.</h4>
 
