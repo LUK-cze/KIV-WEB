@@ -33,7 +33,7 @@ function debug_to_console($data) {
     ZakladHTML::createHeader("Registrace nového uživatele");
 
     // zpracovani formulare pro registraci uzivatele
-    if(!empty($_POST['potvrzeni'])){
+    if(!empty($_POST['action'])){
         // mam vsechny pozadovane hodnoty?
         if(!empty($_POST['login']) && !empty($_POST['heslo']) && !empty($_POST['heslo2'])
             && !empty($_POST['jmeno']) && !empty($_POST['prijmeni']) && !empty($_POST['email']) && !empty($_POST['pravo'])
@@ -123,8 +123,8 @@ function debug_to_console($data) {
                     </div>
                 </div>
 
-                <input class="btn btn-sub" type="submit" value="Registruj se">
-                <input class="btn btn-res" type="reset" value="Smazat údaje">
+                <button class="btn btn-sub" type="submit" name="action" value="login">Zaregistruj se</button>
+                <button class="btn btn-res" type="reset">Smazat údaje</button>
           </div>        
                 <h4>Maš už účet? Přihlaš se <a href="index.php?page=login">ZDE</a>.</h4>
                 <h5>Ověření hesla: <output name="x" for="heslo heslo2"></output></h5>

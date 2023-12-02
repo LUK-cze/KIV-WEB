@@ -63,8 +63,8 @@ class ZakladHTML {
             </div>
             <div class="collapse navbar-collapse" id="myNavbar">
                 <ul class="nav navbar-nav navbar-right">
-                <li><a href="#about">CO JSME ZAČ?</a></li>
-                <li><a href="#how">JAK TO FUGUJE?</a></li>
+                <li><a href="index.php?page=login#about">CO JSME ZAČ?</a></li>
+                <li><a href="index.php?page=login#how">JAK TO FUGUJE?</a></li>
                 <li><a href="index.php?page=recenze">RECENZE</a></li>
                 <li><a href="index.php?page=hry">HRY</a></li>
                 <li class="dropdown">

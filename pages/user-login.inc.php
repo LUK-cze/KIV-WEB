@@ -21,23 +21,35 @@ vypíší se mu jeho informace
     require_once("ZakladHTML.class.php");
     ZakladHTML::createHeader("Přihlášení a odhlášení uživatele");
 
-    /*
-var_dump($_POST);
-die;
-*/
+    /* ----------------- DEBUG -----------------
+    var_dump($_POST);
+    die;
+    ----------------- DEBUG ----------------- */ 
 
     // Zpracování odesílaných formulářů
     if(isset($_POST['action'])){
         // přihlášení, pokud je vloženo login(username) a heslo
         if($_POST['action'] == 'login' && isset($_POST['login']) && isset($_POST['heslo'])){
+            
+        $hash = $myDB -> getPassByLogin($_POST['login']);
+        var_dump($hash);
+        die;
+
+        if(password_verify($_POST['heslo'], $_POST['login'])){
+
             // pokusim se prihlasit uzivatele
             $res = $myDB->userLogin($_POST['login'], $_POST['heslo']);
             if($res){
                 echo "OK: Uživatel byl přihlášen.";
+                header("Location: index.php?page=login#about");
+                exit;
             } else {
                 echo "ERROR: Přihlášení uživatele se nezdařilo.";
+                exit;
             }
         }
+        echo "hash nebyl stejny";
+    }
         // Odhlášení
         else if($_POST['action'] == 'logout'){
             $myDB->userLogout();
@@ -73,6 +85,8 @@ die;
                 <form action="" method="POST"> <!-- index.php?page=uprava -->
                         <fieldset>
                         <legend><h3>Přihlaš se!</h3></legend>
+                        <?php 
+                        ?>
                         <div class="gamertag">
                             <input type="text" name="login" id="login" placeholder="Přezdívka" required>
                         </div>
@@ -80,7 +94,7 @@ die;
                             <input type="password" name="heslo" id="heslo" placeholder="Heslo" required>
                         </div>
                         <button class="btn btn-sub" type="submit" name="action" value="login">Přihlásit se</button>
-                        <button class="btn btn-res" type="reset" value="">Smazat údaje</button>
+                        <button class="btn btn-res" type="reset">Smazat údaje</button>
                 </div>        
                         <h4>Nemáš ještě účet? Zaregistruj se <a href="index.php?page=registrace">ZDE</a>.</h4>
 
