@@ -19,8 +19,8 @@ vypíší se mu jeho informace
 */
 
     // Načítání souboru s databázovými funkcemi
-    require_once("MyDatabase.class.php");
-    $myDB = new MyDatabase();
+    //require_once("MyDatabase.class.php");
+    //$myDB = new MyDatabase();
 
     // Načítání modulu hlavičky, který je v souboru ZakladHTML.class.php
     require_once("ZakladHTML.class.php");

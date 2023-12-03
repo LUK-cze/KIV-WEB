@@ -10,6 +10,11 @@
 
 */
 
+// nactu funkci vlastniho autoloaderu trid
+// pozn.: protoze je pouzit autoloader trid, tak toto je (vyjma TemplateBased sablon) jediny soubor aplikace, ktery pouziva funkci require_once
+require_once("myAutoloader.inc.php");
+
+
 // nactu zakladni nastaveni
 require_once("settings.inc.php");
 
@@ -24,6 +29,9 @@ var_dump($users);
 // DEBUG ---------------------------------
 */
 
+
+/*
+
 // Zde kontroluji jestli maám v URL adrese parametr page a pokud ano 
 // zkontroluji jestli jeho hodnotu mám v poli WEB_PAGES
 if(isset($_GET["page"]) && array_key_exists($_GET["page"], WEB_PAGES)){
@@ -35,14 +43,14 @@ if(isset($_GET["page"]) && array_key_exists($_GET["page"], WEB_PAGES)){
 
 // Vypsání zvolené stránky
 require_once(WEB_PAGES[$pageId]);
+ 
 
-
-/*
-    // DEBUG ---------------------------------
-    $users = $myDB->getAllUsers();
-    var_dump($users);
-    // DEBUG ---------------------------------
 
 */
+
+// spustim aplikaci
+$app = new \kivweb\ApplicationStart();
+$app->appStart();
+
 
 ?>

@@ -54,8 +54,8 @@ Zde můžou uživatelé s dostatečným právem upravovat zaregistrovane uživat
 */
 
     // Načtení souboru s funkcemi k práci s databází 
-    require_once("MyDatabase.class.php"); // ZAJÍMAVOST: Zde nemusím používat závorky, ale je dobré je tu mít
-    $myDB = new MyDatabase();
+    //require_once("MyDatabase.class.php"); // ZAJÍMAVOST: Zde nemusím používat závorky, ale je dobré je tu mít
+    //$myDB = new MyDatabase();
 
     // Načtení hlavičky
     require_once("ZakladHTML.class.php");

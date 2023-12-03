@@ -28,7 +28,7 @@ class ApplicationStart {
         if(isset($_GET["page"]) && array_key_exists($_GET["page"], WEB_PAGES)){
             $pageKey = $_GET["page"]; // nastavim pozadovane
         } else {
-            $pageKey = DEFAULT_WEB_PAGE_KEY; // defaulti klic
+            $pageKey = WEB_PAGE_DEFAULT_KEY; // defaulti klic
         }
         // pripravim si data ovladace
         $pageInfo = WEB_PAGES[$pageKey];

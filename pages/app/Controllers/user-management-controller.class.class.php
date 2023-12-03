@@ -3,7 +3,7 @@
 namespace kivweb\Controllers;
 
 // ukazka aliasu
-use kivweb\Models\DatabaseModel as MyDB;
+use kivweb\Models\MyDatabaseModel as MyDB;
 
 // nactu rozhrani kontroleru
 //require_once(DIRECTORY_CONTROLLERS."/IController.interface.php");
@@ -40,19 +40,19 @@ class UserManagementController implements IController {
 
         //// neprisel pozadavek na smazani uzivatele?
         if(isset($_POST['action']) and $_POST['action'] == "delete"
-            and isset($_POST['id_user'])
+            and isset($_POST['id_uzivatel'])
         ){
             // provedu smazani uzivatele
-            $ok = $this->db->deleteUser(intval($_POST['id_user']));
+            $ok = $this->db->deleteUser(intval($_POST['id_uzivatel']));
             if($ok){
-                $tplData['delete'] = "OK: Uživatel s ID:$_POST[id_user] byl smazán z databáze.";
+                $tplData['delete'] = "OK: Uživatel s ID:$_POST[id_uzivatel] byl smazán z databáze.";
             } else {
-                $tplData['delete'] = "CHYBA: Uživatele s ID:$_POST[id_user] se nepodařilo smazat z databáze.";
+                $tplData['delete'] = "CHYBA: Uživatele s ID:$_POST[id_uzivatel] se nepodařilo smazat z databáze.";
             }
         }
 
         //// nactu aktualni data uzivatelu
-        $tplData['users'] = $this->db->getAllUsers();
+        $tplData['uzivatele'] = $this->db->getAllUsers();
 
         // vratim sablonu naplnenou daty
         return $tplData;

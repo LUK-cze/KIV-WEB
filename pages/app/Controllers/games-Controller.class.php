@@ -11,7 +11,7 @@ use kivweb\Models\DatabaseModel;
  * Ovladac zajistujici vypsani uvodni stranky.
  * @package kivweb\Controllers
  */
-class LoginController implements IController {
+class GamesController implements IController {
 
     /** @var DatabaseModel $db  Sprava databaze. */
     private $db;
