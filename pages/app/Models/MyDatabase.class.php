@@ -9,13 +9,17 @@
 
 Zde si tvoříme fukce, se ktrýmy pracuje s databází
 
-*/
-class MyDatabase {
-    /*
-      MyDatabase constructor.
-      Inicializace připojení k databazi a pokud ma být spravovano přihlašení uživatele, tak i vlastni objekt pro spravu session.
-    */
+Útoky XSS a SQL injection byly ošetřeny.
 
+*/
+
+namespace kivweb\Models;
+
+class MyDatabaseModel {
+    /** @var DatabaseModel $database  Singleton databazoveho modelu. */
+    private static $database;
+
+    /** @var \PDO $pdo  Objekt pracujici s databazi prostrednictvim PDO. */
     private $pdo;
 
     /** @var MySession $mySession  Vlastní objekt pro správu session. */
@@ -24,14 +28,11 @@ class MyDatabase {
     private const KEY_USER = "current_user_id";
 
 
-    public function __construct(){
-        // Inicializace připojení k databázi
-        $this->pdo = new PDO("mysql:host=".DB_SERVER.";dbname=".DB_NAME, DB_USER, DB_PASS);
-        $this->pdo->exec("set names utf8"); // Toto nemusím využívat v lokální databázi. Co to dělá, jen to aby mi byla předávána data v databázi v utf8
-        // Nastavení PDO error módu na výjimku, tj. každá chyba při práci s PDO bude výjimkou
-        $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        require_once("MySessions.class.php");
-        $this->mySession = new MySession();
+    private function __construct() {
+        // inicializace DB
+        $this->pdo = new \PDO("mysql:host=".DB_SERVER.";dbname=".DB_NAME, DB_USER, DB_PASS);
+        // vynuceni kodovani UTF-8
+        $this->pdo->exec("set names utf8");
     }
 
 
@@ -54,6 +55,17 @@ class MyDatabase {
         }
     }
 
+        /**
+     * Tovarni metoda pro poskytnuti singletonu databazoveho modelu.
+     * @return DatabaseModel    Databazovy model.
+     */
+    public static function getDatabaseModel(){
+        if(empty(self::$database)){
+            self::$database = new DatabaseModel();
+        }
+        return self::$database;
+    }
+
     /*
        Provede dotaz a bud vrátí získaná data, nebo při chybe je vypíše a vratí null.
        Varianta, pokud je pouzit PDO::ERRMODE_EXCEPTION
@@ -61,6 +73,10 @@ class MyDatabase {
     *  @param string $dotaz        SQL dotaz.
     *  @return PDOStatement|null    Vysledek dotazu.
     */
+
+    
+    // TODO: opravvit executeQuery
+
    private function executeQuery(string $dotaz){
        // vykonam dotaz
        try {
@@ -150,6 +166,38 @@ class MyDatabase {
         return ($obj != null);
     }
 
+        /**
+     *  Smaze daneho uzivatele z DB.
+     *  @param int $userId  ID uzivatele.
+     */
+    public function deleteUser(int $userId):bool {
+        // pripravim dotaz
+        $q = "DELETE FROM ".TABLE_UZIVATEL." WHERE id_user=:U_id_del";
+        // TODO: Proč svítí pdo ??????
+        $vystup = $this->$pdo->prepare($q);
+        $vystup->bindValue("U_id_del", $userId);
+        
+        if($vystup->execute()){
+            // dotaz proběhl vpořádku a vrátí všechny řádky, které dá do pole
+            return $vystup->fetchAll();
+        } else {
+            // dotaz neprošel
+            return null;
+        }
+
+
+        // provedu dotaz
+        $res = $this->pdo->query($q);
+        // pokud neni false, tak vratim vysledek, jinak null
+        if ($res) {
+            // neni false
+            return true;
+        } else {
+            // je false
+            return false;
+        }
+    }
+
     ///////////////////  KONEC: Obecne funkce  ////////////////////////////////////////////
 
     ///////////////////  Konkretni funkce  ////////////////////////////////////////////
@@ -185,12 +233,28 @@ class MyDatabase {
      */
     public function getRightById(int $id){
         // ziskam pravo dle ID
-        $rights = $this->selectFromTable(TABLE_PRAVO, "", "", "id_pravo=$id");
+        $rights = $this->selectFromTable(TABLE_PRAVO, "", "", "id_pravo=:U_id_pravo");
+        
+        $vystup = $this->$pdo->prepare($rights);
+        $vystup->bindValue("U_id_pravo", $id);
+                
         if(empty($rights)){
             return null;
         } else {
-            // vracim prvni nalezene pravo
-            return $rights[0];
+            
+            // TODO: A nevím zda jsem nerozbil funkcionalitu, ale to zjistím po opravě MVC
+            if($vystup->execute()){
+                // dotaz proběhl vpořádku a vrátí všechny řádky, které dá do pole
+                return $vystup->fetchAll();
+
+                /*
+                    // vracim prvni nalezene pravo
+                    return $rights[0];
+                */
+            } else {
+                // dotaz neprošel
+                return null;
+            }
         }
     }
 
@@ -198,13 +262,28 @@ class MyDatabase {
         // Ziskam heslo dle loginu
         // Toto musim abych si mohl prihlasit kdyz pouzivam hesh
 
-        $pass = $this->selectFromTable(TABLE_UZIVATEL, 'heslo', "login = $login");
+        $pass = $this->selectFromTable(TABLE_UZIVATEL, 'heslo', "login=:login");
+        $vystup = $this->$pdo->query($pass);
+        $vystup->bindValue(":login", $login);
+
 
         if(empty($pass)){
             return null;
         } else {
-            // vracim prvni nalezene pravo
-            return $pass[0];
+            // TODO: A nevím zda jsem nerozbil funkcionalitu, ale to zjistím po opravě MVC
+            if($vystup->execute()){
+                // dotaz proběhl vpořádku a vrátí všechny řádky, které dá do pole
+                return $vystup->fetchAll();
+
+                /*
+                // vracim prvni nalezene pravo
+                return $pass[0];
+                */
+
+            } else {
+                // dotaz neprošel
+                return null;
+            }
         }
     }
 
@@ -218,12 +297,36 @@ class MyDatabase {
      * @return bool             Vlozen v poradku?
      */
     public function addNewUser(string $login, string $heslo, string $jmeno, string $prijmeni, string $email, int $idPravo = 4){
+
+        // Ošetření před XSS (Specialní charaktery, které by útočník zadával já převedu na jiné a neškodné)
+        $login = htmlspecialchars($login);
+        $heslo = htmlspecialchars($heslo);
+        $jmeno = htmlspecialchars($jmeno);
+        $prijmeni = htmlspecialchars($prijmeni);
+        $email = htmlspecialchars($email);
+        $idPravo = htmlspecialchars($idPravo); // U id práva uživatel nic přidat svého nemůže. Nicméně stejně provedu úpravu pro 100% neprůsřelnost.
+
         // hlavicka pro vlozeni do tabulky uzivatelu
         $insertStatement = "login, heslo, jmeno, prijmeni, email, id_pravo";
+
         // hodnoty pro vlozeni do tabulky uzivatelu
-        $insertValues = "'$login', '$heslo', '$jmeno', '$prijmeni', '$email', $idPravo";
+        $insertValues = "':loginADD', ':hesloADD', ':jmenoADD', ':prijmeniADD', ':emailADD', 'id_pravoADD'";
         // provedu dotaz a vratim jeho vysledek
-        return $this->insertIntoTable(TABLE_UZIVATEL, $insertStatement, $insertValues);
+
+        $vystup = $this->$pdo->prepare($insertStatement);
+        $vystup->bindValue(":loginADD", $login);
+        $vystup->bindValue(":hesloADD", $heslo);
+        $vystup->bindValue(":jmenoADD", $jmeno);
+        $vystup->bindValue(":prijmeniADD", $prijmeni);
+        $vystup->bindValue(":emailADD", $email);
+        $vystup->bindValue(":id_pravoADD", $idPravo);
+
+       
+        if($vystup->execute()){
+            return $this->insertIntoTable(TABLE_UZIVATEL, $insertStatement, $insertValues);
+        } else {
+            echo "Registrace se nezdařila";
+        }
     }
 
     /**
@@ -239,12 +342,36 @@ class MyDatabase {
      * @return bool             Bylo upraveno?
      */
     public function updateUser(int $idUzivatel, string $login, string $heslo, string $jmeno, string $prijmeni, string $email, int $idPravo){
+        
+        // Ošetření před XSS (Specialní charaktery, které by útočník zadával já převedu na jiné a neškodné)
+        $login = htmlspecialchars($login);
+        $heslo = htmlspecialchars($heslo);
+        $jmeno = htmlspecialchars($jmeno);
+        $prijmeni = htmlspecialchars($prijmeni);
+        $email = htmlspecialchars($email);
+        $idPravo = htmlspecialchars($idPravo); // U id práva uživatel nic přidat svého nemůže. Nicméně stejně provedu úpravu pro 100% neprůsřelnost.
+
         // slozim cast s hodnotami
-        $updateStatementWithValues = "login='$login', heslo='$heslo', jmeno='$jmeno', prijmeni='$prijmeni', email='$email', id_pravo='$idPravo'";
+        $updateStatementWithValues = "login=':loginUPDATE', heslo=':hesloUPDATE', jmeno=':jmenoUPDATE', prijmeni=':prijmeniUPDATE', email=':emailUPDATE', id_pravo=':id_pravoUPDATE'";
+
+        $vystup = $this->$pdo->prepare($updateStatementWithValues);
+        $vystup->bindValue(":loginUPDATE", $login);
+        $vystup->bindValue(":hesloUPDATE", $heslo);
+        $vystup->bindValue(":jmenoUPDATE", $jmeno);
+        $vystup->bindValue(":prijmeniUPDATE", $prijmeni);
+        $vystup->bindValue(":emailUPDATE", $email);
+        $vystup->bindValue(":id_pravoUPDATE", $idPravo);
         // podminka
         $whereStatement = "id_uzivatel=$idUzivatel";
-        // provedu update
-        return $this->updateInTable(TABLE_UZIVATEL, $updateStatementWithValues, $whereStatement);
+
+        if($vystup->execute()){
+            // provedu update
+            return $this->updateInTable(TABLE_UZIVATEL, $updateStatementWithValues, $whereStatement);
+        } else {
+            echo "Úprava dat se nezdařila";
+        }
+
+        
     }
 
     ///////////////////  KONEC: Konkretni funkce  ////////////////////////////////////////////
@@ -260,19 +387,32 @@ class MyDatabase {
      */
     public function userLogin(string $login, string $heslo):bool {
 
-
+        // Ošetření před XSS (Specialní charaktery, které by útočník zadával já převedu na jiné a neškodné)
+        $login = htmlspecialchars($login);
+        $heslo = htmlspecialchars($heslo);
 
         // ziskam uzivatele z DB - primo overuju login i heslo
-        $where = "login='$login' AND heslo='$heslo'";
-        $user = $this->selectFromTable(TABLE_UZIVATEL, "", $where);
-        // ziskal jsem uzivatele(Jestli zde vůbec nějakýho najdu)
-        if(count($user)){
-            // ziskal - ulozim ID prvniho nalezeneho uzivatele do session
-            $this->mySession->addSession(self::KEY_USER, $user[0]['id_uzivatel']);
-            return true;
+        $where = "login=':loginLOG' AND heslo=':hesloLOG'";
+
+        $vystup = $this->$pdo->prepare($where);
+        $vystup->bindValue(":loginLOG", $login);
+        $vystup->bindValue(":hesloLOG", $heslo);
+
+        if($vystup->execute()){
+            $user = $this->selectFromTable(TABLE_UZIVATEL, "", $where);
+
+            // ziskal jsem uzivatele(Jestli zde vůbec nějakýho najdu)
+            if(count($user)){
+                // ziskal - ulozim ID prvniho nalezeneho uzivatele do session
+                $this->mySession->addSession(self::KEY_USER, $user[0]['id_uzivatel']);
+                return true;
+            }
+            // neziskal jsem uzivatele(Zádného uživatele jsem nenašel)
+            return false;
+        } else {
+            echo "Přihlášení se nezdařilo";
         }
-        // neziskal jsem uzivatele(Zádného uživatele jsem nenašel)
-        return false;
+
     }
 
     /**
@@ -328,22 +468,62 @@ class MyDatabase {
 
     // Tato funkce přidává fotku uživateli
     public function addFoto(int $idUzivatel, string $foto){
+
+        // Ošetření před XSS (Specialní charaktery, které by útočník zadával já převedu na jiné a neškodné)
+        $foto = htmlspecialchars($foto); // Foto je jen název fotky v naší databázi
+
+
         // Update fotky (defaultně je null)
-        $updateStatementWithValues = "foto='$foto'";
+        $updateStatementWithValues = "foto=':fotoFOTO'";
+
+        $vystup = $this->$pdo->prepare($updateStatementWithValues);
+        $vystup->bindValue(":fotoFOTO", $foto);
+
         // Podmínka, lterá zjistí pro jakého uživatele to je pomocí ID
-        $whereStatement = "id_uzivatel=$idUzivatel";
-        // Nahrání fotky do databáze
-        return $this->updateInTable(TABLE_UZIVATEL, $updateStatementWithValues, $whereStatement);
+        $whereStatement = "id_uzivatel=':id_uzivatel'";
+
+        $vystup = $this->$pdo->prepare($whereStatement);
+        $vystup->bindValue(":id_uzivatelFOTO", $idUzivatel);
+
+
+        if($vystup->execute()){
+            // Nahrání fotky do databáze
+            return $this->updateInTable(TABLE_UZIVATEL, $updateStatementWithValues, $whereStatement);
+        } else {
+            echo "Přidání fotky se nezdařilo.";
+        }
+
     }
 
     // Funkce pro vložení hry do databáze
     public function addNewGame(string $nazev_hry, int $id_zanry, string $foto_hry, string $popisek_hry){
+
+        // TODO: Smaž jestli nakonec změníš strukturu projektu nebo databáze
+
+        // Ošetření před XSS (Specialní charaktery, které by útočník zadával já převedu na jiné a neškodné)
+        $nazev_hry = htmlspecialchars($nazev_hry);
+        $id_zanry = htmlspecialchars($id_zanry);
+        $foto_hry = htmlspecialchars($foto_hry); // Foto je jen název fotky v naší databázi
+        $popisek_hry = htmlspecialchars($popisek_hry);
+
+
         // Hlavička pro vložení úživatelů do tabulky
         $insertStatement = "nazev_hry, id_zanru, foto_hry, popisek_hry";
         // Hodnoty pro vložení do tabulky s hrami
-        $insertValues = "'$nazev_hry', '$id_zanry', '$foto_hry', '$popisek_hry'";
-        //Provedu výsledek a vrátím ho
-        return $this->insertIntoTable(TABLE_UZIVATEL, $insertStatement, $insertValues);
+        $insertValues = "':nazev_hryADDGAME', ':id_zanryADDGAME', ':foto_hryADDGAME', ':popisek_hryADDGAME'";
+
+        $vystup = $this->$pdo->prepare($insertValues);
+        $vystup->bindValue(":nazev_hryADDGAME", $nazev_hry);
+        $vystup->bindValue(":id_zanryADDGAME", $id_zanry);
+        $vystup->bindValue(":foto_hryADDGAME", $foto_hry);
+        $vystup->bindValue(":popisek_hryADDGAME", $popisek_hry);
+
+        if($vystup->execute()){
+            //Provedu výsledek a vrátím ho
+        return $this->insertIntoTable(TABLE_HRY, $insertStatement, $insertValues);
+        } else {
+            echo "Přidání hry se nezdařilo.";
+        }
     }
 
     ///////////////////  KONEC: Sprava prihlaseni uzivatele  ////////////////////////////////////////

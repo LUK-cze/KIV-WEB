@@ -1,4 +1,9 @@
 <?php
+
+namespace kivweb\Views\TemplateBased;
+
+use kivweb\Views\IView;
+
 /*
 
 ╔══════════════════════════════════╗
@@ -19,7 +24,7 @@ vypíší se mu jeho informace
 
     // Načítání modulu hlavičky, který je v souboru ZakladHTML.class.php
     require_once("ZakladHTML.class.php");
-    ZakladHTML::createHeader("Přihlášení a odhlášení uživatele");
+    TemplateBasics::getHTMLHeader("Přihlášení a odhlášení uživatele");
 
     /* ----------------- DEBUG -----------------
     var_dump($_POST);
@@ -151,5 +156,5 @@ vypíší se mu jeho informace
     ///////////// KONEC: PRO PRIHLASENE UZIVATELE ///////////////
 
     // Patička co je vytvořena v jiném soboru (viz. hlavička ⬆⬆⬆)
-    ZakladHTML::createFooter();
+    TemplateBasics::getHTMLFooter();
 ?>

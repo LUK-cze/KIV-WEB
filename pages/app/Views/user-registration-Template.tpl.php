@@ -22,8 +22,8 @@ function debug_to_console($data) {
 
 
     // nacteni souboru s funkcemi
-    require_once("MyDatabase.class.php");
-    $myDB = new MyDatabase();
+    //require_once("MyDatabase.class.php");
+    //$myDB = new MyDatabase();
 
     $rights = $myDB -> getAllRights();
 
