@@ -1,29 +1,9 @@
 <?php
-/*
-
-╔══════════════════════════════════╗
-║                                  ║
-║         Update uživatele         ║
-║                                  ║
-╚══════════════════════════════════╝
-
-Zde si uživatel může upravit svoje údaje co má uložené v databázi
-
-*/
-
-    // Načítání funkce pro práci s databází
-    require_once("MyDatabase.class.php");
-    $myDB = new MyDatabase();
-
     // Naše hlavička stránky
-    require_once("ZakladHTML.class.php");
-    ZakladHTML::createHeader("Úprava osobních údajů uživatele");
 
-    // Pokud je uživatel přihlášen, tak získám jeho data
-    if($myDB->isUserLogged()){
-        // Získání dat
-        $userData = $myDB->getLoggedUserData();
-    }
+use kivweb\Views\TemplateBasics;
+
+    TemplateBasics::getHTMLHeader("Úprava osobních údajů uživatele");
 
     // 😡 --- PRO NEPRIHLASENE UZIVATELE --- 😡
     if(!$myDB->isUserLogged()){
@@ -109,5 +89,5 @@ Zde si uživatel může upravit svoje údaje co má uložené v databázi
     // 🤑 --- KONEC: PRO PRIHLASENE UZIVATELE --- 🤑
 
     // Patička (viz ZakladHTML)
-    ZakladHTML::createFooter();
+    TemplateBasics::getHTMLFooter();
 ?>

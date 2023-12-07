@@ -1,8 +1,21 @@
 <?php
 
+/*
+
+╔══════════════════════════════════╗
+║                                  ║
+║         Update uživatele         ║
+║                                  ║
+╚══════════════════════════════════╝
+
+Zde si uživatel může upravit svoje údaje co má uložené v databázi
+
+*/
+
+
 namespace kivweb\Controllers;
 
-use kivweb\Models\DatabaseModel;
+use kivweb\Models\DatabaseModel as MyDB;
 
 // nactu rozhrani kontroleru
 //require_once(DIRECTORY_CONTROLLERS."/IController.interface.php");
@@ -13,7 +26,7 @@ use kivweb\Models\DatabaseModel;
  */
 class UserUpdateController implements IController {
 
-    /** @var DatabaseModel $db  Sprava databaze. */
+    /** @var MyDB $db  Sprava databaze. */
     private $db;
 
     /**
@@ -22,7 +35,7 @@ class UserUpdateController implements IController {
     public function __construct() {
         // inicializace prace s DB
         //require_once (DIRECTORY_MODELS ."/DatabaseModel.class.php");
-        $this->db = DatabaseModel::getDatabaseModel();
+        $this->db = MyDB::getDatabaseModel();
     }
 
     /**
@@ -43,5 +56,13 @@ class UserUpdateController implements IController {
     }
     
 }
+
+   // Pokud je uživatel přihlášen, tak získám jeho data
+    if($myDB->isUserLogged()){
+        // Získání dat
+        $userData = $myDB->getLoggedUserData();
+    }
+
+
 
 ?>

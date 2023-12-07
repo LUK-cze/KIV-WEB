@@ -1,44 +1,13 @@
 <?php
-///////////////////////////////////////////////////////////////////////////
-/////////// Sablona pro zobrazeni stranky se spravou uzivatelu  ///////////
-///////////////////////////////////////////////////////////////////////////
-
-//// pozn.: sablona je samostatna a provadi primy vypis do vystupu:
-// -> lze testovat bez zbytku aplikace.
-// -> pri vyuziti Twigu se sablona obejde bez PHP.
-
-/*
-////// Po zakomponovani do zbytku aplikace bude tato cast odstranena/zakomentovana  //////
-//// UKAZKA DAT: Uvod bude vypisovat informace z tabulky, ktera ma nasledujici sloupce:
-// id, date, author, title, text
-$tplData['title'] = "Sprava uživatelů (TPL)";
-$tplData['users'] = [
-    array("id_user" => 1, "first_name" => "František", "last_name" => "Noha",
-            "login" => "frnoha", "password" => "Tajne*Heslo", "email" => "fr.noha@ukazka.zcu.cz", "web" => "www.zcu.cz")
-];
-$tplData['delete'] = "Úspěšné mazání.";
-define("DIRECTORY_VIEWS", "../Views");
-const WEB_PAGES = array(
-    "uvod" => array("title" => "Sprava uživatelů (TPL)")
-);
-////// KONEC: Po zakomponovani do zbytku aplikace bude tato cast odstranena/zakomentovana  //////
-*/
-
-//// vypis sablony
-// urceni globalnich promennych, se kterymi sablona pracuje
-global $tplData;
-
-?>
-<!-- ------------------------------------------------------------------------------------------------------- -->
-<div class="alert-info">TemplateBased</div>
-
-<!-- Vypis obsahu sablony -->
-<?php
 // muze se hodit:
 //<form method='post'>
 //    <input type='hidden' name='id_user' value=''>
 //    <button type='submit' name='action' value='delete'>Smazat</button>
 //</form>
+
+use kivweb\Models\DatabaseModel;
+use kivweb\Views\ClassBased\TemplateBasics;
+
 ?>
 
 <?php
@@ -54,12 +23,11 @@ Zde můžou uživatelé s dostatečným právem upravovat zaregistrovane uživat
 */
 
     // Načtení souboru s funkcemi k práci s databází 
-    //require_once("MyDatabase.class.php"); // ZAJÍMAVOST: Zde nemusím používat závorky, ale je dobré je tu mít
-    //$myDB = new MyDatabase();
+    require_once("MyDatabase.class.php"); // ZAJÍMAVOST: Zde nemusím používat závorky, ale je dobré je tu mít
+    $myDB = new DatabaseModel();
 
     // Načtení hlavičky
-    require_once("ZakladHTML.class.php");
-    ZakladHTML::createHeader("Správa uživatelů");
+    TemplateBasics::getHTMLHeader("Úprava osobních údajů uživatele");
 
     // Pokud je uživatel přihlášen, tak získám jeho data
     if($myDB->isUserLogged()){
@@ -122,6 +90,6 @@ Zde můžou uživatelé s dostatečným právem upravovat zaregistrovane uživat
     }
 
     // paticka
-    ZakladHTML::createFooter();
+    TemplateBasics::getHTMLFooter();
 ?>
 

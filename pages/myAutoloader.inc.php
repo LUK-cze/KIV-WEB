@@ -20,7 +20,9 @@ spl_autoload_register(function ($className){
     // upravim v nazvu tridy vychozi adresar aplikace
     $className = str_replace(BASE_NAMESPACE_NAME, BASE_APP_DIR_NAME, $className);
     // slozim celou cestu k souboru bez pripony
-    $fileName = dirname(__FILE__) ."\\". $className;
+
+    // teď to bude fungovat i na linuxu
+    $fileName = dirname(__FILE__) . DIRECTORY_SEPARATOR . str_replace("\\", DIRECTORY_SEPARATOR, $className);
 
     // nacitam tridu nebo interface - upravim cestu k souboru
     // zjistim, zda exituje soubor s danou tridou a dostupnou priponou
@@ -33,7 +35,7 @@ spl_autoload_register(function ($className){
     }
 
     // pripojim soubor s pozadovanou tridou
-    //echo "Ze souboru: $fileName <br>";
+    echo "Ze souboru: $fileName <br>";
     require_once($fileName);
 });
 

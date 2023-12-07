@@ -15,8 +15,10 @@ Zde si tvoříme fukce, se ktrýmy pracuje s databází
 
 namespace kivweb\Models;
 
-class MyDatabaseModel {
-    /** @var DatabaseModel $database  Singleton databazoveho modelu. */
+use PDOException;
+
+class DatabaseModel {
+    /** @var DatabaseModel  $database  Singleton databazoveho modelu. */
     private static $database;
 
     /** @var \PDO $pdo  Objekt pracujici s databazi prostrednictvim PDO. */
@@ -28,7 +30,7 @@ class MyDatabaseModel {
     private const KEY_USER = "current_user_id";
 
 
-    private function __construct() {
+    public function __construct() {
         // inicializace DB
         $this->pdo = new \PDO("mysql:host=".DB_SERVER.";dbname=".DB_NAME, DB_USER, DB_PASS);
         // vynuceni kodovani UTF-8
@@ -66,6 +68,14 @@ class MyDatabaseModel {
         return self::$database;
     }
 
+    public function getAllIntroductions():array {
+        // pripravim dotaz
+        $q = "SELECT * FROM ".TABLE_UZIVATEL;
+        // provedu a vysledek vratim jako pole
+        // protoze je o uzkazku, tak netestuju, ze bylo neco vraceno
+        return $this->pdo->query($q)->fetchAll();
+    }
+
     /*
        Provede dotaz a bud vrátí získaná data, nebo při chybe je vypíše a vratí null.
        Varianta, pokud je pouzit PDO::ERRMODE_EXCEPTION
@@ -73,9 +83,6 @@ class MyDatabaseModel {
     *  @param string $dotaz        SQL dotaz.
     *  @return PDOStatement|null    Vysledek dotazu.
     */
-
-    
-    // TODO: opravvit executeQuery
 
    private function executeQuery(string $dotaz){
        // vykonam dotaz
@@ -173,8 +180,7 @@ class MyDatabaseModel {
     public function deleteUser(int $userId):bool {
         // pripravim dotaz
         $q = "DELETE FROM ".TABLE_UZIVATEL." WHERE id_user=:U_id_del";
-        // TODO: Proč svítí pdo ??????
-        $vystup = $this->$pdo->prepare($q);
+        $vystup = $this->pdo->prepare($q);
         $vystup->bindValue("U_id_del", $userId);
         
         if($vystup->execute()){
@@ -234,51 +240,32 @@ class MyDatabaseModel {
     public function getRightById(int $id){
         // ziskam pravo dle ID
         $rights = $this->selectFromTable(TABLE_PRAVO, "", "", "id_pravo=:U_id_pravo");
-        
-        $vystup = $this->$pdo->prepare($rights);
-        $vystup->bindValue("U_id_pravo", $id);
                 
-        if(empty($rights)){
+        if(!empty($rights)){
+            // dotaz neprošel
             return null;
-        } else {
-            
-            // TODO: A nevím zda jsem nerozbil funkcionalitu, ale to zjistím po opravě MVC
-            if($vystup->execute()){
-                // dotaz proběhl vpořádku a vrátí všechny řádky, které dá do pole
-                return $vystup->fetchAll();
-
-                /*
-                    // vracim prvni nalezene pravo
-                    return $rights[0];
-                */
-            } else {
-                // dotaz neprošel
-                return null;
+        }else {
+            // dotaz prošel
+            return $rights;
             }
         }
-    }
 
     public function getPassByLogin(string $login){
         // Ziskam heslo dle loginu
         // Toto musim abych si mohl prihlasit kdyz pouzivam hesh
 
-        $pass = $this->selectFromTable(TABLE_UZIVATEL, 'heslo', "login=:login");
-        $vystup = $this->$pdo->query($pass);
-        $vystup->bindValue(":login", $login);
+        $pass = $this->selectFromTable(TABLE_UZIVATEL, 'heslo', $login);
+        
+        return $pass;
 
 
         if(empty($pass)){
             return null;
         } else {
             // TODO: A nevím zda jsem nerozbil funkcionalitu, ale to zjistím po opravě MVC
-            if($vystup->execute()){
-                // dotaz proběhl vpořádku a vrátí všechny řádky, které dá do pole
-                return $vystup->fetchAll();
-
-                /*
+            if(!empty($pass)){
                 // vracim prvni nalezene pravo
                 return $pass[0];
-                */
 
             } else {
                 // dotaz neprošel
@@ -313,7 +300,7 @@ class MyDatabaseModel {
         $insertValues = "':loginADD', ':hesloADD', ':jmenoADD', ':prijmeniADD', ':emailADD', 'id_pravoADD'";
         // provedu dotaz a vratim jeho vysledek
 
-        $vystup = $this->$pdo->prepare($insertStatement);
+        $vystup = $this->pdo->prepare($insertStatement);
         $vystup->bindValue(":loginADD", $login);
         $vystup->bindValue(":hesloADD", $heslo);
         $vystup->bindValue(":jmenoADD", $jmeno);
@@ -354,7 +341,7 @@ class MyDatabaseModel {
         // slozim cast s hodnotami
         $updateStatementWithValues = "login=':loginUPDATE', heslo=':hesloUPDATE', jmeno=':jmenoUPDATE', prijmeni=':prijmeniUPDATE', email=':emailUPDATE', id_pravo=':id_pravoUPDATE'";
 
-        $vystup = $this->$pdo->prepare($updateStatementWithValues);
+        $vystup = $this->pdo->prepare($updateStatementWithValues);
         $vystup->bindValue(":loginUPDATE", $login);
         $vystup->bindValue(":hesloUPDATE", $heslo);
         $vystup->bindValue(":jmenoUPDATE", $jmeno);
@@ -394,7 +381,7 @@ class MyDatabaseModel {
         // ziskam uzivatele z DB - primo overuju login i heslo
         $where = "login=':loginLOG' AND heslo=':hesloLOG'";
 
-        $vystup = $this->$pdo->prepare($where);
+        $vystup = $this->pdo->prepare($where);
         $vystup->bindValue(":loginLOG", $login);
         $vystup->bindValue(":hesloLOG", $heslo);
 
@@ -476,13 +463,13 @@ class MyDatabaseModel {
         // Update fotky (defaultně je null)
         $updateStatementWithValues = "foto=':fotoFOTO'";
 
-        $vystup = $this->$pdo->prepare($updateStatementWithValues);
+        $vystup = $this->pdo->prepare($updateStatementWithValues);
         $vystup->bindValue(":fotoFOTO", $foto);
 
         // Podmínka, lterá zjistí pro jakého uživatele to je pomocí ID
         $whereStatement = "id_uzivatel=':id_uzivatel'";
 
-        $vystup = $this->$pdo->prepare($whereStatement);
+        $vystup = $this->pdo->prepare($whereStatement);
         $vystup->bindValue(":id_uzivatelFOTO", $idUzivatel);
 
 
@@ -512,7 +499,7 @@ class MyDatabaseModel {
         // Hodnoty pro vložení do tabulky s hrami
         $insertValues = "':nazev_hryADDGAME', ':id_zanryADDGAME', ':foto_hryADDGAME', ':popisek_hryADDGAME'";
 
-        $vystup = $this->$pdo->prepare($insertValues);
+        $vystup = $this->pdo->prepare($insertValues);
         $vystup->bindValue(":nazev_hryADDGAME", $nazev_hry);
         $vystup->bindValue(":id_zanryADDGAME", $id_zanry);
         $vystup->bindValue(":foto_hryADDGAME", $foto_hry);

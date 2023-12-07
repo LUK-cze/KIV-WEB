@@ -1,11 +1,11 @@
 <?php
 
-namespace kivweb\Views\TemplateBased;
+namespace kivweb\Views;
 
 use kivweb\Views\IView;
 
 /**
- * Trida vypisujici HTML hlavicku a paticku stranky.
+ * Templaty pro stránku
  * @package kivweb\Views\TemplateBased
  */
 class TemplateBasics implements IView {
@@ -82,7 +82,7 @@ class TemplateBasics implements IView {
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>                        
                 </button>
-                <a class="navbar-brand glyphicon glyphicon-tower" href="#myPage" alt="logo" width="30" height="30"></a>
+                <a class="navbar-brand glyphicon glyphicon-tower" href="#myPage" alt="logo" width="30" height="30"><?php $pageTitle ?></a>
             </div>
             <div class="collapse navbar-collapse" id="myNavbar">
                 <ul class="nav navbar-nav navbar-right">

@@ -12,11 +12,17 @@
 
 // nactu funkci vlastniho autoloaderu trid
 // pozn.: protoze je pouzit autoloader trid, tak toto je (vyjma TemplateBased sablon) jediny soubor aplikace, ktery pouziva funkci require_once
-require_once("myAutoloader.inc.php");
+
+namespace kivweb;
+
+use kivweb\Models\DatabaseModel;
+use kivweb\Views\TemplateBasics;
+
+require_once('myAutoloader.inc.php');
 
 
 // nactu zakladni nastaveni
-require_once("settings.inc.php");
+require_once('settings.inc.php');
 
 
 /*
@@ -47,7 +53,6 @@ require_once(WEB_PAGES[$pageId]);
 
 
 */
-
 // spustim aplikaci
 $app = new \kivweb\ApplicationStart();
 $app->appStart();

@@ -14,6 +14,12 @@ přístup do databáze
 */
 
     // Údaje pro přihlášení do databáze
+
+require_once ('myAutoloader.inc.php');
+
+use kivweb\Controllers\LoginController;
+use kivweb\Views\TemplateBased\TemplateBasics;
+
     define("DB_SERVER","localhost");
     define("DB_NAME","kivweb");
     define("DB_USER","root");
@@ -37,7 +43,6 @@ TODO: Jestli nevyužiji tak smazat
     // Dostupné stránky mého webu
     // První parametr (např. login) je klíč a druhý je název souboru, který pod ním mám 
     
-    /*
     define("WEB_PAGES", [
         'login' => "user-login".$phpExtension,
         'registrace' => "user-registration".$phpExtension,
@@ -48,21 +53,21 @@ TODO: Jestli nevyužiji tak smazat
         'hry' => "games".$phpExtension
     ]);
 
-    */
 
     /** Klic defaultni webove stranky. */
     const WEB_PAGE_DEFAULT_KEY = "login";
 
     /** Dostupne webove stranky. */
-const WEB_PAGES = array(//// Uvodni stranka (Login) ////
+    const WEB_PAGES = array(//// Uvodni stranka (Login) ////
     "login" => array(
         "title" => "Úvodní stránka",
 
-        //// kontroler
-        "controller_class_name" => \kivweb\Controllers\LoginController::class, // poskytne nazev tridy vcetne namespace
+        // kontroler
+        "controller_class_name" => LoginController::class, // poskytne nazev tridy vcetne namespace
 
         // TemplateBased sablona
-        "template_type" => \kivweb\Views\TemplateBased\TemplateBasics::PAGE_LOGIN,
+        "view_class_name" => TemplateBasics::class,
+        "template_type" => TemplateBasics::PAGE_LOGIN,
     ),
     //// KONEC: Uvodni stranka ////
 
@@ -71,14 +76,11 @@ const WEB_PAGES = array(//// Uvodni stranka (Login) ////
         "title" => "Správa uživatelů",
 
         //// kontroler
-        "controller_class_name" => \kivweb\Controllers\UserManagementController::class,
-
-        // ClassBased sablona
-        //"view_class_name" => \kivweb\Views\ClassBased\UserManagementTemplate::class,
+        "controller_class_name" => UserManagementController::class,
 
         // TemplateBased sablona
-        "view_class_name" => \kivweb\Views\TemplateBased\TemplateBasics::class,
-        "template_type" => \kivweb\Views\TemplateBased\TemplateBasics::PAGE_USER_MANAGEMENT,
+        "view_class_name" => TemplateBasics::class,
+        "template_type" => TemplateBasics::PAGE_USER_MANAGEMENT,
     ),
     //// KONEC: Sprava uzivatelu ////
 
@@ -88,14 +90,11 @@ const WEB_PAGES = array(//// Uvodni stranka (Login) ////
         "title" => "Registrace",
 
         //// kontroler
-        "controller_class_name" => \kivweb\Controllers\UserRegistrationController::class,
-
-        // ClassBased sablona
-        //"view_class_name" => \kivweb\Views\ClassBased\UserManagementTemplate::class,
+        "controller_class_name" => UserRegistrationController::class,
 
         // TemplateBased sablona
-        "view_class_name" => \kivweb\Views\TemplateBased\TemplateBasics::class,
-        "template_type" => \kivweb\Views\TemplateBased\TemplateBasics::PAGE_REGISTRATION,
+        "view_class_name" => TemplateBasics::class,
+        "template_type" => TemplateBasics::PAGE_REGISTRATION,
     ),
     //// KONEC: Registrace ////
 
@@ -104,10 +103,11 @@ const WEB_PAGES = array(//// Uvodni stranka (Login) ////
     "update" => array(
         "title" => "Update uživatele",
         //// kontroler
-        "controller_class_name" => \kivweb\Controllers\RecenzeController::class,
+        "controller_class_name" => RecenzeController::class,
+
         // TemplateBased sablona
-        "view_class_name" => \kivweb\Views\TemplateBased\TemplateBasics::class,
-        "template_type" => \kivweb\Views\TemplateBased\TemplateBasics::PAGE_USER_UPDATE,
+        "view_class_name" => TemplateBasics::class,
+        "template_type" => TemplateBasics::PAGE_USER_UPDATE,
     ),
     //// KONEC: USER UPDATE ////
 
@@ -117,15 +117,14 @@ const WEB_PAGES = array(//// Uvodni stranka (Login) ////
         "title" => "Recenze",
 
         //// kontroler
-        "controller_class_name" => \kivweb\Controllers\RecenzeController::class,
+        "controller_class_name" => RecenzeController::class,
 
         // TemplateBased sablona
-        "view_class_name" => \kivweb\Views\TemplateBased\TemplateBasics::class,
-        "template_type" => \kivweb\Views\TemplateBased\TemplateBasics::PAGE_RECENZE,
+        "view_class_name" => TemplateBasics::class,
+        "template_type" => TemplateBasics::PAGE_RECENZE,
     ),
     //// KONEC: Recenze ////
 
 
 );
-
 ?>

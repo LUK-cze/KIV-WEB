@@ -2,8 +2,7 @@
 
 namespace kivweb\Controllers;
 
-// ukazka aliasu
-use kivweb\Models\MyDatabaseModel as MyDB;
+use kivweb\Models\DatabaseModel as MyDB;
 
 // nactu rozhrani kontroleru
 //require_once(DIRECTORY_CONTROLLERS."/IController.interface.php");
