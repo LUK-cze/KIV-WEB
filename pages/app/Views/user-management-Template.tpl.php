@@ -6,7 +6,7 @@
 //</form>
 
 use kivweb\Models\DatabaseModel;
-use kivweb\Views\ClassBased\TemplateBasics;
+use kivweb\Views\TemplateBasics;
 
 ?>
 
@@ -26,8 +26,6 @@ Zde můžou uživatelé s dostatečným právem upravovat zaregistrovane uživat
     require_once("MyDatabase.class.php"); // ZAJÍMAVOST: Zde nemusím používat závorky, ale je dobré je tu mít
     $myDB = new DatabaseModel();
 
-    // Načtení hlavičky
-    TemplateBasics::getHTMLHeader("Úprava osobních údajů uživatele");
 
     // Pokud je uživatel přihlášen, tak získám jeho data
     if($myDB->isUserLogged()){
@@ -89,7 +87,5 @@ Zde můžou uživatelé s dostatečným právem upravovat zaregistrovane uživat
     // 🤑 --- KONEC: PRO PŘIHLÁŠÉNE UŽIVATELE S PRÁVEM ADMIN --- 🤑
     }
 
-    // paticka
-    TemplateBasics::getHTMLFooter();
 ?>
 

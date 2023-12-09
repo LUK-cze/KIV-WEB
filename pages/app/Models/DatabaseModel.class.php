@@ -15,6 +15,7 @@ Zde si tvoříme fukce, se ktrýmy pracuje s databází
 
 namespace kivweb\Models;
 
+use PDO;
 use PDOException;
 
 class DatabaseModel {
@@ -35,6 +36,10 @@ class DatabaseModel {
         $this->pdo = new \PDO("mysql:host=".DB_SERVER.";dbname=".DB_NAME, DB_USER, DB_PASS);
         // vynuceni kodovani UTF-8
         $this->pdo->exec("set names utf8");
+
+        // inicializace objektu pro správu session
+        $this->mySession = new MySession(); // předpokládáme, že máte třídu MySession k dispozici
+
     }
 
 
@@ -239,7 +244,7 @@ class DatabaseModel {
      */
     public function getRightById(int $id){
         // ziskam pravo dle ID
-        $rights = $this->selectFromTable(TABLE_PRAVO, "", "", "id_pravo=:U_id_pravo");
+        $rights = $this->selectFromTable(TABLE_PRAVO, "", "", "id_pravo=:U_id_pravo", "", [":U_id_pravo" => $id]);
                 
         if(!empty($rights)){
             // dotaz neprošel
@@ -251,27 +256,21 @@ class DatabaseModel {
         }
 
     public function getPassByLogin(string $login){
-        // Ziskam heslo dle loginu
-        // Toto musim abych si mohl prihlasit kdyz pouzivam hesh
 
-        $pass = $this->selectFromTable(TABLE_UZIVATEL, 'heslo', $login);
-        
+        $q = "SELECT heslo FROM ".TABLE_UZIVATEL." WHERE login = :login";
+        $vystup = $this->pdo->prepare($q);
+        $vystup->bindValue(':login', $login);
+        $vystup->execute();
+    
+        // Zde potřebujete získat hodnotu hesla
+        $result = $vystup->fetch(); // Předpokládám, že chcete získat jeden řádek
+        $pass = $result['heslo'];
+    
+        echo var_dump($q);
+        die;
+
         return $pass;
 
-
-        if(empty($pass)){
-            return null;
-        } else {
-            // TODO: A nevím zda jsem nerozbil funkcionalitu, ale to zjistím po opravě MVC
-            if(!empty($pass)){
-                // vracim prvni nalezene pravo
-                return $pass[0];
-
-            } else {
-                // dotaz neprošel
-                return null;
-            }
-        }
     }
 
     /**
@@ -293,6 +292,7 @@ class DatabaseModel {
         $email = htmlspecialchars($email);
         $idPravo = htmlspecialchars($idPravo); // U id práva uživatel nic přidat svého nemůže. Nicméně stejně provedu úpravu pro 100% neprůsřelnost.
 
+
         // hlavicka pro vlozeni do tabulky uzivatelu
         $insertStatement = "login, heslo, jmeno, prijmeni, email, id_pravo";
 
@@ -300,7 +300,9 @@ class DatabaseModel {
         $insertValues = "':loginADD', ':hesloADD', ':jmenoADD', ':prijmeniADD', ':emailADD', 'id_pravoADD'";
         // provedu dotaz a vratim jeho vysledek
 
-        $vystup = $this->pdo->prepare($insertStatement);
+        $q = "INSERT INTO " . TABLE_UZIVATEL . "($insertStatement) VALUES ($insertValues);";
+
+        $vystup = $this->pdo->prepare($q);
         $vystup->bindValue(":loginADD", $login);
         $vystup->bindValue(":hesloADD", $heslo);
         $vystup->bindValue(":jmenoADD", $jmeno);
@@ -308,12 +310,28 @@ class DatabaseModel {
         $vystup->bindValue(":emailADD", $email);
         $vystup->bindValue(":id_pravoADD", $idPravo);
 
-       
+        $vystup->execute();
+    
+
+        // TODO: OPRAVIT (CHYBA: Invalid parameter number: number of bound variables does not match number of tokens)
+        echo var_dump($q);
+        die;
+        // Zde potřebujete získat hodnotu hesla
+        $result = $vystup->fetchAll(); // Předpokládám, že chcete získat jeden řádek
+    
+
+
+        
+
         if($vystup->execute()){
-            return $this->insertIntoTable(TABLE_UZIVATEL, $insertStatement, $insertValues);
+            $this -> executeQuery($q);
+            echo "Uživatel byl zaregistrován";
+            return true; // Vracíme true, pokud bylo úspěšné provedení dotazu
         } else {
             echo "Registrace se nezdařila";
+            return false;
         }
+
     }
 
     /**
@@ -336,28 +354,31 @@ class DatabaseModel {
         $jmeno = htmlspecialchars($jmeno);
         $prijmeni = htmlspecialchars($prijmeni);
         $email = htmlspecialchars($email);
-        $idPravo = htmlspecialchars($idPravo); // U id práva uživatel nic přidat svého nemůže. Nicméně stejně provedu úpravu pro 100% neprůsřelnost.
+        $idPravo = htmlspecialchars($idPravo); // U id práva uživatel nic přidat svého nemůže. Nicméně stejně provedu úpravu pro 100% neprůsřelnost
 
         // slozim cast s hodnotami
         $updateStatementWithValues = "login=':loginUPDATE', heslo=':hesloUPDATE', jmeno=':jmenoUPDATE', prijmeni=':prijmeniUPDATE', email=':emailUPDATE', id_pravo=':id_pravoUPDATE'";
 
-        $vystup = $this->pdo->prepare($updateStatementWithValues);
+        $q = "UPDATE". TABLE_UZIVATEL ."SET $updateStatementWithValues WHERE id_uzivatel=$idUzivatel";
+
+        $vystup = $this->pdo->prepare($q);
         $vystup->bindValue(":loginUPDATE", $login);
         $vystup->bindValue(":hesloUPDATE", $heslo);
         $vystup->bindValue(":jmenoUPDATE", $jmeno);
         $vystup->bindValue(":prijmeniUPDATE", $prijmeni);
         $vystup->bindValue(":emailUPDATE", $email);
         $vystup->bindValue(":id_pravoUPDATE", $idPravo);
-        // podminka
-        $whereStatement = "id_uzivatel=$idUzivatel";
+
 
         if($vystup->execute()){
-            // provedu update
-            return $this->updateInTable(TABLE_UZIVATEL, $updateStatementWithValues, $whereStatement);
+            $this -> executeQuery($q);
+            echo "Parametry změněny";
+            return true; // Vracíme true, pokud bylo úspěšné provedení dotazu
         } else {
-            echo "Úprava dat se nezdařila";
+            echo "Pametry se nepodařilo změnit";
+            return false;
         }
-
+        
         
     }
 
@@ -391,7 +412,7 @@ class DatabaseModel {
             // ziskal jsem uzivatele(Jestli zde vůbec nějakýho najdu)
             if(count($user)){
                 // ziskal - ulozim ID prvniho nalezeneho uzivatele do session
-                $this->mySession->addSession(self::KEY_USER, $user[0]['id_uzivatel']);
+                $this->mySession->addSession(self::KEY_USER, $user[0]['id_user']);
                 return true;
             }
             // neziskal jsem uzivatele(Zádného uživatele jsem nenašel)
@@ -459,6 +480,7 @@ class DatabaseModel {
         // Ošetření před XSS (Specialní charaktery, které by útočník zadával já převedu na jiné a neškodné)
         $foto = htmlspecialchars($foto); // Foto je jen název fotky v naší databázi
 
+        $q = "UPDATE". TABLE_UZIVATEL ."SET foto=':fotoFOTO' WHERE id_uzivatel=$idUzivatel";
 
         // Update fotky (defaultně je null)
         $updateStatementWithValues = "foto=':fotoFOTO'";
@@ -466,18 +488,15 @@ class DatabaseModel {
         $vystup = $this->pdo->prepare($updateStatementWithValues);
         $vystup->bindValue(":fotoFOTO", $foto);
 
-        // Podmínka, lterá zjistí pro jakého uživatele to je pomocí ID
-        $whereStatement = "id_uzivatel=':id_uzivatel'";
-
-        $vystup = $this->pdo->prepare($whereStatement);
-        $vystup->bindValue(":id_uzivatelFOTO", $idUzivatel);
 
 
         if($vystup->execute()){
-            // Nahrání fotky do databáze
-            return $this->updateInTable(TABLE_UZIVATEL, $updateStatementWithValues, $whereStatement);
+            $this -> executeQuery($q);
+            echo "Foto nahráno";
+            return true; // Vracíme true, pokud bylo úspěšné provedení dotazu
         } else {
-            echo "Přidání fotky se nezdařilo.";
+            echo "Foto nenahráno";
+            return false;
         }
 
     }
@@ -499,18 +518,31 @@ class DatabaseModel {
         // Hodnoty pro vložení do tabulky s hrami
         $insertValues = "':nazev_hryADDGAME', ':id_zanryADDGAME', ':foto_hryADDGAME', ':popisek_hryADDGAME'";
 
-        $vystup = $this->pdo->prepare($insertValues);
+        $q = "INSERT INTO " . TABLE_HRY . "($insertStatement) VALUES ($insertValues);";
+
+        $vystup = $this->pdo->prepare($q);
         $vystup->bindValue(":nazev_hryADDGAME", $nazev_hry);
         $vystup->bindValue(":id_zanryADDGAME", $id_zanry);
         $vystup->bindValue(":foto_hryADDGAME", $foto_hry);
         $vystup->bindValue(":popisek_hryADDGAME", $popisek_hry);
 
         if($vystup->execute()){
-            //Provedu výsledek a vrátím ho
-        return $this->insertIntoTable(TABLE_HRY, $insertStatement, $insertValues);
+            $this -> executeQuery($q);
+            echo "Uživatel byl zaregistrován";
+            return true; // Vracíme true, pokud bylo úspěšné provedení dotazu
         } else {
             echo "Přidání hry se nezdařilo.";
         }
+    }
+
+    public function getAllGames(){
+        // pripravim dotaz
+        $q = "SELECT * FROM ".TABLE_HRY;
+
+        $hry = $this->selectFromTable(TABLE_HRY, "", "", "nazev_hry");
+
+        return $hry;
+
     }
 
     ///////////////////  KONEC: Sprava prihlaseni uzivatele  ////////////////////////////////////////

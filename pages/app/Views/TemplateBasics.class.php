@@ -20,12 +20,17 @@ class TemplateBasics implements IView {
     const PAGE_USER_UPDATE = "user-update-Template.tpl.php";
     /** @var string PAGE_RECENZE  Sablona se recenzemi her. */
     const PAGE_RECENZE = "recenze-Template.tpl.php";
+    /** @var string PAGE_RECENZE  Sablona se recenzemi her. */
+    const PAGE_GAMES = "games-Template.tpl.php";    
 
+
+    
     /**
      * Zajisti vypsani HTML sablony prislusne stranky.
      * @param array $templateData       Data stranky.
      * @param string $pageType          Typ vypisovane stranky.
      */
+    
     public function printOutput(array $templateData, string $pageType = self::PAGE_LOGIN)
     {
         //// vypis hlavicky
@@ -42,12 +47,14 @@ class TemplateBasics implements IView {
         $this->getHTMLFooter();
     }
 
+    
+
 
     /**
      *  Vrati vrsek stranky az po oblast, ve ktere se vypisuje obsah stranky.
      *  @param string $pageTitle    Nazev stranky.
      */
-    public function getHTMLHeader(string $pageTitle) {
+    public function getHTMLHeader(string $pageTitle, string $pageType = self::PAGE_LOGIN) {
         ?>
         <html lang="en">
         <head>
@@ -128,27 +135,7 @@ class TemplateBasics implements IView {
         </html>
         <?php
     }  
-    
-    public function getGamePanel(){
-        ?>
-<div class="container-fluid">
-  <div class="row">
-    <div class="col-sm-4 col-xs-12">
-      <div class="panel panel-default text-center">
-        <div class="panel-heading">
-          <h1>Nazev hry</h1>
-        </div>
-        <div class="panel-body">
-          <p><strong>zanr</strong></p>
-          <p><strong>FOTO</strong></p>
-          <p><strong>Popisek stucny</strong></p>
-        </div>
-      </div>      
-    </div>     
-  </div>
-</div>
-        <?php
-    }  
+      
 }
 
 ?>

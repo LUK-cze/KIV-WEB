@@ -1,9 +1,10 @@
 <?php
     // Naše hlavička stránky
 
+use kivweb\Models\DatabaseModel;
 use kivweb\Views\TemplateBasics;
 
-    TemplateBasics::getHTMLHeader("Úprava osobních údajů uživatele");
+    $myDB = new DatabaseModel();
 
     // 😡 --- PRO NEPRIHLASENE UZIVATELE --- 😡
     if(!$myDB->isUserLogged()){
@@ -88,6 +89,4 @@ use kivweb\Views\TemplateBasics;
     }
     // 🤑 --- KONEC: PRO PRIHLASENE UZIVATELE --- 🤑
 
-    // Patička (viz ZakladHTML)
-    TemplateBasics::getHTMLFooter();
 ?>

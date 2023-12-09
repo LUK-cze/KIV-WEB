@@ -1,19 +1,17 @@
 <?php
 
-namespace kivweb\Views\TemplateBased;
+namespace kivweb\Views;
 
+use kivweb\Models\DatabaseModel;
 use kivweb\Views\TemplateBasics;
 use kivweb\Views\IView;
 
-
-
-    // Načítání modulu hlavičky, který je v souboru ZakladHTML.class.php
-    TemplateBasics::getHTMLHeader("Přihlášení a odhlášení uživatele");
-
-   
+    $myDB = new DatabaseModel();
 
     ///////////// 😡 --- PRO NEPŘIHLÁŠENÉ UŽIVATELE --- 😡 ///////////////
     // pokud uzivatel neni prihlasen nebo nebyla ziskana jeho data, tak vypisu prihlasovaci formular
+
+
     if(!$myDB->isUserLogged()){
 ?>
     <div class="container mt-5">
@@ -93,6 +91,4 @@ use kivweb\Views\IView;
     }
     ///////////// KONEC: PRO PRIHLASENE UZIVATELE ///////////////
 
-    // Patička co je vytvořena v jiném soboru (viz. hlavička ⬆⬆⬆)
-    TemplateBasics::getHTMLFooter();
 ?>

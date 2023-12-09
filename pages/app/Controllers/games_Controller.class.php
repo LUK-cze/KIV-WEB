@@ -1,21 +1,8 @@
 <?php
 
-/*
-
-╔══════════════════════════════════╗
-║                                  ║
-║         Update uživatele         ║
-║                                  ║
-╚══════════════════════════════════╝
-
-Zde si uživatel může upravit svoje údaje co má uložené v databázi
-
-*/
-
-
 namespace kivweb\Controllers;
 
-use kivweb\Models\DatabaseModel as MyDB;
+use kivweb\Models\DatabaseModel;
 
 // nactu rozhrani kontroleru
 //require_once(DIRECTORY_CONTROLLERS."/IController.interface.php");
@@ -24,9 +11,9 @@ use kivweb\Models\DatabaseModel as MyDB;
  * Ovladac zajistujici vypsani uvodni stranky.
  * @package kivweb\Controllers
  */
-class UserUpdateController implements IController {
+class games_Controller implements IController {
 
-    /** @var MyDB $db  Sprava databaze. */
+    /** @var DatabaseModel $db  Sprava databaze. */
     private $db;
 
     /**
@@ -35,7 +22,7 @@ class UserUpdateController implements IController {
     public function __construct() {
         // inicializace prace s DB
         //require_once (DIRECTORY_MODELS ."/DatabaseModel.class.php");
-        $this->db = MyDB::getDatabaseModel();
+        $this->db = DatabaseModel::getDatabaseModel();
     }
 
     /**
@@ -48,21 +35,15 @@ class UserUpdateController implements IController {
         $tplData = [];
         // nazev
         $tplData['title'] = $pageTitle;
-        // data pohadek
-        $tplData['stories'] = $this->db->getAllIntroductions();
+
+
+        //// nactu aktualni data her
+        $tplData['hry'] = $this->db->getAllGames();
 
         // vratim sablonu naplnenou daty
         return $tplData;
     }
     
 }
-
-   // Pokud je uživatel přihlášen, tak získám jeho data
-    if($myDB->isUserLogged()){
-        // Získání dat
-        $userData = $myDB->getLoggedUserData();
-    }
-
-
 
 ?>

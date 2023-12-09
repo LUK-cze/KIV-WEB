@@ -17,8 +17,13 @@ přístup do databáze
 
 require_once ('myAutoloader.inc.php');
 
+use kivweb\Controllers\games_Controller;
 use kivweb\Controllers\LoginController;
-use kivweb\Views\TemplateBased\TemplateBasics;
+use kivweb\Controllers\user_login_Controller;
+use kivweb\Controllers\user_management_Controller;
+use kivweb\Controllers\user_registration_Controller;
+use kivweb\Controllers\user_update_Controller;
+use kivweb\Views\TemplateBasics;
 
     define("DB_SERVER","localhost");
     define("DB_NAME","kivweb");
@@ -63,7 +68,7 @@ TODO: Jestli nevyužiji tak smazat
         "title" => "Úvodní stránka",
 
         // kontroler
-        "controller_class_name" => LoginController::class, // poskytne nazev tridy vcetne namespace
+        "controller_class_name" => user_login_Controller::class, // poskytne nazev tridy vcetne namespace
 
         // TemplateBased sablona
         "view_class_name" => TemplateBasics::class,
@@ -76,7 +81,7 @@ TODO: Jestli nevyužiji tak smazat
         "title" => "Správa uživatelů",
 
         //// kontroler
-        "controller_class_name" => UserManagementController::class,
+        "controller_class_name" => user_management_Controller::class,
 
         // TemplateBased sablona
         "view_class_name" => TemplateBasics::class,
@@ -90,7 +95,7 @@ TODO: Jestli nevyužiji tak smazat
         "title" => "Registrace",
 
         //// kontroler
-        "controller_class_name" => UserRegistrationController::class,
+        "controller_class_name" => user_registration_Controller::class,
 
         // TemplateBased sablona
         "view_class_name" => TemplateBasics::class,
@@ -103,7 +108,7 @@ TODO: Jestli nevyužiji tak smazat
     "update" => array(
         "title" => "Update uživatele",
         //// kontroler
-        "controller_class_name" => RecenzeController::class,
+        "controller_class_name" => user_update_Controller::class,
 
         // TemplateBased sablona
         "view_class_name" => TemplateBasics::class,
@@ -117,11 +122,23 @@ TODO: Jestli nevyužiji tak smazat
         "title" => "Recenze",
 
         //// kontroler
-        "controller_class_name" => RecenzeController::class,
+        "controller_class_name" => recenze_Controller::class,
 
         // TemplateBased sablona
         "view_class_name" => TemplateBasics::class,
         "template_type" => TemplateBasics::PAGE_RECENZE,
+    ),
+    //// KONEC: Recenze ////
+
+    "hry" => array(
+        "title" => "Recenze",
+
+        //// kontroler
+        "controller_class_name" => games_Controller::class,
+
+        // TemplateBased sablona
+        "view_class_name" => TemplateBasics::class,
+        "template_type" => TemplateBasics::PAGE_GAMES,
     ),
     //// KONEC: Recenze ////
 

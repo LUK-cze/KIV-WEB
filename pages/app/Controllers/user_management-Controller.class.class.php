@@ -12,7 +12,7 @@ use kivweb\Models\DatabaseModel as MyDB;
  * Ovladac zajistujici vypsani stranky se spravou uzivatelu.
  * @package kivweb\Controllers
  */
-class UserManagementController implements IController {
+class user_management_Controller implements IController {
 
     /** @var MyDB $db  Sprava databaze. */
     private $db;
