@@ -70,11 +70,12 @@ class TemplateBasics implements IView {
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
 
-        <link rel="icon" href="../icons/controller.svg" sizes="any" type="image/svg+xml">
+        <link rel="icon" href="../img/icons/controller.svg" sizes="any" type="image/svg+xml">
 
         <link rel="stylesheet" href="../css/css.css">
         <link rel="stylesheet" href="../css/navbar.css">
         <link rel="stylesheet" href="../css/login.css">
+        <link rel="stylesheet" href="../css/games.css">
 
 
 
@@ -133,6 +134,7 @@ class TemplateBasics implements IView {
                 </div>
             </body>
         </html>
+     
         <?php
     }  
       

@@ -264,12 +264,15 @@ class DatabaseModel {
     
         // Zde potřebujete získat hodnotu hesla
         $result = $vystup->fetch(); // Předpokládám, že chcete získat jeden řádek
-        $pass = $result['heslo'];
-    
-        echo var_dump($q);
-        die;
 
-        return $pass;
+        // Kontrola, zda byl návratový výsledek řádek
+        if ($result !== false) {
+            $pass = $result['heslo'];
+            return $pass;
+        } else {
+            // Žádný řádek nebyl nalezen
+            return null;
+        }
 
     }
 

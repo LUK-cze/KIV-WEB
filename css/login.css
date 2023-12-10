@@ -39,13 +39,13 @@ input {
 .jmeno input::-moz-placeholder {
   color: #FF5964;
   font-size: 20px;
-  background: transparent url(../icons/person.svg) no-repeat right 10px center;
+  background: transparent url(../img/icons/person.svg) no-repeat right 10px center;
   background-size: 25px;
 }
 .jmeno input::placeholder {
   color: #FF5964;
   font-size: 20px;
-  background: transparent url(../icons/person.svg) no-repeat right 10px center;
+  background: transparent url(../img/icons/person.svg) no-repeat right 10px center;
   background-size: 25px;
 }
 .jmeno input:focus {
@@ -70,13 +70,13 @@ input {
 .prijmeni input::-moz-placeholder {
   color: #FF5964;
   font-size: 20px;
-  background: transparent url(../icons/gem.svg) no-repeat right 10px center;
+  background: transparent url(../img/icons/gem.svg) no-repeat right 10px center;
   background-size: 20px;
 }
 .prijmeni input::placeholder {
   color: #FF5964;
   font-size: 20px;
-  background: transparent url(../icons/gem.svg) no-repeat right 10px center;
+  background: transparent url(../img/icons/gem.svg) no-repeat right 10px center;
   background-size: 20px;
 }
 .prijmeni input:focus {
@@ -101,13 +101,13 @@ input {
 .gamertag input::-moz-placeholder {
   color: #FF5964;
   font-size: 20px;
-  background: transparent url(../icons/controller.svg) no-repeat right 10px center;
+  background: transparent url(../img/icons/controller.svg) no-repeat right 10px center;
   background-size: 20px;
 }
 .gamertag input::placeholder {
   color: #FF5964;
   font-size: 20px;
-  background: transparent url(../icons/controller.svg) no-repeat right 10px center;
+  background: transparent url(../img/icons/controller.svg) no-repeat right 10px center;
   background-size: 20px;
 }
 .gamertag input:focus {
@@ -132,13 +132,13 @@ input {
 .pass input::-moz-placeholder {
   color: #FF5964;
   font-size: 20px;
-  background: transparent url(../icons/lock-fill.svg) no-repeat right 10px center;
+  background: transparent url(../img/icons/lock-fill.svg) no-repeat right 10px center;
   background-size: 20px;
 }
 .pass input::placeholder {
   color: #FF5964;
   font-size: 20px;
-  background: transparent url(../icons/lock-fill.svg) no-repeat right 10px center;
+  background: transparent url(../img/icons/lock-fill.svg) no-repeat right 10px center;
   background-size: 20px;
 }
 .pass input:focus {
@@ -163,13 +163,13 @@ input {
 .email input::-moz-placeholder {
   color: #FF5964;
   font-size: 20px;
-  background: transparent url(../icons/envelope-paper-heart.svg) no-repeat right 10px center;
+  background: transparent url(../img/icons/envelope-paper-heart.svg) no-repeat right 10px center;
   background-size: 20px;
 }
 .email input::placeholder {
   color: #FF5964;
   font-size: 20px;
-  background: transparent url(../icons/envelope-paper-heart.svg) no-repeat right 10px center;
+  background: transparent url(../img/icons/envelope-paper-heart.svg) no-repeat right 10px center;
   background-size: 20px;
 }
 .email input:focus {

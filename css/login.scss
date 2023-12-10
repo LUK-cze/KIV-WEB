@@ -39,7 +39,7 @@ input{
     &::placeholder {
       color: $pink;
       font-size: 20px;
-      background: transparent url(../icons/person.svg) no-repeat right 10px center;
+      background: transparent url(../img/icons/person.svg) no-repeat right 10px center;
       background-size: 25px;
     }
   }
@@ -68,7 +68,7 @@ input{
       &::placeholder {
         color: $pink;
         font-size: 20px;
-        background: transparent url(../icons/gem.svg) no-repeat right 10px center;
+        background: transparent url(../img/icons/gem.svg) no-repeat right 10px center;
         background-size: 20px;
       }
     }
@@ -97,7 +97,7 @@ input{
       &::placeholder {
         color: $pink;
         font-size: 20px;
-        background: transparent url(../icons/controller.svg) no-repeat right 10px center;
+        background: transparent url(../img/icons/controller.svg) no-repeat right 10px center;
         background-size: 20px;
       }
     }
@@ -126,7 +126,7 @@ input{
       &::placeholder {
         color: $pink;
         font-size: 20px;
-        background: transparent url(../icons/lock-fill.svg) no-repeat right 10px center;
+        background: transparent url(../img/icons/lock-fill.svg) no-repeat right 10px center;
         background-size: 20px;
       }
     }
@@ -155,7 +155,7 @@ input{
       &::placeholder {
         color: $pink;
         font-size: 20px;
-        background: transparent url(../icons/envelope-paper-heart.svg) no-repeat right 10px center;
+        background: transparent url(../img/icons/envelope-paper-heart.svg) no-repeat right 10px center;
         background-size: 20px;
       }
     }

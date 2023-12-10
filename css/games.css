@@ -1,0 +1,71 @@
+@charset "UTF-8";
+/* Import proměnných
+*/
+/*
+Moje paleta barev:
+*/
+.col-sm-4, .col-xs-12 {
+  padding: 20px 10px;
+}
+
+.item h4 {
+  font-size: 19px;
+  line-height: 1.375em;
+  font-weight: 400;
+  font-style: italic;
+  margin: 70px 0;
+}
+
+.panel {
+  border: 1px solid #F26419;
+  border-radius: 0 !important;
+  filter: grayscale(100%);
+  transition: filter 0.3s ease-in-out;
+  text-align: center;
+  display: block;
+  background-color: white;
+}
+.panel:hover {
+  border: 1px solid #F26419;
+  transition: box-shadow 0.3s;
+  filter: grayscale(0%);
+  transition: filter 0.3s ease-in-out;
+  box-shadow: 5px 0px 40px rgba(0, 0, 0, 0.2);
+  transition: box-shadow 0.3s;
+}
+.panel:hover h1 {
+  color: white;
+  text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+}
+
+.panel-heading {
+  background-color: #F8333C;
+  padding: 25px;
+  border-bottom: 1px solid transparent;
+  border-top-left-radius: 0px;
+  border-top-right-radius: 0px;
+  border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 0px;
+  height: 200px;
+  color: white !important;
+  background-size: cover;
+  background-image: url(../img/svg/game-panel.svg);
+  background-repeat: repeat;
+}
+
+.panel-body {
+  padding: 5px;
+  height: 200px;
+  contain: paint;
+  overflow: auto; /* Přidáváme overflow pro scrolování */
+}
+
+@media screen and (max-width: 768px) {
+  .col-sm-4 {
+    text-align: center;
+    margin: 25px 0;
+  }
+  .col-sm-4 .panel-body {
+    height: 210px;
+  }
+}/*# sourceMappingURL=games.css.map */

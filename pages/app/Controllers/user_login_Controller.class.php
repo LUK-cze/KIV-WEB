@@ -75,6 +75,7 @@ class user_login_Controller implements IController {
 
         if(password_verify($_POST['login'], $hash)){
 
+            //TODO: OPRAVIT
             echo "verify prosel";
 
                 // pokusim se prihlasit uzivatele
