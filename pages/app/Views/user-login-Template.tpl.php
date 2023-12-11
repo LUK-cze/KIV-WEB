@@ -11,9 +11,11 @@ use kivweb\Views\IView;
     ///////////// 😡 --- PRO NEPŘIHLÁŠENÉ UŽIVATELE --- 😡 ///////////////
     // pokud uzivatel neni prihlasen nebo nebyla ziskana jeho data, tak vypisu prihlasovaci formular
 
-
+    echo print_r($_SESSION);
     if(!$myDB->isUserLogged()){
+        
 ?>
+
         <div class="container mt-5">
             <div class="row">
                 <div class="col-sm-8">
@@ -82,7 +84,7 @@ use kivweb\Views\IView;
 
     ///////////// 🤑 --- PRO PRIHLASENE UZIVATELE --- 🤑 /////////////
         // ziskam nazev prava uzivatele, abych ho mohl vypsat
-        $pravo = $myDB->getRightById($user["id_pravo"]);
+        $pravo = $myDB->getRightById($_SESSION["id_pravo"]);
         // ziskam nazev
         $pravoNazev = ($pravo == null) ? "*Neznámé*" : $pravo['nazev'];
 

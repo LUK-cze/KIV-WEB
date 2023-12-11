@@ -73,16 +73,17 @@ class user_login_Controller implements IController {
         $hash = $this -> myDB -> getPassByLogin($_POST['login']);
 
 
-        if(password_verify($_POST['login'], $hash)){
+
+        if(password_verify($_POST['heslo'], $hash)){
 
             //TODO: OPRAVIT
             echo "verify prosel";
 
                 // pokusim se prihlasit uzivatele
-                $res = $this -> myDB->userLogin($_POST['login'], $_POST['heslo']);
+                $res = $this -> myDB->userLogin($_POST['login'], $hash);
                 if($res){
                     echo "OK: Uživatel byl přihlášen.";
-                    header("Location: index.php?page=login#about");
+                    header("Location: ?page=login#about");
                     exit;
                 } else {
                     echo "ERROR: Přihlášení uživatele se nezdařilo.";

@@ -396,32 +396,32 @@ class DatabaseModel {
      * @param string $heslo     Heslo uzivatele.
      * @return bool             Byl prihlasen?
      */
-    public function userLogin(string $login, string $heslo):bool {
+    public function userLogin( $login,  $heslo):bool {
 
-        // Ošetření před XSS (Specialní charaktery, které by útočník zadával já převedu na jiné a neškodné)
+       /* // Ošetření před XSS (Specialní charaktery, které by útočník zadával já převedu na jiné a neškodné)
         $login = htmlspecialchars($login);
         $heslo = htmlspecialchars($heslo);
 
+        */
         // ziskam uzivatele z DB - primo overuju login i heslo
-        $where = "login=':loginLOG' AND heslo=':hesloLOG'";
+        $q = "SELECT * FROM ".TABLE_UZIVATEL." WHERE login=:loginLOG AND heslo=:hesloLOG";
 
-        $vystup = $this->pdo->prepare($where);
+        $vystup = $this->pdo->prepare($q);
         $vystup->bindValue(":loginLOG", $login);
         $vystup->bindValue(":hesloLOG", $heslo);
 
-        if($vystup->execute()){
-            $user = $this->selectFromTable(TABLE_UZIVATEL, "", $where);
 
-            // ziskal jsem uzivatele(Jestli zde vůbec nějakýho najdu)
-            if(count($user)){
-                // ziskal - ulozim ID prvniho nalezeneho uzivatele do session
-                $this->mySession->addSession(self::KEY_USER, $user[0]['id_user']);
-                return true;
-            }
-            // neziskal jsem uzivatele(Zádného uživatele jsem nenašel)
+        $vystup -> execute();
+
+        $vysledek = $vystup -> fetchAll(); 
+
+        if ($vysledek == null){
             return false;
         } else {
-            echo "Přihlášení se nezdařilo";
+            $this->mySession->addSession(self::KEY_USER, $vysledek[0]["id_uzivatel"] );
+             $this->mySession->addSession("id_pravo", $vysledek[0]["id_pravo"] );
+
+            return true;
         }
 
     }
@@ -438,7 +438,8 @@ class DatabaseModel {
      *
      * @return bool     Je prihlasen?
      */
-    public function isUserLogged():bool {
+    public function isUserLogged() : bool {
+        echo $_SESSION[self::KEY_USER];
         return $this->mySession->isSessionSet(self::KEY_USER);
     }
 
