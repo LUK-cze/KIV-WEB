@@ -1,10 +1,13 @@
 <?php
-
 namespace kivweb\Views;
 
 use kivweb\Models\DatabaseModel;
 use kivweb\Views\TemplateBasics;
 use kivweb\Views\IView;
+
+?>
+
+<?php
 
     $myDB = new DatabaseModel();
 
@@ -26,7 +29,7 @@ use kivweb\Views\IView;
                 <div class='col-sm-4 col-xs-12'>
                   <div class='panel panel-default text-center'>
                     <div class='panel-heading' style='background-image: url(../img/game_panel/$foto_hry);'>
-                      <h1> $h[nazev_hry] </h1>         
+                      <h1 id='$h[nazev_hry]'> $h[nazev_hry] </h1>         
                       </div>
                       <div class='panel-body'>
                         <p class='zanr'><strong> $h[zanr] </strong></p>

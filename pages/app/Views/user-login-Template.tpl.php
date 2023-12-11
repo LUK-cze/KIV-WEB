@@ -8,10 +8,10 @@ use kivweb\Views\IView;
 
     $myDB = new DatabaseModel();
 
+
     ///////////// 😡 --- PRO NEPŘIHLÁŠENÉ UŽIVATELE --- 😡 ///////////////
     // pokud uzivatel neni prihlasen nebo nebyla ziskana jeho data, tak vypisu prihlasovaci formular
 
-    echo print_r($_SESSION);
     if(!$myDB->isUserLogged()){
         
 ?>
@@ -84,9 +84,10 @@ use kivweb\Views\IView;
 
     ///////////// 🤑 --- PRO PRIHLASENE UZIVATELE --- 🤑 /////////////
         // ziskam nazev prava uzivatele, abych ho mohl vypsat
-        $pravo = $myDB->getRightById($_SESSION["id_pravo"]);
+        $pravo = $myDB->getRightNameById($_SESSION["id_pravo"]);
+
         // ziskam nazev
-        $pravoNazev = ($pravo == null) ? "*Neznámé*" : $pravo['nazev'];
+        $pravoNazev = ($pravo == null) ? "*Neznámé*" : $pravo;
 
 ?>
 
@@ -101,11 +102,38 @@ use kivweb\Views\IView;
             <div class="col-sm-4">
                 <div class="login">
                 <fieldset>
-                    <legend><h3>Vítej <?php echo $user['jmeno'] ; ?></h3></legend>
-                    Login: <?php echo $user['login'] ; ?>
-                    Jméno: <?php echo $user['jmeno'] ; ?>
-                    E-mail: <?php echo $user['email'] ; ?>
-                    Právo: <?php echo $pravoNazev ; ?>
+                    <legend><h3>Vítej <?php echo $_SESSION['jmeno'] ; ?></h3></legend>
+                    <div class="parametry">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                User Name: <?php echo $_SESSION['login'] ; ?>
+                                </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-12">
+                                Jméno: <?php echo $_SESSION['jmeno'] ; ?>
+                                </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-12">
+                                Příjmení: <?php echo $_SESSION['prijmeni'] ; ?>
+                                </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-12">
+                                E-mail: <?php echo $_SESSION['email'] ; ?>
+                                </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-12">
+                                Právo: <?php echo $pravoNazev ; ?>
+                            </div>
+                        </div>
+                    </div>
 
                     <form action="index.php" method="POST">
                       <input type="hidden" name="action" value="logout">
@@ -115,12 +143,6 @@ use kivweb\Views\IView;
                 </div>  
             </div>
         </div>
-
-        Odhlášení uživatele:
-        <form action="" method="POST">
-            <input type="hidden" name="action" value="logout">
-            <input type="submit" name="potvrzeni" value="Odhlásit">
-        </form>
 
         <div class="row">
         <div id="how" class="container gray mt-5">

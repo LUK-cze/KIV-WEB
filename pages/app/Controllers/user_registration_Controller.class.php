@@ -39,15 +39,15 @@ class user_registration_Controller implements IController {
         $tplData['stories'] = $this->myDB->getAllIntroductions();
 
 
-
-
         // zpracovani formulare pro registraci uzivatele
         if(!empty($_POST['action'])){
             // mam vsechny pozadovane hodnoty?
             if(!empty($_POST['login']) && !empty($_POST['heslo']) && !empty($_POST['heslo2'])
-                && !empty($_POST['jmeno']) && !empty($_POST['prijmeni']) && !empty($_POST['email']) && !empty($_POST['pravo'])
+                && !empty($_POST['jmeno']) && !empty($_POST['prijmeni']) && !empty($_POST['email'])
                 && $_POST['heslo'] == $_POST['heslo2']
+
             ){
+
                 // --- Zde hashuji heslo. ---  
                 // Nepoužívám md_5. Ikdyž je celkem dobrý dneska jde velmi lehce prolomit.
                 // Proto používám BCRYPT 
@@ -58,14 +58,17 @@ class user_registration_Controller implements IController {
 
 
                 // Ukládání do databáze
-                $res = $this -> myDB->addNewUser($_POST['login'], $hash, $_POST['jmeno'], $_POST['prijmeni'], $_POST['email'], $_POST['pravo']);
+                $res = $this -> myDB->addNewUser($_POST['login'], $hash, $_POST['jmeno'], $_POST['prijmeni'], $_POST['email']);
                 // Kontrola
+
                 if($res){
                     echo "OK: Uživatel byl přidán do databáze.";
                 } else {
                     echo "ERROR: Uložení uživatele se nezdařilo.";
                 }
             } else {
+                echo var_dump($_POST);
+                die;
                 // Nebyli přijaté všchny atrituty (Nemělo by se to stát, protože toto kontoluji v HTML)
                 echo "ERROR: Nebyly přijaty požadované atributy uživatele.";
             }

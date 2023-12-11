@@ -26,9 +26,6 @@ Zde můžou uživatelé s dostatečným právem upravovat zaregistrovane uživat
     require_once("MyDatabase.class.php"); // ZAJÍMAVOST: Zde nemusím používat závorky, ale je dobré je tu mít
     $myDB = new DatabaseModel();
 
-    // Načtení hlavičky
-    TemplateBasics::getHTMLHeader("Úprava osobních údajů uživatele");
-
     // Pokud je uživatel přihlášen, tak získám jeho data
     if($myDB->isUserLogged()){
         // Získání data přihlášeného uživatele
@@ -89,7 +86,5 @@ Zde můžou uživatelé s dostatečným právem upravovat zaregistrovane uživat
     // 🤑 --- KONEC: PRO PŘIHLÁŠÉNE UŽIVATELE S PRÁVEM ADMIN --- 🤑
     }
 
-    // paticka
-    TemplateBasics::getHTMLFooter();
 ?>
 

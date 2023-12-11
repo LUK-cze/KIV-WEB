@@ -64,6 +64,7 @@ use kivweb\Models\DatabaseModel;
                   </div>
 
                   <!--
+                    TODO: Smaz pokud nepotrebujes
                   <div class="row">
                     <div class="col-sm-6 pravo">
                      <p>Zvol právo:</p>
@@ -83,7 +84,7 @@ use kivweb\Models\DatabaseModel;
                 </div>
                         -->
 
-                <button class="btn btn-sub" type="submit" name="action" value="login">Zaregistruj se</button>
+                <button class="btn btn-sub" type="submit" name="action" value="registrace">Zaregistruj se</button>
                 <button class="btn btn-res" type="reset">Smazat údaje</button>
           </div>        
                 <h4>Maš už účet? Přihlaš se <a href="index.php?page=login">ZDE</a>.</h4>

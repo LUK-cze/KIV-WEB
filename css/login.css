@@ -23,6 +23,10 @@ input {
   background-image: linear-gradient(#FF5964 25%, #FFE74C);
 }
 
+.parametry {
+  font-size: 20px;
+}
+
 .jmeno {
   position: relative;
 }

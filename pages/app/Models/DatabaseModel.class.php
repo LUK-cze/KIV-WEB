@@ -242,17 +242,27 @@ class DatabaseModel {
      * @param int $id       ID prava.
      * @return array        Data nalezeneho prava.
      */
-    public function getRightById(int $id){
+    public function getRightNameById(int $id){
         // ziskam pravo dle ID
-        $rights = $this->selectFromTable(TABLE_PRAVO, "", "", "id_pravo=:U_id_pravo", "", [":U_id_pravo" => $id]);
+        $right = $this->selectFromTable(TABLE_PRAVO, "", "", "id_pravo");
+
+        $q = "SELECT nazev FROM ".TABLE_PRAVO." WHERE id_pravo = :id_pravo";
+
+        $vystup = $this->pdo->prepare($q);
+        $vystup->bindValue(':id_pravo', $id);
+        $vystup->execute();
                 
-        if(!empty($rights)){
-            // dotaz neprošel
+        // Zde potřebujete získat hodnotu hesla
+        $result = $vystup->fetch(); 
+
+        // Kontrola, zda byl návratový výsledek řádek
+        if ($result !== false) {
+            $RightJmeno = $result['nazev'];
+            return $RightJmeno;
+        } else {
+            // Žádný řádek nebyl nalezen
             return null;
-        }else {
-            // dotaz prošel
-            return $rights;
-            }
+        }
         }
 
     public function getPassByLogin(string $login){
@@ -263,7 +273,7 @@ class DatabaseModel {
         $vystup->execute();
     
         // Zde potřebujete získat hodnotu hesla
-        $result = $vystup->fetch(); // Předpokládám, že chcete získat jeden řádek
+        $result = $vystup->fetch();
 
         // Kontrola, zda byl návratový výsledek řádek
         if ($result !== false) {
@@ -285,7 +295,8 @@ class DatabaseModel {
      * @param int $idPravo      Je cizim klicem do tabulky s pravy.
      * @return bool             Vlozen v poradku?
      */
-    public function addNewUser(string $login, string $heslo, string $jmeno, string $prijmeni, string $email, int $idPravo = 4){
+    public function addNewUser(string $login, string $heslo, string $jmeno, string $prijmeni, string $email){
+        $idPravo = 4;
 
         // Ošetření před XSS (Specialní charaktery, které by útočník zadával já převedu na jiné a neškodné)
         $login = htmlspecialchars($login);
@@ -300,34 +311,28 @@ class DatabaseModel {
         $insertStatement = "login, heslo, jmeno, prijmeni, email, id_pravo";
 
         // hodnoty pro vlozeni do tabulky uzivatelu
-        $insertValues = "':loginADD', ':hesloADD', ':jmenoADD', ':prijmeniADD', ':emailADD', 'id_pravoADD'";
+        $insertValues = ":login, :heslo, :jmeno, :prijmeni, :email, :id_pravo";
         // provedu dotaz a vratim jeho vysledek
 
         $q = "INSERT INTO " . TABLE_UZIVATEL . "($insertStatement) VALUES ($insertValues);";
 
         $vystup = $this->pdo->prepare($q);
-        $vystup->bindValue(":loginADD", $login);
-        $vystup->bindValue(":hesloADD", $heslo);
-        $vystup->bindValue(":jmenoADD", $jmeno);
-        $vystup->bindValue(":prijmeniADD", $prijmeni);
-        $vystup->bindValue(":emailADD", $email);
-        $vystup->bindValue(":id_pravoADD", $idPravo);
-
-        $vystup->execute();
-    
-
+        $vystup->bindValue(":login", $login);
+        $vystup->bindValue(":heslo", $heslo);
+        $vystup->bindValue(":jmeno", $jmeno);
+        $vystup->bindValue(":prijmeni", $prijmeni);
+        $vystup->bindValue(":email", $email);
+        $vystup->bindValue(":id_pravo", $idPravo);
+        
+        /*
         // TODO: OPRAVIT (CHYBA: Invalid parameter number: number of bound variables does not match number of tokens)
-        echo var_dump($q);
+        echo var_dump($vystup);
         die;
         // Zde potřebujete získat hodnotu hesla
-        $result = $vystup->fetchAll(); // Předpokládám, že chcete získat jeden řádek
-    
-
-
-        
+        */
 
         if($vystup->execute()){
-            $this -> executeQuery($q);
+            //$this -> executeQuery($q);
             echo "Uživatel byl zaregistrován";
             return true; // Vracíme true, pokud bylo úspěšné provedení dotazu
         } else {
@@ -419,7 +424,11 @@ class DatabaseModel {
             return false;
         } else {
             $this->mySession->addSession(self::KEY_USER, $vysledek[0]["id_uzivatel"] );
-             $this->mySession->addSession("id_pravo", $vysledek[0]["id_pravo"] );
+            $this->mySession->addSession("id_pravo", $vysledek[0]["id_pravo"] );
+            $this->mySession->addSession("jmeno", $vysledek[0]["jmeno"] );
+            $this->mySession->addSession("prijmeni", $vysledek[0]["prijmeni"] );
+            $this->mySession->addSession("login", $vysledek[0]["login"] );
+            $this->mySession->addSession("email", $vysledek[0]["email"] );
 
             return true;
         }
@@ -439,7 +448,7 @@ class DatabaseModel {
      * @return bool     Je prihlasen?
      */
     public function isUserLogged() : bool {
-        echo $_SESSION[self::KEY_USER];
+        //echo $_SESSION[self::KEY_USER];
         return $this->mySession->isSessionSet(self::KEY_USER);
     }
 
