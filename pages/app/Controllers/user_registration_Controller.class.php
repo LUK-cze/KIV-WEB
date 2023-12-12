@@ -67,8 +67,6 @@ class user_registration_Controller implements IController {
                     echo "ERROR: Uložení uživatele se nezdařilo.";
                 }
             } else {
-                echo var_dump($_POST);
-                die;
                 // Nebyli přijaté všchny atrituty (Nemělo by se to stát, protože toto kontoluji v HTML)
                 echo "ERROR: Nebyly přijaty požadované atributy uživatele.";
             }

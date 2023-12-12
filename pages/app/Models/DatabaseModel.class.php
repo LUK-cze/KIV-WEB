@@ -558,6 +558,16 @@ class DatabaseModel {
 
     }
 
+    public function getAllRecenze(){
+        // pripravim dotaz
+        $q = "SELECT * FROM ".TABLE_RECENZE;
+
+        $hry = $this->selectFromTable(TABLE_RECENZE, "", "", "hodnoceni");
+
+        return $hry;
+
+    }
+
     ///////////////////  KONEC: Sprava prihlaseni uzivatele  ////////////////////////////////////////
 
 }

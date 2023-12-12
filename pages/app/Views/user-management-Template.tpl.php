@@ -5,6 +5,8 @@
 //    <button type='submit' name='action' value='delete'>Smazat</button>
 //</form>
 
+
+namespace kivweb\Views;
 use kivweb\Models\DatabaseModel;
 use kivweb\Views\TemplateBasics;
 
@@ -22,14 +24,11 @@ use kivweb\Views\TemplateBasics;
 Zde můžou uživatelé s dostatečným právem upravovat zaregistrovane uživatele
 */
 
-    // Načtení souboru s funkcemi k práci s databází 
-    require_once("MyDatabase.class.php"); // ZAJÍMAVOST: Zde nemusím používat závorky, ale je dobré je tu mít
     $myDB = new DatabaseModel();
 
-    // Pokud je uživatel přihlášen, tak získám jeho data
     if($myDB->isUserLogged()){
-        // Získání data přihlášeného uživatele
-        $userData = $myDB->getLoggedUserData();
+        // Získam data přihlášeného uživatele. Toto se hodí jen když chci vypsat zprávu, že uživatel je již přihlášen a registrovat se znovu nemůže.
+        $user = $myDB->getLoggedUserData();
     }
 
     // 😡 --- PRO NEPŘIHLÁŠENÉ UŽIVATELE --- 😡
@@ -63,20 +62,50 @@ Zde můžou uživatelé s dostatečným právem upravovat zaregistrovane uživat
             }
         }
 
+        /*
+        TODO: Kdyztak smaz 
+                        <select name="pravo">
+                            <?php
+                            // Získám všchny práva
+                            $rights = $myDB->getAllRights();
+                            // Projdu je a vypíšu
+                            foreach($rights as $r){
+                                $selected = ($userData['id_pravo'] == $r['id_pravo']) ? "selected" : "";
+                                echo "<option value='$r[id_pravo]' $selected>$r[nazev]</option>";
+                            }
+                            ?>
+                        </select>
+        */
+
         // Získám data všch uživatelů
         // Dávám ho až sem aby se aktulizovala tabulka, když někoho smažu
         $users = $myDB->getAllUsers();
 ?>
         <h2>Seznam uživatelů</h2>
         <table border="1">
-            <tr><th>ID</th><th>Login</th><th>Jméno</th><th>E-mail</th><th>Právo</th><th>Akce</th></tr>
+            <tr><th>ID</th><th>Login</th><th>Jméno</th><th>Přijmení</th><th>E-mail</th><th>Právo</th><th>Akce</th></tr>
             <?php
                 // Pocházení uživatelů a jejich vypsání
                 foreach ($users as $u) {
-                    echo "<tr><td>$u[id_uzivatel]</td><td>$u[login]</td><td>$u[jmeno]</td><td>$u[prijmeni]</td><td>$u[email]</td><td>$u[id_pravo]</td><td>"
+                    echo "<tr><td>$u[id_uzivatel]</td><td>$u[login]</td><td>$u[jmeno]</td><td>$u[prijmeni]</td><td>$u[email]</td><td>$u[id_pravo]</td><td>
+                <!-- Změna práva -->
+                <form action='' method='POST'>
+                    <input type='hidden' name='id_uzivatel' value='$u[id_uzivatel]'>
+                    <select name='nove_pravo'>
+                        <option value='1' " . ($u['id_pravo'] == 1 ? 'selected' : '') . ">Super Admin</option>
+                        <option value='2' " . ($u['id_pravo'] == 2 ? 'selected' : '') . ">Admin</option>
+                        <option value='3' " . ($u['id_pravo'] == 3 ? 'selected' : '') . ">Autor</option>
+                        <option value='4' " . ($u['id_pravo'] == 4 ? 'selected' : '') . ">Recenzert</option>
+                    </select>
+                    <button type='submit' name='zmenit' value='zmenit'>Změnit</button>
+                </form>
+                </td>
+                <td>
+
+                    "
                         ."<form action='' method='POST'>
                               <input type='hidden' name='id_uzivatel' value='$u[id_uzivatel]'>
-                              <input type='submit' name='potvrzeni' value='Smazat'>
+                              <button type='submit' name='action' value='delete'>Smazat</button>
                           </form>"
                         ."</td></tr>";
                 }

@@ -104,8 +104,8 @@ class TemplateBasics implements IView {
                         <ul class="dropdown-menu">
                             <li><a href="index.php?page=registrace">ZAREGISTRUJ SE</a></li>
                             <li><a href="index.php?page=login">PŘIHLAŠ SE</a></li>
-                            <li><a href="index.php?page=uprava">MŮJ PROFIL</a></li>
-                            <li><a href="index.php?page=management">SPRÁVA UŽIVATELŮ</a></li>
+                            <li><a href="index.php?page=update">MŮJ PROFIL</a></li>
+                            <li><a href="index.php?page=sprava">SPRÁVA UŽIVATELŮ</a></li>
                         </ul>
                 </li>
                         

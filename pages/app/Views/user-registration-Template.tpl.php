@@ -63,27 +63,6 @@ use kivweb\Models\DatabaseModel;
                     </div>
                   </div>
 
-                  <!--
-                    TODO: Smaz pokud nepotrebujes
-                  <div class="row">
-                    <div class="col-sm-6 pravo">
-                     <p>Zvol právo:</p>
-                    </div>
-                    <div class="col-sm-6 pravo">
-                      <select name="pravo">
-                          <?php
-                          /*
-                          //Zde získám práve které si uživatel může zvolit
-                          foreach($rights as $r){
-                              echo"<option value='$r[id_pravo]'>$r[nazev]</option>"; 
-                          }
-                          */
-                          ?>
-                      </select>
-                    </div>
-                </div>
-                        -->
-
                 <button class="btn btn-sub" type="submit" name="action" value="registrace">Zaregistruj se</button>
                 <button class="btn btn-res" type="reset">Smazat údaje</button>
           </div>        

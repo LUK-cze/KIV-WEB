@@ -19,6 +19,7 @@ require_once ('myAutoloader.inc.php');
 
 use kivweb\Controllers\games_Controller;
 use kivweb\Controllers\LoginController;
+use kivweb\Controllers\recenze_Controller;
 use kivweb\Controllers\user_login_Controller;
 use kivweb\Controllers\user_management_Controller;
 use kivweb\Controllers\user_registration_Controller;
@@ -35,6 +36,7 @@ use kivweb\Views\TemplateBasics;
     define("TABLE_PRAVO","pravo");
     define("TABLE_HRY","hry");
     define("TABLE_ZANRY","zanry");
+    define("TABLE_RECENZE","recenze");
 
 
 ///// vsechny stranky webu ////////
@@ -131,7 +133,7 @@ TODO: Jestli nevyužiji tak smazat
     //// KONEC: Recenze ////
 
     "hry" => array(
-        "title" => "Recenze",
+        "title" => "Hry",
 
         //// kontroler
         "controller_class_name" => games_Controller::class,
