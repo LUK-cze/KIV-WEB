@@ -13,7 +13,7 @@ přístup do databáze
 
 */
 
-    // Údaje pro přihlášení do databáze
+// Údaje pro přihlášení do databáze
 
 require_once ('myAutoloader.inc.php');
 
@@ -25,6 +25,7 @@ use kivweb\Controllers\user_management_Controller;
 use kivweb\Controllers\user_registration_Controller;
 use kivweb\Controllers\user_update_Controller;
 use kivweb\Views\TemplateBasics;
+
 
     define("DB_SERVER","localhost");
     define("DB_NAME","kivweb");
@@ -91,6 +92,19 @@ TODO: Jestli nevyužiji tak smazat
     ),
     //// KONEC: Sprava uzivatelu ////
 
+        //// Sprava uzivatelu ////
+    "hry" => array(
+        "title" => "hry",
+
+        //// kontroler
+        "controller_class_name" => games_Controller::class,
+    
+        // TemplateBased sablona
+        "view_class_name" => TemplateBasics::class,
+        "template_type" => TemplateBasics::PAGE_GAMES,
+        ),
+        //// KONEC: Sprava uzivatelu ////
+
     //// Registrace ////
 
     "registrace" => array(
@@ -129,18 +143,6 @@ TODO: Jestli nevyužiji tak smazat
         // TemplateBased sablona
         "view_class_name" => TemplateBasics::class,
         "template_type" => TemplateBasics::PAGE_RECENZE,
-    ),
-    //// KONEC: Recenze ////
-
-    "hry" => array(
-        "title" => "Hry",
-
-        //// kontroler
-        "controller_class_name" => games_Controller::class,
-
-        // TemplateBased sablona
-        "view_class_name" => TemplateBasics::class,
-        "template_type" => TemplateBasics::PAGE_GAMES,
     ),
     //// KONEC: Recenze ////
 

@@ -8,6 +8,8 @@ use kivweb\Views\IView;
 
     $myDB = new DatabaseModel();
 
+    
+
 
     ///////////// 😡 --- PRO NEPŘIHLÁŠENÉ UŽIVATELE --- 😡 ///////////////
     // pokud uzivatel neni prihlasen nebo nebyla ziskana jeho data, tak vypisu prihlasovaci formular

@@ -66,11 +66,12 @@ class recenze_Controller implements IController {
             $user = $this -> myDB->getLoggedUserData();
         }
 
-        // vratim sablonu naplnenou daty
-        return $tplData;
     
     
         }
+
+            // vratim sablonu naplnenou daty
+            return $tplData;
     }
 }
 

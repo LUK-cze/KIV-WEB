@@ -11,9 +11,9 @@
 */
     // nacteni hlavicky stranky
 
-use kivweb\Models\DatabaseModel;
+use kivweb\Views\TemplateBasics;
 
-    $myDB = new DatabaseModel();
+    TemplateBasics::getHTMLHeader("Registrace nového uživatele");
 
     if($myDB->isUserLogged()){
         // Získam data přihlášeného uživatele. Toto se hodí jen když chci vypsat zprávu, že uživatel je již přihlášen a registrovat se znovu nemůže.
@@ -62,8 +62,23 @@ use kivweb\Models\DatabaseModel;
                       <input type="password" name="heslo2" id="heslo2" placeholder="Napište heslo znovu" required>
                     </div>
                   </div>
+                  <div class="row">
+                    <div class="col-sm-6 pravo">
+                     <p>Zvol právo:</p>
+                    </div>
+                    <div class="col-sm-6 pravo">
+                      <select name="pravo">
+                          <?php
+                          //Zde získám práve které si uživatel může zvolit
+                          foreach($rights as $r){
+                              echo"<option value='$r[id_pravo]'>$r[nazev]</option>"; 
+                          }
+                          ?>
+                      </select>
+                    </div>
+                </div>
 
-                <button class="btn btn-sub" type="submit" name="action" value="registrace">Zaregistruj se</button>
+                <button class="btn btn-sub" type="submit" name="action" value="login">Zaregistruj se</button>
                 <button class="btn btn-res" type="reset">Smazat údaje</button>
           </div>        
                 <h4>Maš už účet? Přihlaš se <a href="index.php?page=login">ZDE</a>.</h4>
@@ -86,4 +101,6 @@ use kivweb\Models\DatabaseModel;
     }
     // 🤑 --- KONEC: PRO PRIHLASENE UZIVATELE --- 🤑
 
+    // Patička co je vytvořena v jiném soboru (viz. hlavička ⬆⬆⬆)
+    TemplateBasics::getHTMLFooter();
 ?>

@@ -59,6 +59,11 @@ use kivweb\Views\TemplateBasics;
                         <div class="pass col-sm-12">
                             <input type="password" name="heslo_puvodni" id="heslo_puvodni" placeholder="Napište své původní heslo" required>
                         </div>
+                        
+                        <!-- file upload -->
+                        <input type="file" id="myFile" name="filename">
+                
+
                     </div>
                     <button class="btn btn-sub" type="submit" name="action" value="update">Update</button>
                     <button class="btn btn-res" type="reset">Smazat údaje</button>

@@ -17,9 +17,11 @@ use kivweb\Views\IView;
     // Rozdělení her do skupin po třech
     $skupinyrecenzi = array_chunk($recenze, 3);
 
+    var_dump($_SESSION);
+    die;
 
-    if ($_SESSION['id_pravo'] < 3) {
-        echo "Pro přídávání recenzí musíš být hodnosti autor.";
+    if (!$_SESSION['id_pravo'] <= 3) {
+        echo "Pro přídávání recenzí musíš být hodnosti alespoň autor.";
     } else {
         ?>
 
@@ -55,10 +57,12 @@ use kivweb\Views\IView;
 ?>
 
 
-
+<!-- TODO: Kdyztak smaz
 <h3>Recenze her</h3>
+  -->
 <?php
 
+/* TODO: Kdyztak smaž
     foreach ($skupinyHer as $skupina) {
       echo '<div class="container-fluid">';
       echo '<div class="row">';
@@ -86,5 +90,6 @@ use kivweb\Views\IView;
       echo '</div>
         </div>';
   }
+  */
 
 ?>
