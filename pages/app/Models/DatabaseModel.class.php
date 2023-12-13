@@ -156,6 +156,7 @@ class DatabaseModel {
     public function updateInTable(string $tableName, string $updateStatementWithValues, string $whereStatement):bool {
         // slozim dotaz
         $q = "UPDATE $tableName SET $updateStatementWithValues WHERE $whereStatement";
+        var_dump($q);
         // provedu ho a vratim vysledek
         $obj = $this->executeQuery($q);
         // pokud ($obj == null), tak vratim false
@@ -423,7 +424,7 @@ class DatabaseModel {
         if ($vysledek == null){
             return false;
         } else {
-            $this->mySession->addSession(self::KEY_USER, $vysledek[0]["id_uzivatel"] );
+            $this->mySession->addSession("id_uzivatel", $vysledek[0]["id_uzivatel"] );
             $this->mySession->addSession("id_pravo", $vysledek[0]["id_pravo"] );
             $this->mySession->addSession("jmeno", $vysledek[0]["jmeno"] );
             $this->mySession->addSession("prijmeni", $vysledek[0]["prijmeni"] );

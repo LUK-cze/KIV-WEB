@@ -62,20 +62,6 @@ Zde můžou uživatelé s dostatečným právem upravovat zaregistrovane uživat
             }
         }
 
-        /*
-        TODO: Kdyztak smaz 
-                        <select name="pravo">
-                            <?php
-                            // Získám všchny práva
-                            $rights = $myDB->getAllRights();
-                            // Projdu je a vypíšu
-                            foreach($rights as $r){
-                                $selected = ($userData['id_pravo'] == $r['id_pravo']) ? "selected" : "";
-                                echo "<option value='$r[id_pravo]' $selected>$r[nazev]</option>";
-                            }
-                            ?>
-                        </select>
-        */
 
         // Získám data všch uživatelů
         // Dávám ho až sem aby se aktulizovala tabulka, když někoho smažu
@@ -105,7 +91,7 @@ Zde můžou uživatelé s dostatečným právem upravovat zaregistrovane uživat
                     "
                         ."<form action='' method='POST'>
                               <input type='hidden' name='id_uzivatel' value='$u[id_uzivatel]'>
-                              <button type='submit' name='action' value='delete'>Smazat</button>
+                              <button type='submit' name='delete' value='delete'>Smazat</button>
                           </form>"
                         ."</td></tr>";
                 }

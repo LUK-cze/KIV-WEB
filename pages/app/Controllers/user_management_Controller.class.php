@@ -44,9 +44,12 @@ class user_management_Controller implements IController {
         }
 
         //// neprisel pozadavek na smazani uzivatele?
-        if(isset($_POST['action']) and $_POST['action'] == "delete"
-            and isset($_POST['id_uzivatel'])
+        var_dump($_POST);
+        //die;
+        if(!empty($_POST['delete'])
+            && isset($_POST['id_uzivatel'])
         ){
+            echo "MAZU<br>";
             // provedu smazani uzivatele
             $ok = $this->myDB->deleteUser(intval($_POST['id_uzivatel']));
             if($ok){
@@ -56,20 +59,21 @@ class user_management_Controller implements IController {
             }
         }
 
-    if(isset($_POST['zmenit']) and $_POST['action'] == "zmenit"
+    if(!empty($_POST['zmenit'])
         and isset($_POST['id_uzivatel']) && isset($_POST['nove_pravo'])
         ){
+            echo "MENIM<br>";
 
         // updateInTable(string $tableName, string $updateStatementWithValues, string $whereStatement):bool
-        $ok = $this->myDB->updateInTable(TABLE_UZIVATEL, $_POST['nove_pravo'], id_uzivatele = $_POST['id_uzivatele']);
-
+        $ok = $this->myDB->updateInTable(TABLE_UZIVATEL, $_POST['nove_pravo'], "id_uzivatele = ".$_POST['id_uzivatele']);
+        $ok = true;
         //$q = "UPDATE ".TABLE_UZIVATEL." SET id_pravo = ".$_POST['nove_pravo']." WHERE id_uzivatel = ".$_POST['id_uzivatele'];
-
+        echo "MENIM<br>";
 
         if($ok){
-            $tplData['delete'] = "OK: Uživatel s ID:$_POST[id_uzivatel] byl smazán z databáze.";
+            $tplData['zmena'] = "OK: Uživatel s ID:$_POST[id_uzivatel] byl změněn.";
         } else {
-            $tplData['delete'] = "CHYBA: Uživatele s ID:$_POST[id_uzivatel] se nepodařilo smazat z databáze.";
+            $tplData['zmena'] = "CHYBA: Uživatele s ID:$_POST[id_uzivatel] se nepodařilo změnit.";
         }
     }
 

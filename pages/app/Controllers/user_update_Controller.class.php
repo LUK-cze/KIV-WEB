@@ -63,6 +63,7 @@ class user_update_Controller implements IController {
 
        
         
+        
        // echo var_dump($userData);
         echo " <br> V CONTROLLERU (POST)----------------------------------------------------<br>";
         echo var_dump($_POST);
@@ -77,10 +78,15 @@ class user_update_Controller implements IController {
                 // Zpracování odeslaných formulářů
                 if(isset($_POST['action'])){
                     // Kontrola, jestli mám všchny požadované hodnoty
-                    if(isset($_SESSION['id_uzivatel']) && isset($_POST['heslo']) && isset($_POST['heslo_puvodni']) && !empty($_POST['heslo_puvodni']) && isset($_POST['heslo2'])
-                        && isset($_POST['jmeno']) && isset($_POST['prijmeni']) && isset($_POST['email'])
+                    if(isset($_SESSION['id_uzivatel']) 
+                    && isset($_POST['heslo']) 
+                && !empty($_POST['heslo_puvodni']) 
+                && isset($_POST['heslo2'])
+                        && isset($_POST['jmeno']) 
+                        && isset($_POST['prijmeni']) && isset($_POST['email'])
                         && $_POST['heslo'] == $_POST['heslo2']
-                        && $_POST['heslo'] != "" && $_POST['jmeno'] != "" && $_POST['email'] != ""
+                        && $_POST['heslo'] != ""
+                         && $_POST['jmeno'] != "" && $_POST['email'] != ""
                         && $_SESSION['pravo'] > 0
                         // Je současným uživatelem a zadal správné heslo? 
                         && $_SESSION['id_uzivatel'] == $userData['id_uzivatel']

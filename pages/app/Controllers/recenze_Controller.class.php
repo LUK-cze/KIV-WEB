@@ -63,7 +63,7 @@ class recenze_Controller implements IController {
         // Pokud je uživatel už přihlášen tak získám jeho data
         if($this -> myDB->isUserLogged()){
             // ziskam data prihlasenoho uzivatele
-            $user = $this -> myDB->getLoggedUserData();
+            $userData = $this -> myDB->getLoggedUserData();
         }
 
     

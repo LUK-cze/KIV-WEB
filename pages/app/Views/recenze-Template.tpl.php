@@ -14,15 +14,26 @@ use kivweb\Views\IView;
     // Data pro hry
     $recenze = $myDB->getAllRecenze();
 
+    if($myDB->isUserLogged()){
+      // Získam data přihlášeného uživatele. Toto se hodí jen když chci vypsat zprávu, že uživatel je již přihlášen a registrovat se znovu nemůže.
+  //$userData = $myDB->getLoggedUserData();
+  }
+
     // Rozdělení her do skupin po třech
-    $skupinyrecenzi = array_chunk($recenze, 3);
+    $skupinyRecenzi = array_chunk($recenze, 3);
 
+
+
+    
+    // Nevyhazuje id uzivatele
+    //PROZATIM
+    
     var_dump($_SESSION);
-    die;
-
-    if (!$_SESSION['id_pravo'] <= 3) {
+  
+  
+    if ($_SESSION['id_pravo'] >= 3) {
+      //if (5 <= 3) { //TODO: PROZATIMNI POTOM VYMAZ
         echo "Pro přídávání recenzí musíš být hodnosti alespoň autor.";
-    } else {
         ?>
 
         <div class="row">
@@ -31,8 +42,6 @@ use kivweb\Views\IView;
                 <form action="" method="POST"> <!-- index.php?page=uprava -->
                         <fieldset>
                         <legend><h3>Napiš recenzi!</h3></legend>
-                        <?php 
-                        ?>
                         <div class="gamertag">
                             <input type="text" name="nazevHry" id="nazevHry" placeholder="Název hry" required>
                         </div>
@@ -52,33 +61,22 @@ use kivweb\Views\IView;
             </div>
         </div>
 
-        <?php
-    }
-?>
-
-
-<!-- TODO: Kdyztak smaz
-<h3>Recenze her</h3>
-  -->
-<?php
-
-/* TODO: Kdyztak smaž
-    foreach ($skupinyHer as $skupina) {
+        <?php      
+    foreach ($skupinyRecenzi as $skupina) {
       echo '<div class="container-fluid">';
       echo '<div class="row">';
 
-      foreach ($skupina as $h) {
-          
+      foreach ($skupina as $r) {
+    
         echo "
                 <div class='col-sm-4 col-xs-12'>
                   <div class='panel panel-default text-center'>
-                    <div class='panel-heading'>
-                      <h1 id='$h[id_uzivatel]'> $h[id_uzivatel] </h1>         
+                    <div class='panel-heading' style='background-image: url(../img/recenze_panel/recenze-banner.svg);'>
+                      <h1 id='$r[nazev_hry]'> $r[nazev_hry] </h1>         
                       </div>
                       <div class='panel-body'>
-                        <p class='hodnoceni'><strong> $h[hodnoceni] </strong></p>
-                        <p class='datum'><strong> $h[datum] </strong></p>
-                        <p class='recenze_text'> $h[recenze_text] </p>
+                        <p class='zanr'><strong> $h[zanr] </strong></p>
+                        <p class='popisek'> $h[popisek_hry] </p>
                       </div>
                     </div>      
                   </div>     
@@ -90,6 +88,7 @@ use kivweb\Views\IView;
       echo '</div>
         </div>';
   }
-  */
 
+}
 ?>
+

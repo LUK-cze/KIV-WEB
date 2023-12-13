@@ -175,6 +175,7 @@ use kivweb\Views\IView;
                 </div>       
             </div>
         </div>
+</div>
 
 <?php
     }
