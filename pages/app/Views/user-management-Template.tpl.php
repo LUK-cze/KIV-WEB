@@ -28,6 +28,9 @@ Zde můžou uživatelé s dostatečným právem upravovat zaregistrovane uživat
 
     $userData = $tplData['uzivatele']; 
 
+    $pravo = $_SESSION['id_pravo'];
+
+
     // 😡 --- PRO NEPŘIHLÁŠENÉ UŽIVATELE --- 😡
     if(!$myDB->isUserLogged()){
 ?>
@@ -36,7 +39,7 @@ Zde můžou uživatelé s dostatečným právem upravovat zaregistrovane uživat
         </div>
 <?php
     // 😡 --- KONEC: PRO NEPŘIHLÁŠENÉ UŽIVATELE --- 😡
-    } else if($userData['id_pravo'] > 2) {
+    } else if($pravo >= 2) {
     // ------------------- PRO PŘIHLÁŠÉNE UŽIVATELE BEZ PRÁVA ADMIN -------------------
 ?>
         <div>
@@ -46,18 +49,6 @@ Zde můžou uživatelé s dostatečným právem upravovat zaregistrovane uživat
     //------------------- KONEC: PRO PŘIHLÁŠÉNE UŽIVATELE BEZ PRÁVA ADMIN -------------------
     } else {
     // 🤑 --- PRO PŘIHLÁŠÉNE UŽIVATELE S PRÁVEM ADMIN --- 🤑
-
-        // Zpracování formuláře pro smazání uživatele
-        if(!empty($_POST['id_uzivatel'])){
-            // Smazání daného uživatele z databáze
-            $res = $myDB->deleteFromTable(TABLE_UZIVATEL, "id_uzivatel='$_POST[id_uzivatel]'");
-            // Vyýsledek smazání
-            if($res){
-                echo "OK: Uživatel byl smazán z databáze.";
-            } else {
-                echo "ERROR: Smazání uživatele se nezdařilo.";
-            }
-        }
 
 
         // Získám data všch uživatelů

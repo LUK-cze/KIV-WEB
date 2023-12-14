@@ -111,8 +111,10 @@ class user_login_Controller implements IController {
         }
 
             // ziskam nazev prava uzivatele, abych ho mohl vypsat
+            if($this -> myDB->isUserLogged()){
             $tplData['right'] = $this -> myDB->getRightNameById($_SESSION["id_pravo"]);
 
+            }
         
 
         // vratim sablonu naplnenou daty

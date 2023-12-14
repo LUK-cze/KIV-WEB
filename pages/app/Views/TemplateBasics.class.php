@@ -2,7 +2,10 @@
 
 namespace kivweb\Views;
 
+use kivweb\Models\DatabaseModel;
 use kivweb\Views\IView;
+
+
 
 /**
  * Templaty pro stránku
@@ -23,6 +26,7 @@ class TemplateBasics implements IView {
     /** @var string PAGE_RECENZE  Sablona se recenzemi her. */
     const PAGE_GAMES = "games-Template.tpl.php";    
 
+    
 
     
     /**
@@ -47,14 +51,14 @@ class TemplateBasics implements IView {
         $this->getHTMLFooter();
     }
 
-    
-
-
     /**
      *  Vrati vrsek stranky az po oblast, ve ktere se vypisuje obsah stranky.
      *  @param string $pageTitle    Nazev stranky.
      */
     public function getHTMLHeader(string $pageTitle, string $pageType = self::PAGE_LOGIN) {
+        $myDB = new DatabaseModel();
+        $right = $_SESSION['id_pravo'];
+
         ?>
         <html lang="en">
         <head>
@@ -102,10 +106,15 @@ class TemplateBasics implements IView {
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">JÁ
                       <span class="caret"></span></a>
                         <ul class="dropdown-menu">
-                            <li><a href="index.php?page=registrace">ZAREGISTRUJ SE</a></li>
-                            <li><a href="index.php?page=login">PŘIHLAŠ SE</a></li>
-                            <li><a href="index.php?page=update">MŮJ PROFIL</a></li>
-                            <li><a href="index.php?page=sprava">SPRÁVA UŽIVATELŮ</a></li>
+                            <?php if(!$myDB->isUserLogged()){ ?>
+                                <li><a href="index.php?page=registrace">ZAREGISTRUJ SE</a></li>
+                                <li><a href="index.php?page=login">PŘIHLAŠ SE</a></li>
+                            <?php } ?>
+                                <li><a href="index.php?page=update">MŮJ PROFIL</a></li>
+                            <?php if($right <= 2){ ?>
+                                <li><a href="index.php?page=sprava">SPRÁVA UŽIVATELŮ</a></li>
+                            <?php } ?>
+
                         </ul>
                 </li>
                         

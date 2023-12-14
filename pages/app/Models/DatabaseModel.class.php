@@ -244,26 +244,23 @@ class DatabaseModel {
      * @return array        Data nalezeneho prava.
      */
     public function getRightNameById(int $id){
-        // ziskam pravo dle ID
-        $right = $this->selectFromTable(TABLE_PRAVO, "", "", "id_pravo");
 
-        $q = "SELECT nazev FROM ".TABLE_PRAVO." WHERE id_pravo = :id_pravo";
+            $q = "SELECT nazev FROM ".TABLE_PRAVO." WHERE id_pravo = :id_pravo;";
 
-        $vystup = $this->pdo->prepare($q);
-        $vystup->bindValue(':id_pravo', $id);
-        $vystup->execute();
-                
-        // Zde potřebujete získat hodnotu hesla
-        $result = $vystup->fetch(); 
+            $vystup = $this->pdo->prepare($q);
+            $vystup->bindValue(':id_pravo', $id);
+            $vystup->execute();
+                    
+            $vystup -> execute();
 
-        // Kontrola, zda byl návratový výsledek řádek
-        if ($result !== false) {
-            $RightJmeno = $result['nazev'];
-            return $RightJmeno;
-        } else {
-            // Žádný řádek nebyl nalezen
-            return null;
-        }
+            if($vystup->execute()){
+                $RightJmeno = $vystup->fetch();
+                 //= $this->mySession->addSession("id_uzivatel", $vysledek[0]["id_uzivatel"] );
+                return $RightJmeno;
+            } else {
+                // Žádný řádek nebyl nalezen
+                return null;
+            }
         }
 
     public function getPassByLogin(string $login){
@@ -440,7 +437,7 @@ class DatabaseModel {
      * Odhlasi soucasneho uzivatele.
      */
     public function userLogout(){
-        $this->mySession->removeSession(self::KEY_USER);
+        $this->mySession->removeSession("id_uzivatel");
     }
 
     /**
@@ -461,7 +458,7 @@ class DatabaseModel {
     public function getLoggedUserData(){
         if($this->isUserLogged()){
             // ziskam data uzivatele ze session
-            $userId = $this->mySession->readSession(self::KEY_USER);
+            $userId = $this->mySession->readSession("id_uzivatel");
             // pokud nemam data uzivatele, tak vypisu chybu a vynutim odhlaseni uzivatele
             if($userId == null) {
                 // nemam data uzivatele ze session - vypisu jen chybu, uzivatele odhlasim a vratim null
@@ -568,7 +565,32 @@ class DatabaseModel {
 
     }
 
-    ///////////////////  KONEC: Sprava prihlaseni uzivatele  ////////////////////////////////////////
+    public function updatePravo($idUzivatel ,$novePravo){
+
+    $q = "UPDATE ".TABLE_UZIVATEL." SET id_pravo = :NovePravo WHERE id_uzivatel = :idUzivatel;";
+
+
+    $vystup = $this->pdo->prepare($q);
+    $vystup->bindValue(":NovePravo", $novePravo);
+    $vystup->bindValue(":idUzivatel", $idUzivatel);
+
+    $vystup -> execute();
+
+    if($vystup->execute()){
+
+        $this -> executeQuery($q);
+        echo "Právo změněno.";
+        return true;
+
+    } else {
+
+        $this -> executeQuery($q);
+        echo "Právo změněno.";
+        return true;
+    }
+
+    }
+
 
 }
 ?>

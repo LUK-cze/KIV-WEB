@@ -49,7 +49,6 @@ class user_management_Controller implements IController {
         if(!empty($_POST['delete'])
             && isset($_POST['id_uzivatel'])
         ){
-            echo "MAZU<br>";
             // provedu smazani uzivatele
             $ok = $this->myDB->deleteUser(intval($_POST['id_uzivatel']));
             if($ok){
@@ -59,29 +58,39 @@ class user_management_Controller implements IController {
             }
         }
 
-    if(!empty($_POST['zmenit'])
-        and isset($_POST['id_uzivatel']) && isset($_POST['nove_pravo'])
-        ){
-            echo "MENIM<br>";
+        if (!empty($_POST['zmenit']) && isset($_POST['id_uzivatel']) && isset($_POST['nove_pravo'])) {
 
-        // updateInTable(string $tableName, string $updateStatementWithValues, string $whereStatement):bool
-        $ok = $this->myDB->updateInTable(TABLE_UZIVATEL, $_POST['nove_pravo'], "id_uzivatele = ".$_POST['id_uzivatele']);
-        $ok = true;
-        //$q = "UPDATE ".TABLE_UZIVATEL." SET id_pravo = ".$_POST['nove_pravo']." WHERE id_uzivatel = ".$_POST['id_uzivatele'];
-        echo "MENIM<br>";
-
-        if($ok){
-            $tplData['zmena'] = "OK: Uživatel s ID:$_POST[id_uzivatel] byl změněn.";
-        } else {
-            $tplData['zmena'] = "CHYBA: Uživatele s ID:$_POST[id_uzivatel] se nepodařilo změnit.";
+            $zmenaPrava = $this->myDB->updatePravo($_POST['id_uzivatel'], $_POST['nove_pravo']);
+        
+            ?>
+            <script>
+                function VypisZpravy(status, userId) {
+                    alert(status + ": Uživatel s ID " + userId + " byl změněn.");
+                }
+        
+                <?php if ($zmenaPrava) : ?>
+                    VypisZpravy("OK", <?php echo $_POST['id_uzivatel']; ?>);
+                <?php
+                    //$tplData['zmena'] = "OK: Uživatel s ID " . $_POST['id_uzivatel'] . " byl změněn.";
+                else :
+                ?>
+                    VypisZpravy("CHYBA", <?php echo $_POST['id_uzivatel']; ?>);
+                <?php
+                    //$tplData['zmena'] = "CHYBA: Uživatele s ID " . $_POST['id_uzivatel'] . " se nepodařilo změnit.";
+                endif; ?>
+            </script>
+        <?php
         }
-    }
 
+ 
         //// nactu aktualni data uzivatelu
         $tplData['uzivatele'] = $this->myDB->getAllUsers();
 
+        
+
         // vratim sablonu naplnenou daty
         return $tplData;
+
     }
 
 }
