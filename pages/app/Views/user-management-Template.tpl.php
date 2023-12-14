@@ -26,10 +26,7 @@ Zde můžou uživatelé s dostatečným právem upravovat zaregistrovane uživat
 
     $myDB = new DatabaseModel();
 
-    if($myDB->isUserLogged()){
-        // Získam data přihlášeného uživatele. Toto se hodí jen když chci vypsat zprávu, že uživatel je již přihlášen a registrovat se znovu nemůže.
-        $user = $myDB->getLoggedUserData();
-    }
+    $userData = $tplData['uzivatele']; 
 
     // 😡 --- PRO NEPŘIHLÁŠENÉ UŽIVATELE --- 😡
     if(!$myDB->isUserLogged()){

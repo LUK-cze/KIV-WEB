@@ -65,6 +65,7 @@ class user_update_Controller implements IController {
         
         
        // echo var_dump($userData);
+       /*
         echo " <br> V CONTROLLERU (POST)----------------------------------------------------<br>";
         echo var_dump($_POST);
         echo " <br> V CONTROLLERU (SESSION)----------------------------------------------------<br>";
@@ -72,7 +73,7 @@ class user_update_Controller implements IController {
         echo " <br> V CONTROLLERU (USER DATA)----------------------------------------------------<br>";
         echo var_dump($userData);
         die;
-        
+        */
         
         
                 // Zpracování odeslaných formulářů

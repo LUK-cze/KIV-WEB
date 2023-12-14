@@ -324,7 +324,7 @@ class DatabaseModel {
         $vystup->bindValue(":prijmeni", $prijmeni);
         $vystup->bindValue(":email", $email);
         $vystup->bindValue(":id_pravo", $idPravo);
-        
+
         /*
         // TODO: OPRAVIT (CHYBA: Invalid parameter number: number of bound variables does not match number of tokens)
         echo var_dump($vystup);
@@ -449,8 +449,7 @@ class DatabaseModel {
      * @return bool     Je prihlasen?
      */
     public function isUserLogged() : bool {
-        //echo $_SESSION[self::KEY_USER];
-        return $this->mySession->isSessionSet(self::KEY_USER);
+        return $this->mySession->isSessionSet("id_uzivatel");
     }
 
     /**

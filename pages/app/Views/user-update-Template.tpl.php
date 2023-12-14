@@ -1,5 +1,5 @@
 <?php
-    // Naše hlavička stránky
+namespace kivweb\Views;
 
 use kivweb\Models\DatabaseModel;
 use kivweb\Views\TemplateBasics;

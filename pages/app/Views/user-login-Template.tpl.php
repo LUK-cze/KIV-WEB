@@ -8,7 +8,10 @@ use kivweb\Views\IView;
 
     $myDB = new DatabaseModel();
 
-    
+    $pravo = $tplData['right'];
+
+    // ziskam nazev
+    $pravoNazev = ($pravo == null) ? "*Neznámé*" : $pravo;
 
 
     ///////////// 😡 --- PRO NEPŘIHLÁŠENÉ UŽIVATELE --- 😡 ///////////////
@@ -85,11 +88,7 @@ use kivweb\Views\IView;
     } else {
 
     ///////////// 🤑 --- PRO PRIHLASENE UZIVATELE --- 🤑 /////////////
-        // ziskam nazev prava uzivatele, abych ho mohl vypsat
-        $pravo = $myDB->getRightNameById($_SESSION["id_pravo"]);
 
-        // ziskam nazev
-        $pravoNazev = ($pravo == null) ? "*Neznámé*" : $pravo;
 
 ?>
 

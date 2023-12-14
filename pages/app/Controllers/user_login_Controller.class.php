@@ -106,8 +106,14 @@ class user_login_Controller implements IController {
         // Pokud je uživatel už přihlášen tak získám jeho data
         if($this -> myDB->isUserLogged()){
             // ziskam data prihlasenoho uzivatele
-            $user = $this -> myDB->getLoggedUserData();
+            $tplData['user'] = $this -> myDB->getLoggedUserData();
+
         }
+
+            // ziskam nazev prava uzivatele, abych ho mohl vypsat
+            $tplData['right'] = $this -> myDB->getRightNameById($_SESSION["id_pravo"]);
+
+        
 
         // vratim sablonu naplnenou daty
         return $tplData;
