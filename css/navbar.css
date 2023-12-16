@@ -3,6 +3,8 @@
 */
 /*
 Moje paleta barev:
+
+Glyphikony jsou ze stránky: https://icons.getbootstrap.com/
 */
 /* ------------------------------- NAVBAR */
 .navbar {
@@ -60,6 +62,12 @@ Moje paleta barev:
   border-radius: 4px;
 }
 
+@media (min-width: 768px) {
+  .navbar-nav li a {
+    padding-top: 20px;
+    padding-bottom: 20px;
+  }
+}
 .dropdown-menu {
   padding: 10px;
   border-radius: 10px;

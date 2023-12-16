@@ -55,13 +55,17 @@ Zde můžou uživatelé s dostatečným právem upravovat zaregistrovane uživat
         // Dávám ho až sem aby se aktulizovala tabulka, když někoho smažu
         $users = $myDB->getAllUsers();
 ?>
+
+<div class="container mt-5">
+    <div class="row"> 
+        <div class="col-md-12 table-container">
         <h2>Seznam uživatelů</h2>
         <table border="1">
-            <tr><th>ID</th><th>Login</th><th>Jméno</th><th>Přijmení</th><th>E-mail</th><th>Právo</th><th>Akce</th></tr>
+            <tr class="header_table"><th class="id_table">ID</th><th>Login</th><th>Jméno</th><th>Přijmení</th><th>E-mail</th><th class="pravo_table">Právo</th><th>Akce</th><th></th></tr>
             <?php
                 // Pocházení uživatelů a jejich vypsání
                 foreach ($users as $u) {
-                    echo "<tr><td>$u[id_uzivatel]</td><td>$u[login]</td><td>$u[jmeno]</td><td>$u[prijmeni]</td><td>$u[email]</td><td>$u[id_pravo]</td><td>
+                    echo "<tr><td class='id_table' >$u[id_uzivatel]</td><td>$u[login]</td><td>$u[jmeno]</td><td>$u[prijmeni]</td><td>$u[email]</td><td class='pravo_table'>$u[id_pravo]</td><td> 
                 <!-- Změna práva -->
                 <form action='' method='POST'>
                     <input type='hidden' name='id_uzivatel' value='$u[id_uzivatel]'>
@@ -71,7 +75,7 @@ Zde můžou uživatelé s dostatečným právem upravovat zaregistrovane uživat
                         <option value='3' " . ($u['id_pravo'] == 3 ? 'selected' : '') . ">Autor</option>
                         <option value='4' " . ($u['id_pravo'] == 4 ? 'selected' : '') . ">Recenzert</option>
                     </select>
-                    <button type='submit' name='zmenit' value='zmenit'>Změnit</button>
+                    <button class='btn btn-sub' type='submit' name='zmenit' value='zmenit'>Změnit</button>
                 </form>
                 </td>
                 <td>
@@ -79,12 +83,16 @@ Zde můžou uživatelé s dostatečným právem upravovat zaregistrovane uživat
                     "
                         ."<form action='' method='POST'>
                               <input type='hidden' name='id_uzivatel' value='$u[id_uzivatel]'>
-                              <button type='submit' name='delete' value='delete'>Smazat</button>
+                              <button class='btn btn-res' type='submit' name='delete' value='delete'>X</button>
                           </form>"
                         ."</td></tr>";
+            
                 }
             ?>
         </table>
+        </div>
+    </div>
+</div>
 <?php
     // 🤑 --- KONEC: PRO PŘIHLÁŠÉNE UŽIVATELE S PRÁVEM ADMIN --- 🤑
     }

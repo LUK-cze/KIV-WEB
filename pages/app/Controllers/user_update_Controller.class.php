@@ -59,7 +59,6 @@ class user_update_Controller implements IController {
             $userData = $this -> myDB->getLoggedUserData();
         }
 
-        password_verify($_POST['heslo_puvodni'], $userData['heslo']);
 
        
         
@@ -75,47 +74,60 @@ class user_update_Controller implements IController {
         die;
         */
         
-        
                 // Zpracování odeslaných formulářů
                 if(isset($_POST['action'])){
                     // Kontrola, jestli mám všchny požadované hodnoty
                     if(isset($_SESSION['id_uzivatel']) 
                     && isset($_POST['heslo']) 
-                && !empty($_POST['heslo_puvodni']) 
-                && isset($_POST['heslo2'])
-                        && isset($_POST['jmeno']) 
-                        && isset($_POST['prijmeni']) && isset($_POST['email'])
-                        && $_POST['heslo'] == $_POST['heslo2']
-                        && $_POST['heslo'] != ""
-                         && $_POST['jmeno'] != "" && $_POST['email'] != ""
-                        && $_SESSION['pravo'] > 0
-                        // Je současným uživatelem a zadal správné heslo? 
-                        && $_SESSION['id_uzivatel'] == $userData['id_uzivatel']
+                    && !empty($_POST['heslo_puvodni']) 
+                    && isset($_POST['heslo2'])
+                    && isset($_POST['jmeno']) 
+                    && isset($_POST['prijmeni']) && isset($_POST['email'])
+                    && password_verify($_POST['heslo_puvodni'], $userData['heslo'])
+                    && !empty($_POST['heslo'])
+                    && !empty($_POST['jmeno']) 
+                    && !empty($_POST['email'])
+                    && $_SESSION['id_pravo'] > 0
+                    // Je současným uživatelem a zadal správné heslo? 
+                    && $_SESSION['id_uzivatel'] == $userData['id_uzivatel']
                     ){
+                        $heslo = $_POST['heslo'];
+                        $hash = password_hash($heslo, PASSWORD_BCRYPT);
+
                         // Bylo zadáno správné současné heslo?
                         if(password_verify($_POST['heslo_puvodni'], $userData['heslo'])){
                             // Jestli ano tak uložím všchny atributy do batabáze (uživatele)
-                            $res = $this -> myDB->updateUser($_SESSION['id_uzivatel'], $_POST['login'], $_POST['heslo'], $_POST['jmeno'], $_POST['prijmeni'], $_POST['email'], $_SESSION['pravo']);
+                            $res = $this -> myDB->updateUser($_SESSION['id_uzivatel'], $_POST['login'], $hash, $_POST['jmeno'], $_POST['prijmeni'], $_POST['email'], $_SESSION['id_pravo']);
                             // Kontrola jestli byl uložen
                             if($res){
-                                echo "OK: Uživatel byl upraven.";
+                                //echo "OK: Uživatel byl upraven.";
                                 // Zde načítam znovu jeho uložená data (už upravená)
                                 $userData = $this -> myDB->getLoggedUserData();
+
+                                //echo "OK: Uživatel byl přihlášen.";
+                                header("Location: ?page=update&message=upraven");
                             } else {
-                                echo "ERROR: Upravení uživatele se nezdařilo.";
+                                //echo "ERROR: Upravení uživatele se nezdařilo.";
+                                header("Location: ?page=update&message=neupraven");
                             }
                         } else {
                             // Chyba
-                            echo "ERROR: Zadané současné heslo uživatele není správné.";
+                            //echo "ERROR: Zadané současné heslo uživatele není správné.";
+                            header("Location: ?page=update&message=NespravneHeslo");
                         }
                     } else {
                         // Nebyli zadené všchny atributy
-                        echo "ERROR: Nebyly přijaty požadované atributy uživatele.";
+                        //echo "ERROR: Nebyly přijaty požadované atributy uživatele.";
+                        header("Location: ?page=update&message=NespravneAtributy");
                     }
                     echo "<br><br>";
                 }
 
 
+            // ziskam nazev prava uzivatele, abych ho mohl vypsat
+            if($this -> myDB->isUserLogged()){
+                $tplData['right'] = $this -> myDB->getRightNameById($_SESSION["id_pravo"]);
+            }
     
         // vratim sablonu naplnenou daty
         return $tplData;

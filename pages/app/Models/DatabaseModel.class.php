@@ -250,11 +250,10 @@ class DatabaseModel {
             $vystup = $this->pdo->prepare($q);
             $vystup->bindValue(':id_pravo', $id);
             $vystup->execute();
-                    
-            $vystup -> execute();
 
             if($vystup->execute()){
                 $RightJmeno = $vystup->fetch();
+                $RightJmeno = $RightJmeno['nazev'];
                  //= $this->mySession->addSession("id_uzivatel", $vysledek[0]["id_uzivatel"] );
                 return $RightJmeno;
             } else {
@@ -352,7 +351,7 @@ class DatabaseModel {
      * @param int $idPravo      ID prava.
      * @return bool             Bylo upraveno?
      */
-    public function updateUser(int $idUzivatel, string $login, string $heslo, string $jmeno, string $prijmeni, string $email, int $idPravo){
+    public function updateUser(int $idUzivatel, string $login, string $heslo, string $jmeno, string $prijmeni, string $email){
         
         // Ošetření před XSS (Specialní charaktery, které by útočník zadával já převedu na jiné a neškodné)
         $login = htmlspecialchars($login);
@@ -360,12 +359,8 @@ class DatabaseModel {
         $jmeno = htmlspecialchars($jmeno);
         $prijmeni = htmlspecialchars($prijmeni);
         $email = htmlspecialchars($email);
-        $idPravo = htmlspecialchars($idPravo); // U id práva uživatel nic přidat svého nemůže. Nicméně stejně provedu úpravu pro 100% neprůsřelnost
 
-        // slozim cast s hodnotami
-        $updateStatementWithValues = "login=':loginUPDATE', heslo=':hesloUPDATE', jmeno=':jmenoUPDATE', prijmeni=':prijmeniUPDATE', email=':emailUPDATE', id_pravo=':id_pravoUPDATE'";
-
-        $q = "UPDATE". TABLE_UZIVATEL ."SET $updateStatementWithValues WHERE id_uzivatel=$idUzivatel";
+        $q = "UPDATE ". TABLE_UZIVATEL ." SET login=:loginUPDATE, heslo=:hesloUPDATE, jmeno=:jmenoUPDATE, prijmeni=:prijmeniUPDATE, email=:emailUPDATE WHERE id_uzivatel=$idUzivatel";
 
         $vystup = $this->pdo->prepare($q);
         $vystup->bindValue(":loginUPDATE", $login);
@@ -373,19 +368,21 @@ class DatabaseModel {
         $vystup->bindValue(":jmenoUPDATE", $jmeno);
         $vystup->bindValue(":prijmeniUPDATE", $prijmeni);
         $vystup->bindValue(":emailUPDATE", $email);
-        $vystup->bindValue(":id_pravoUPDATE", $idPravo);
 
+        $proslo = $vystup -> execute();       
 
-        if($vystup->execute()){
-            $this -> executeQuery($q);
-            echo "Parametry změněny";
-            return true; // Vracíme true, pokud bylo úspěšné provedení dotazu
-        } else {
+        if (!$proslo){
             echo "Pametry se nepodařilo změnit";
             return false;
-        }
-        
-        
+        } else {
+            $this->mySession->addSession("jmeno", $jmeno );
+            $this->mySession->addSession("prijmeni", $prijmeni );
+            $this->mySession->addSession("login", $login );
+            $this->mySession->addSession("email", $email );
+
+            return true; // Vracíme true, pokud bylo úspěšné provedení dotazu
+        } 
+    
     }
 
     ///////////////////  KONEC: Konkretni funkce  ////////////////////////////////////////////
@@ -401,11 +398,11 @@ class DatabaseModel {
      */
     public function userLogin( $login,  $heslo):bool {
 
-       /* // Ošetření před XSS (Specialní charaktery, které by útočník zadával já převedu na jiné a neškodné)
+        // Ošetření před XSS (Specialní charaktery, které by útočník zadával já převedu na jiné a neškodné)
         $login = htmlspecialchars($login);
         $heslo = htmlspecialchars($heslo);
 
-        */
+        
         // ziskam uzivatele z DB - primo overuju login i heslo
         $q = "SELECT * FROM ".TABLE_UZIVATEL." WHERE login=:loginLOG AND heslo=:hesloLOG";
 
@@ -567,11 +564,11 @@ class DatabaseModel {
 
     public function updatePravo($idUzivatel ,$novePravo){
 
-    $q = "UPDATE ".TABLE_UZIVATEL." SET id_pravo = :NovePravo WHERE id_uzivatel = :idUzivatel;";
+    $q = "UPDATE ".TABLE_UZIVATEL." SET id_pravo = :novePravo WHERE id_uzivatel = :idUzivatel;";
 
 
     $vystup = $this->pdo->prepare($q);
-    $vystup->bindValue(":NovePravo", $novePravo);
+    $vystup->bindValue(":novePravo", $novePravo);
     $vystup->bindValue(":idUzivatel", $idUzivatel);
 
     $vystup -> execute();
@@ -579,13 +576,13 @@ class DatabaseModel {
     if($vystup->execute()){
 
         $this -> executeQuery($q);
-        echo "Právo změněno.";
+        //echo "Právo změněno.";
         return true;
 
     } else {
 
         $this -> executeQuery($q);
-        echo "Právo změněno.";
+        //echo "Právo nezměněno.";
         return true;
     }
 

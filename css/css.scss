@@ -6,6 +6,10 @@ html {
   scroll-behavior: smooth;
 }
 
+body{
+  padding-top: 60px;
+}
+
 .hero{
     aspect-ratio: 960/300;
     width: 100%;
@@ -72,6 +76,11 @@ th, td {
   .gray{
     background-color: #F0F0F0;
     margin-top: 50px;
+    border-radius: 10px;
+  }
+
+  .glyphicon{
+    padding: 3px;
   }
 
   .glyphicon-star{
@@ -84,6 +93,10 @@ th, td {
     background: -webkit-linear-gradient(black, black);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+  }
+
+  .glyphicon-tower{
+    padding-top: 15px;
   }
 // ------------------------ FOOTER ------------------------
   .footer {
@@ -105,21 +118,27 @@ th, td {
 
     h3{
       font-size: 15px !important;
-      }
+    }
   
     @media screen and (max-width: 767px) {
       h3{
         font-size: 15px !important;
         }
+   }
+
+    @media screen and (min-width: 767px) {
+        padding: 130px
   }
 }
-
-// ------------------------ konec FOOTER ------------------------
 
 .fixed-bottom{
   padding-bottom: 0px;
   margin-bottom: 0px;
 }
+
+// ------------------------ konec FOOTER ------------------------
+
+
 .vyhledat {
   position: relative;
 
@@ -148,3 +167,28 @@ th, td {
     border: solid $red;
   }
 }
+
+// ------------------------ tabulka ------------------------
+.table-container {
+  overflow-x: scroll;
+}
+
+table, td, tr, th{
+  border: 3px ridge $orange;
+  font-size: 20px;
+  font-family: 'VT323', monospace;
+  text-align: center;
+}
+
+.id_table{
+  background-color: lightgray;
+}
+
+.pravo_table{
+  background-color: $yellow;
+}
+
+.header_table{
+  background-color: $pink;
+}
+// ------------------------ tabulka ------------------------

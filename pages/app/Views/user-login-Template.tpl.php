@@ -10,6 +10,32 @@ use kivweb\Views\IView;
 
 
 
+?>
+<script>
+    function VypisZpravy(status, akce) {
+        alert(status + ": Uživatel " + akce);
+    }
+
+</script>
+<?php
+
+
+if (isset($_GET['message']) && $_GET['message'] == 'prihlasen') {
+    echo '<script>VypisZpravy("OK", "byl přihlášen");</script>';
+}
+
+if (isset($_GET['message']) && $_GET['message'] == 'NebylPrihlasen') {
+    echo '<script>VypisZpravy("Error", "nebyl přihlášen");</script>';
+}
+
+if (isset($_GET['message']) && $_GET['message'] == 'odhlasen') {
+    echo '<script>VypisZpravy("OK", "byl odhlášen");</script>';
+}
+
+if (isset($_GET['message']) && $_GET['message'] == 'VerifyNeprosel') {
+    echo '<script>VypisZpravy("Error", "nebyl přihlášen z důvodu špatně zadaného hesla.");</script>';
+}
+
 
     ///////////// 😡 --- PRO NEPŘIHLÁŠENÉ UŽIVATELE --- 😡 ///////////////
     // pokud uzivatel neni prihlasen nebo nebyla ziskana jeho data, tak vypisu prihlasovaci formular
@@ -39,8 +65,16 @@ use kivweb\Views\IView;
                         <div class="pass">
                             <input type="password" name="heslo" id="heslo" placeholder="Heslo" required>
                         </div>
-                        <button class="btn btn-sub" type="submit" name="action" value="login">Přihlásit se</button>
-                        <button class="btn btn-res" type="reset">Smazat údaje</button>
+                        <div class="row">
+                            <div class="col-sm-12 center-tlacitka">
+                                <button class="btn btn-sub" type="submit" name="action" value="login">Přihlásit se</button>
+                            </div>
+                        </div>  
+                        <div class="row">
+                            <div class="col-sm-12 center-tlacitka">  
+                                <button class="btn btn-res" type="reset">Smazat údaje</button>
+                            </div>
+                        </div>
                 </div>        
                         <h4>Nemáš ještě účet? Zaregistruj se <a href="index.php?page=registrace">ZDE</a>.</h4>
 
@@ -50,31 +84,39 @@ use kivweb\Views\IView;
             </div>
 
             <div class="row">
-        <div id="how" class="container gray mt-5">
+                <div id="how" class="container gray mt-5">
                 <div class="row">
-                <div class="col-sm-12">
-                    <h1>Jak to funguje?</h1>
-                    <p>Uživatelé na naší stránce mají různé role, které udělují různé pravomoce. </p>
-                    <h3>Nepřihlášený uživatel <span class="glyphicon glyphicon-star"><span class="glyphicon glyphicon-star-empty"><span class="glyphicon glyphicon-star-empty"></h3>
-                    <p>V případě ne přihlášeného uživatele jsou dostupné pouze základní funkce. Máte možnost prohlížet si recenzováné hry a získávat informace o nabídce. Nicméně, abyste mohl/a využívat pokročilejších možností, jako je přidání hodnocení, vidět seznam svých hodnocení nebo správa uživatelského účtu, je nezbytné se registrovat nebo přihlásit.</p>
-                    <p>Takže, až se rozhodnete vstoupit do svého účtu, čekají na vás rozšířené možnosti a lepší uživatelská zkušenost.</p>
+                    <div class="col-sm-12">
+                        <h1>Jak to funguje?</h1>
+                        <p>Uživatelé na naší stránce mají různé role, které udělují různé pravomoce. </p>
+
+                        <h3>Nepřihlášený uživatel <span class="glyphicon glyphicon-star-empty"></span><span class="glyphicon glyphicon-star-empty"></span><span class="glyphicon glyphicon-star-empty"></span></h3>
+                        <p>V případě ne přihlášeného uživatele jsou dostupné pouze základní funkce. Máte možnost prohlížet si recenzováné hry a získávat informace o nabídce. Nicméně, abyste mohl/a využívat pokročilejších možností, jako je přidání hodnocení, vidět seznam svých hodnocení nebo správa uživatelského účtu, je nezbytné se registrovat nebo přihlásit.</p>
+                        <p>Takže, až se rozhodnete vstoupit do svého účtu, čekají na vás rozšířené možnosti a lepší uživatelská zkušenost.</p>
+                    </div>
                 </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <h3>Zelenáč <span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star-empty"></span><span class="glyphicon glyphicon-star-empty"></span></h3>
+                        <p>Vstupte do světa Zelenáčů, kde noví hráči začínají své dobrodružství v nekonečném vesmíru her. Po registraci získáváte titul Zelenáče, otevírající vám možnost sdílet své dojmy v komentářích k recenzím her. Buďte hlasem komunity, přidejte své připomínky nebo vyjádřete souhlas k recenzi, ať cítíte tep herního světa.</p>
+                        <p>Avšak pro možnost přidání vlastní hry a postup na vyšší úroveň se budete muset vypracovat na hodnost "Hráč". To vyžaduje váš zápal a herní dovednosti. Připravte se na vzrušující dobrodružství a dejte najevo svou vášeň ve světě her!</p>
+                    </div>
                 </div>
 
                 <div class="row">
-                <div class="col-sm-12">
-                    <h3>Hráč <span class="glyphicon glyphicon-star"><span class="glyphicon glyphicon-star"><span class="glyphicon glyphicon-star-empty"></span></h3>
-                    <p>Pro přihlášeného uživatele s hodností "Hráč" se otevírají dveře k rozsáhlejším možnostem správy hodnocení. Jako hráč můžete procházet a sledovat recenze ostatních uživatelů. Co však dělá vaši zkušenost ještě osobnější, je možnost přidávat, upravovat nebo dokonce mazat svá vlastní hodnocení. Tato pravomoc vám umožňuje nejen sdílet své dojmy s ostatními, ale také aktivně ovlivňovat a spravovat obsah na platformě.</p>
-                    <p>Takže, až budete mít novou hru na seznamu nebo budete chtít aktualizovat své hodnocení oblíbeného titulu, jako hráč s hodností "Hráč" máte plnou kontrolu nad tím, co se zobrazuje ve vašem seznamu hodnocení.</p>
-                </div>
+                    <div class="col-sm-12">
+                        <h3>Hráč <span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star-empty"></span></h3>
+                        <p>Pro přihlášeného uživatele s hodností "Hráč" se otevírají dveře k rozsáhlejším možnostem správy hodnocení. Jako hráč můžete procházet a sledovat recenze ostatních uživatelů. Co však dělá vaši zkušenost ještě osobnější, je možnost přidávat, upravovat nebo dokonce mazat svá vlastní hodnocení. Tato pravomoc vám umožňuje nejen sdílet své dojmy s ostatními, ale také aktivně ovlivňovat a spravovat obsah na platformě.</p>
+                        <p>Takže, až budete mít novou hru na seznamu nebo budete chtít aktualizovat své hodnocení oblíbeného titulu, jako hráč s hodností "Hráč" máte plnou kontrolu nad tím, co se zobrazuje ve vašem seznamu hodnocení.</p>
+                    </div>
                 </div>
 
                 <div class="row">
-                <div class="col-sm-12">
-                    <h3>Správce <span class="glyphicon glyphicon-star"><span class="glyphicon glyphicon-star"><span class="glyphicon glyphicon-star"></span></h3>
-                    <p>Pro uživatele s hodností "Správce" se otevírá široká škála možností pro aktivní správu obsahu a uživatelských interakcí. Kromě schopnosti prohlížet, přidávat, upravovat a mazat vlastní hodnocení, máte také pravomoc přidávat samotné hry do systému. Tímto způsobem můžete obohatit nabídku a zajistit, že komunita má přístup k co nejširšímu spektru her. Jako správce máte také kontrolu nad všemi uživateli na platformě. Můžete spravovat jejich účty, sledovat jejich aktivitu a schvalovat či zamítat jejich hodnocení. Tato pravomoc vám dává možnost udržovat kvalitu obsahu a zabezpečit, aby komunita byla informována o nejlepších hrách.</p>
-                    <p>Kromě toho můžete povolovat zobrazení hodnocení od ostatních uživatelů, což přispívá k transparentnosti a důvěře ve vaší herní komunitě. Existuje i mýtická a legendární role Super-správce a Super-administrátora, ale je jen pro vyvolené.</p>
-                </div>
+                    <div class="col-sm-12">
+                        <h3>Správce <span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star"></span></h3>
+                        <p>Pro uživatele s hodností "Správce" se otevírá široká škála možností pro aktivní správu obsahu a uživatelských interakcí. Kromě schopnosti prohlížet, přidávat, upravovat a mazat vlastní hodnocení, máte také pravomoc přidávat samotné hry do systému. Tímto způsobem můžete obohatit nabídku a zajistit, že komunita má přístup k co nejširšímu spektru her. Jako správce máte také kontrolu nad všemi uživateli na platformě. Můžete spravovat jejich účty, sledovat jejich aktivitu a schvalovat či zamítat jejich hodnocení. Tato pravomoc vám dává možnost udržovat kvalitu obsahu a zabezpečit, aby komunita byla informována o nejlepších hrách.</p>
+                        <p>Kromě toho můžete povolovat zobrazení hodnocení od ostatních uživatelů, což přispívá k transparentnosti a důvěře ve vaší herní komunitě. Existuje i mýtická a legendární role Super-správce a Super-administrátora, ale je jen pro vyvolené.</p>
+                    </div>
                 </div>       
             </div>
         </div>
@@ -90,6 +132,8 @@ use kivweb\Views\IView;
 
     // ziskam nazev
     $pravoNazev = ($pravo == null) ? "*Neznámé*" : $pravo;
+
+
 
 ?>
 
@@ -137,41 +181,53 @@ use kivweb\Views\IView;
                         </div>
                     </div>
 
-                    <form action="index.php" method="POST">
-                      <input type="hidden" name="action" value="logout">
-                      <input type="submit" name="potvrzeni" value="Odhlaš se">
-                    </form>
+
+            <div class="row">
+                    <div class="col-sm-12 center-tlacitka">                   
+                        <form action="index.php" method="POST">
+                            <button class="btn btn-res" type="submit" name="action" value="logout">Odhlaš se</button>
+                        </form>
+                    </div>
+            </div>
                 </fieldset>
                 </div>  
             </div>
         </div>
 
         <div class="row">
-        <div id="how" class="container gray mt-5">
+                <div id="how" class="container gray mt-5">
                 <div class="row">
-                <div class="col-sm-12">
-                    <h1>Jak to funguje?</h1>
-                    <p>Uživatelé na naší stránce mají různé role, které udělují různé pravomoce. </p>
-                    <h3>Nepřihlášený uživatel <span class="glyphicon glyphicon-star"><span class="glyphicon glyphicon-star-empty"><span class="glyphicon glyphicon-star-empty"></h3>
-                    <p>V případě ne přihlášeného uživatele jsou dostupné pouze základní funkce. Máte možnost prohlížet si recenzováné hry a získávat informace o nabídce. Nicméně, abyste mohl/a využívat pokročilejších možností, jako je přidání hodnocení, vidět seznam svých hodnocení nebo správa uživatelského účtu, je nezbytné se registrovat nebo přihlásit.</p>
-                    <p>Takže, až se rozhodnete vstoupit do svého účtu, čekají na vás rozšířené možnosti a lepší uživatelská zkušenost.</p>
+                    <div class="col-sm-12">
+                        <h1>Jak to funguje?</h1>
+                        <p>Uživatelé na naší stránce mají různé role, které udělují různé pravomoce. </p>
+
+                        <h3>Nepřihlášený uživatel <span class="glyphicon glyphicon-star-empty"></span><span class="glyphicon glyphicon-star-empty"></span><span class="glyphicon glyphicon-star-empty"></span></h3>
+                        <p>V případě ne přihlášeného uživatele jsou dostupné pouze základní funkce. Máte možnost prohlížet si recenzováné hry a získávat informace o nabídce. Nicméně, abyste mohl/a využívat pokročilejších možností, jako je přidání hodnocení, vidět seznam svých hodnocení nebo správa uživatelského účtu, je nezbytné se registrovat nebo přihlásit.</p>
+                        <p>Takže, až se rozhodnete vstoupit do svého účtu, čekají na vás rozšířené možnosti a lepší uživatelská zkušenost.</p>
+                    </div>
                 </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <h3>Zelenáč <span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star-empty"></span><span class="glyphicon glyphicon-star-empty"></span></h3>
+                        <p>Vstupte do světa Zelenáčů, kde noví hráči začínají své dobrodružství v nekonečném vesmíru her. Po registraci získáváte titul Zelenáče, otevírající vám možnost sdílet své dojmy v komentářích k recenzím her. Buďte hlasem komunity, přidejte své připomínky nebo vyjádřete souhlas k recenzi, ať cítíte tep herního světa.</p>
+                        <p>Avšak pro možnost přidání vlastní hry a postup na vyšší úroveň se budete muset vypracovat na hodnost "Hráč". To vyžaduje váš zápal a herní dovednosti. Připravte se na vzrušující dobrodružství a dejte najevo svou vášeň ve světě her!</p>
+                    </div>
                 </div>
 
                 <div class="row">
-                <div class="col-sm-12">
-                    <h3>Hráč <span class="glyphicon glyphicon-star"><span class="glyphicon glyphicon-star"><span class="glyphicon glyphicon-star-empty"></span></h3>
-                    <p>Pro přihlášeného uživatele s hodností "Hráč" se otevírají dveře k rozsáhlejším možnostem správy hodnocení. Jako hráč můžete procházet a sledovat recenze ostatních uživatelů. Co však dělá vaši zkušenost ještě osobnější, je možnost přidávat, upravovat nebo dokonce mazat svá vlastní hodnocení. Tato pravomoc vám umožňuje nejen sdílet své dojmy s ostatními, ale také aktivně ovlivňovat a spravovat obsah na platformě.</p>
-                    <p>Takže, až budete mít novou hru na seznamu nebo budete chtít aktualizovat své hodnocení oblíbeného titulu, jako hráč s hodností "Hráč" máte plnou kontrolu nad tím, co se zobrazuje ve vašem seznamu hodnocení.</p>
-                </div>
+                    <div class="col-sm-12">
+                        <h3>Hráč <span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star-empty"></span></h3>
+                        <p>Pro přihlášeného uživatele s hodností "Hráč" se otevírají dveře k rozsáhlejším možnostem správy hodnocení. Jako hráč můžete procházet a sledovat recenze ostatních uživatelů. Co však dělá vaši zkušenost ještě osobnější, je možnost přidávat, upravovat nebo dokonce mazat svá vlastní hodnocení. Tato pravomoc vám umožňuje nejen sdílet své dojmy s ostatními, ale také aktivně ovlivňovat a spravovat obsah na platformě.</p>
+                        <p>Takže, až budete mít novou hru na seznamu nebo budete chtít aktualizovat své hodnocení oblíbeného titulu, jako hráč s hodností "Hráč" máte plnou kontrolu nad tím, co se zobrazuje ve vašem seznamu hodnocení.</p>
+                    </div>
                 </div>
 
                 <div class="row">
-                <div class="col-sm-12">
-                    <h3>Správce <span class="glyphicon glyphicon-star"><span class="glyphicon glyphicon-star"><span class="glyphicon glyphicon-star"></span></h3>
-                    <p>Pro uživatele s hodností "Správce" se otevírá široká škála možností pro aktivní správu obsahu a uživatelských interakcí. Kromě schopnosti prohlížet, přidávat, upravovat a mazat vlastní hodnocení, máte také pravomoc přidávat samotné hry do systému. Tímto způsobem můžete obohatit nabídku a zajistit, že komunita má přístup k co nejširšímu spektru her. Jako správce máte také kontrolu nad všemi uživateli na platformě. Můžete spravovat jejich účty, sledovat jejich aktivitu a schvalovat či zamítat jejich hodnocení. Tato pravomoc vám dává možnost udržovat kvalitu obsahu a zabezpečit, aby komunita byla informována o nejlepších hrách.</p>
-                    <p>Kromě toho můžete povolovat zobrazení hodnocení od ostatních uživatelů, což přispívá k transparentnosti a důvěře ve vaší herní komunitě. Existuje i mýtická a legendární role Super-správce a Super-administrátora, ale je jen pro vyvolené.</p>
-                </div>
+                    <div class="col-sm-12">
+                        <h3>Správce <span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star"></span></h3>
+                        <p>Pro uživatele s hodností "Správce" se otevírá široká škála možností pro aktivní správu obsahu a uživatelských interakcí. Kromě schopnosti prohlížet, přidávat, upravovat a mazat vlastní hodnocení, máte také pravomoc přidávat samotné hry do systému. Tímto způsobem můžete obohatit nabídku a zajistit, že komunita má přístup k co nejširšímu spektru her. Jako správce máte také kontrolu nad všemi uživateli na platformě. Můžete spravovat jejich účty, sledovat jejich aktivitu a schvalovat či zamítat jejich hodnocení. Tato pravomoc vám dává možnost udržovat kvalitu obsahu a zabezpečit, aby komunita byla informována o nejlepších hrách.</p>
+                        <p>Kromě toho můžete povolovat zobrazení hodnocení od ostatních uživatelů, což přispívá k transparentnosti a důvěře ve vaší herní komunitě. Existuje i mýtická a legendární role Super-správce a Super-administrátora, ale je jen pro vyvolené.</p>
+                    </div>
                 </div>       
             </div>
         </div>

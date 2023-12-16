@@ -53,10 +53,6 @@ class user_login_Controller implements IController {
     $tplData = [];
     // nazev
     $tplData['title'] = $pageTitle;
-    // data pohadek
-    $tplData['stories'] = $this->myDB->getAllIntroductions();
-
-
 
 
      /* ----------------- DEBUG -----------------
@@ -75,25 +71,30 @@ class user_login_Controller implements IController {
 
         if(password_verify($_POST['heslo'], $hash)){
 
-            echo "verify prosel";
+            //echo "verify prosel";
 
                 // pokusim se prihlasit uzivatele
                 $res = $this -> myDB->userLogin($_POST['login'], $hash);
                 if($res){
-                    echo "OK: Uživatel byl přihlášen.";
-                    header("Location: ?page=login#about");
+                    //echo "OK: Uživatel byl přihlášen.";
+                    header("Location: ?page=login&message=prihlasen#about");
+                    
                     exit;
                 } else {
-                    echo "ERROR: Přihlášení uživatele se nezdařilo.";
+                    //echo "ERROR: Přihlášení uživatele se nezdařilo.";
+                    header("Location: ?page=login&message=NebylPrihlasen#about");
                     exit;
                 }
             }
-            echo "verify neprosel";
+            //echo "verify neprosel";
+            header("Location: ?page=login&message=VerifyNeprosel#about");
         }
             // Odhlášení
             else if($_POST['action'] == 'logout'){
+
+                //echo "OK: Uživatel byl odhlášen."; 
+                header("Location: ?page=login&message=odhlasen#about");
                 $this -> myDB->userLogout();
-                echo "OK: Uživatel byl odhlášen.";
             }
             // Když se něco pokazí
             else {
@@ -107,13 +108,11 @@ class user_login_Controller implements IController {
         if($this -> myDB->isUserLogged()){
             // ziskam data prihlasenoho uzivatele
             $tplData['user'] = $this -> myDB->getLoggedUserData();
-
         }
 
             // ziskam nazev prava uzivatele, abych ho mohl vypsat
             if($this -> myDB->isUserLogged()){
             $tplData['right'] = $this -> myDB->getRightNameById($_SESSION["id_pravo"]);
-
             }
         
 

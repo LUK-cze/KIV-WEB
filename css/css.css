@@ -3,9 +3,15 @@
 */
 /*
 Moje paleta barev:
+
+Glyphikony jsou ze stránky: https://icons.getbootstrap.com/
 */
 html {
   scroll-behavior: smooth;
+}
+
+body {
+  padding-top: 60px;
 }
 
 .hero {
@@ -71,6 +77,11 @@ th, td {
 .gray {
   background-color: #F0F0F0;
   margin-top: 50px;
+  border-radius: 10px;
+}
+
+.glyphicon {
+  padding: 3px;
 }
 
 .glyphicon-star {
@@ -83,6 +94,10 @@ th, td {
   background: -webkit-linear-gradient(black, black);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+}
+
+.glyphicon-tower {
+  padding-top: 15px;
 }
 
 .footer {
@@ -106,6 +121,11 @@ th, td {
 @media screen and (max-width: 767px) {
   .footer h3 {
     font-size: 15px !important;
+  }
+}
+@media screen and (min-width: 767px) {
+  .footer {
+    padding: 130px;
   }
 }
 
@@ -145,4 +165,27 @@ th, td {
   border: none;
   color: #F8333C;
   border: solid #F8333C;
+}
+
+.table-container {
+  overflow-x: scroll;
+}
+
+table, td, tr, th {
+  border: 3px ridge #F26419;
+  font-size: 20px;
+  font-family: "VT323", monospace;
+  text-align: center;
+}
+
+.id_table {
+  background-color: lightgray;
+}
+
+.pravo_table {
+  background-color: #FFE74C;
+}
+
+.header_table {
+  background-color: #FF5964;
 }/*# sourceMappingURL=css.css.map */

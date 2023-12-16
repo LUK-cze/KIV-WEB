@@ -1,11 +1,13 @@
 @charset "UTF-8";
 /* Import proměnných
 
-Glyphikony jsou ze stránky: https://icons.getbootstrap.com/
+
 
 */
 /*
 Moje paleta barev:
+
+Glyphikony jsou ze stránky: https://icons.getbootstrap.com/
 */
 input {
   padding: 0.2em;
@@ -189,25 +191,33 @@ input {
   font-size: 35px;
 }
 
+.center-tlacitka {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 10px;
+  padding-bottom: 3px;
+}
+
 select {
   transition: border-color 0.3s ease-in-out;
   outline: none;
   border: 3px solid #FF5964;
   border-radius: 5px;
   height: 50px;
-  width: 400px;
-  font-size: 25px;
+  width: 200px;
+  font-size: 15px;
   background-image: linear-gradient(#FF5964 1%, #FFE74C);
   margin-bottom: 10px;
 }
 @media screen and (max-width: 1000px) {
   select {
-    width: 300px;
+    width: 150px;
   }
 }
 @media screen and (max-width: 767px) {
   select {
-    width: 200px;
+    width: 100px;
   }
 }
 select:hover {
@@ -217,4 +227,42 @@ select:focus {
   background-color: #f8f8f8;
   background-image: linear-gradient(#FFE74C 1%, #FF5964);
   border-color: #FFE74C;
+}
+
+.foto-panel {
+  border: solid 3px #F8333C;
+  padding: 5px;
+  font-family: "VT323", monospace;
+  border-radius: 10px;
+  box-shadow: 5px 0px 40px rgba(0, 0, 0, 0.5);
+  background-image: linear-gradient(#FF5964 25%, #FFE74C);
+}
+
+.fotka {
+  width: 200px;
+  height: 200px;
+  padding: 15px;
+  border-radius: 50%;
+}
+
+.col-md-4, .col-md-8, .col-md-12 {
+  padding: 30px;
+}
+
+.btn-checklg {
+  width: 60px;
+  height: 60px;
+  background-color: lawngreen;
+  border-radius: 50%;
+  margin: 0px !important;
+  cursor: pointer;
+  transition-duration: 0.4s;
+}
+.btn-checklg:hover {
+  background-color: #6BF178;
+}
+
+.checklg {
+  width: 25px;
+  height: 25px;
 }/*# sourceMappingURL=login.css.map */

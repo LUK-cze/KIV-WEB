@@ -1,6 +1,6 @@
 /* Import proměnných
  
-Glyphikony jsou ze stránky: https://icons.getbootstrap.com/
+
 
 */
 @import 'variables';
@@ -180,24 +180,33 @@ input{
   }
 }
 
+  // ---------------------------------------- Odhlášení ----------------------------------------
+    .center-tlacitka {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding-top: 10px;
+      padding-bottom: 3px;
+  }
+
 select {
   transition: border-color 0.3s ease-in-out;
   outline: none;
   border: 3px solid $pink;
   border-radius: 5px;
   height: 50px;
-  width: 400px;
-  font-size: 25px;
+  width: 200px;
+  font-size: 15px;
 
   background-image: linear-gradient($pink 1% , $yellow);
   margin-bottom: 10px;
 
   @media screen and (max-width: 1000px) {
-    width: 300px;
+    width: 150px;
   }
 
   @media screen and (max-width: 767px) {
-    width: 200px;
+    width: 100px;
   }
   
   &:hover{
@@ -211,6 +220,52 @@ select {
   }
 }
 
+// ---------------------------------------- uprava ----------------------------------------
 
+.foto-panel {
+  border: solid 3px $red;
+  padding: 5px;
+  font-family: 'VT323', monospace;
+  border-radius: 10px;
+  box-shadow: 5px 0px 40px rgba(0,0,0, .5);
+  background-image: linear-gradient($pink 25% , $yellow);
+
+
+}
+.fotka {
+  width: 200px;
+  height: 200px;
+  padding: 15px;
+  border-radius: 50%;
+}
+
+.col-md-4, .col-md-8, .col-md-12{
+  padding: 30px;
+}
+
+
+// ---------------------------------------- uprava - CUSTOM TLACITKO NA NAHRANI SOUBORU ----------------------------------------
+
+.btn-checklg{
+  width: 60px;
+  height: 60px;
+  background-color: lawngreen;
+  border-radius: 50%;
+  margin: 0px !important;
+  cursor: pointer;
+  transition-duration: 0.4s;
+
+  &:hover{
+    background-color: $green;
+  }
+}
+
+.checklg{
+  width: 25px;
+  height: 25px;
+}
+
+
+// ---------------------------------------- uprava - KONEC UPRAVY CUSTOM TLACITKA ----------------------------------------
 
 

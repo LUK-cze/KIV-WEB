@@ -43,9 +43,6 @@ class user_management_Controller implements IController {
             $userData = $this -> myDB->getLoggedUserData();
         }
 
-        //// neprisel pozadavek na smazani uzivatele?
-        var_dump($_POST);
-        //die;
         if(!empty($_POST['delete'])
             && isset($_POST['id_uzivatel'])
         ){
@@ -71,12 +68,10 @@ class user_management_Controller implements IController {
                 <?php if ($zmenaPrava) : ?>
                     VypisZpravy("OK", <?php echo $_POST['id_uzivatel']; ?>);
                 <?php
-                    //$tplData['zmena'] = "OK: Uživatel s ID " . $_POST['id_uzivatel'] . " byl změněn.";
                 else :
                 ?>
                     VypisZpravy("CHYBA", <?php echo $_POST['id_uzivatel']; ?>);
                 <?php
-                    //$tplData['zmena'] = "CHYBA: Uživatele s ID " . $_POST['id_uzivatel'] . " se nepodařilo změnit.";
                 endif; ?>
             </script>
         <?php

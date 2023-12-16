@@ -57,7 +57,10 @@ class TemplateBasics implements IView {
      */
     public function getHTMLHeader(string $pageTitle, string $pageType = self::PAGE_LOGIN) {
         $myDB = new DatabaseModel();
-        $right = $_SESSION['id_pravo'];
+
+        if($myDB->isUserLogged()){
+            $right = $_SESSION['id_pravo'];
+        }
 
         ?>
         <html lang="en">
@@ -109,11 +112,12 @@ class TemplateBasics implements IView {
                             <?php if(!$myDB->isUserLogged()){ ?>
                                 <li><a href="index.php?page=registrace">ZAREGISTRUJ SE</a></li>
                                 <li><a href="index.php?page=login">PŘIHLAŠ SE</a></li>
-                            <?php } ?>
+                            <?php } else { ?>
                                 <li><a href="index.php?page=update">MŮJ PROFIL</a></li>
                             <?php if($right <= 2){ ?>
                                 <li><a href="index.php?page=sprava">SPRÁVA UŽIVATELŮ</a></li>
-                            <?php } ?>
+                            <?php } 
+                            }?>
 
                         </ul>
                 </li>
@@ -137,9 +141,11 @@ class TemplateBasics implements IView {
     public function getHTMLFooter(){
         ?>
                 <div class="footer fixed-bottom">
-                    <h3>Autor: Matěj Putík</h3>
-                    <h3>KIV/WEB</h3>
-                    <h3>Osobní E-mail: DUKEczech@seznam.cz</h3>
+                    <div class="text-footer">
+                        <h3>Autor: Matěj Putík</h3>
+                        <h3>KIV/WEB</h3>
+                        <h3>Osobní E-mail: DUKEczech@seznam.cz</h3>
+                    </div>
                 </div>
             </body>
         </html>

@@ -2,8 +2,9 @@
 */
 @import 'variables';
 
-  .col-sm-4, .col-xs-12 {
+  .col-sm-4, .col-sm-8, .col-xs-12 {
     padding: 20px 10px;
+    padding-left: 50px;
   }
 
   .item h4 {
