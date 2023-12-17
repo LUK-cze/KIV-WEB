@@ -60,6 +60,7 @@ Glyphikony jsou ze stránky: https://icons.getbootstrap.com/
   background-image: none;
   border: 1px solid transparent;
   border-radius: 4px;
+  justify-content: center;
 }
 
 @media (min-width: 768px) {

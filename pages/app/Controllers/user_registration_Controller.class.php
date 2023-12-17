@@ -35,8 +35,6 @@ class user_registration_Controller implements IController {
         $tplData = [];
         // nazev
         $tplData['title'] = $pageTitle;
-        // data pohadek
-        $tplData['stories'] = $this->myDB->getAllIntroductions();
 
 
         // zpracovani formulare pro registraci uzivatele
@@ -62,13 +60,16 @@ class user_registration_Controller implements IController {
                 // Kontrola
 
                 if($res){
-                    echo "OK: Uživatel byl přidán do databáze.";
+                    //echo "OK: Uživatel byl přidán do databáze.";
+                    header("Location: ?page=login&message=Zaregistrovan");
                 } else {
-                    echo "ERROR: Uložení uživatele se nezdařilo.";
+                    //echo "ERROR: Uložení uživatele se nezdařilo.";
+                    header("Location: ?page=registrace&message=Nearegistrovan");
                 }
             } else {
                 // Nebyli přijaté všchny atrituty (Nemělo by se to stát, protože toto kontoluji v HTML)
-                echo "ERROR: Nebyly přijaty požadované atributy uživatele.";
+                //echo "ERROR: Nebyly přijaty požadované atributy uživatele.";
+                header("Location: ?page=registrace&message=NeuplneAtributy");
             }
             echo "<br><br>";
         }

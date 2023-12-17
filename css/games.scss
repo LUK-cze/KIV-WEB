@@ -71,6 +71,59 @@
   }
 
 
+
+  // --------------------- RECENZE ---------------------
+  textarea  {
+    width: 100%;
+    height: 150px;
+    padding: 12px 20px;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    background-color: #f8f8f8;
+    font-size: 16px;
+    resize: none;
+  }
+
+  .hodnoceni{
+    display: flex;
+    align-items: center;
+
+    input{
+      display:none;
+    }
+
+    input + label{
+      font-size: 50px;
+      cursor: pointer;
+      text-shadow: 5px 0px 40px rgba(0,0,0, .5);
+    }
+
+    input:checked + label ~ label{
+      /*
+      Zde je to trošku těžší tak vysvětlim jak to funguje:
+
+      input:checked + label ~ label vybere všechny následující <label>, 
+      které jdou po zaškrtnutém <input> (a jsou tedy sourozenci začátečního <input>).
+      */
+      background-image: linear-gradient(lightgray 25% , white) !important;
+    }
+
+    label:active{
+      transform: scale(0.8);
+      transition: 0.3s ease;
+    }
+
+
+
+
+
+  }
+
+  
+// --------------------- KONEC - RECENZE - KONEC ---------------------
+
+
   @media screen and (max-width: 768px) {
     .col-sm-4 {
       text-align: center;
@@ -81,3 +134,4 @@
       }
     }
   }
+

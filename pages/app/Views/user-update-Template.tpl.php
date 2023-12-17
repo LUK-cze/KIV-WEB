@@ -12,11 +12,15 @@ use kivweb\Views\TemplateBasics;
         function VypisZpravy(status, akce) {
             alert(status + ": Uživatel " + akce);
         }
+
+        function VypisZpravyNahrani(status, akce) {
+            alert(status + ": Profilová fotka " + akce);
+        }
     
     </script>
     <?php
     
-    
+    // ---------- Výpis pro úpravy ----------
     if (isset($_GET['message']) && $_GET['message'] == 'upraven') {
         echo '<script>VypisZpravy("OK", "byl upraven");</script>';
     }
@@ -29,6 +33,59 @@ use kivweb\Views\TemplateBasics;
     if (isset($_GET['message']) && $_GET['message'] == 'NespravneAtributy') {
         echo '<script>VypisZpravy("ERROR", "nezadal požadované atributy");</script>';
     }
+
+    // ---------- KONEC Výpis pro úpravy KONEC----------
+
+    // ---------- Výpis pro nahrávání souboru ----------
+
+    if (isset($_GET['message']) && $_GET['message'] == 'UploadProsel') {
+        echo '<script>VypisZpravyNahrani("OK", "byla nahrána");</script>';
+    }
+
+    if (isset($_GET['message']) && $_GET['message'] == 'CastecnyUpload') {
+        echo '<script>VypisZpravyNahrani("ERROR", "byla nahrána pouze z části");</script>';
+    }
+
+    if (isset($_GET['message']) && $_GET['message'] == 'NoUpload') {
+        echo '<script>VypisZpravyNahrani("ERROR", "nebyla nahrána");</script>';
+    }
+
+    if (isset($_GET['message']) && $_GET['message'] == 'ExtensionUploadERR') {
+        echo '<script>VypisZpravyNahrani("ERROR", "byla nahrána se špatnou příponou");</script>';
+    }
+
+    if (isset($_GET['message']) && $_GET['message'] == 'CastecnyUpload') {
+        echo '<script>VypisZpravyNahrani("ERROR", "byla nahrána pouze z části");</script>';
+    }
+
+    if (isset($_GET['message']) && $_GET['message'] == 'MocVelkyUpload') {
+        echo '<script>VypisZpravyNahrani("ERROR", "překročila stanovenou hranici 10 MB");</script>';
+    }
+
+    if (isset($_GET['message']) && $_GET['message'] == 'SpatnyTypUploadu') {
+        echo '<script>VypisZpravyNahrani("ERROR", "nebyla požadovaného formátu (gif, png, jpeg)");</script>';
+    }
+
+    if (isset($_GET['message']) && $_GET['message'] == 'ZadnyTMPAdresar') {
+        echo '<script>VypisZpravyNahrani("ERROR", "nebyla nahrána, protože se nedostala do TMP adresáře";</script>';
+    }
+
+    if (isset($_GET['message']) && $_GET['message'] == 'ZadnyTMPAdresar') {
+        echo '<script>VypisZpravyNahrani("ERROR", "nebyla nahrána, protože se nedostala do TMP adresáře";</script>';
+    }
+
+    if (isset($_GET['message']) && $_GET['message'] == 'NesloZapsatUpload') {
+        echo '<script>VypisZpravyNahrani("ERROR", "nešlo zapsat";</script>';
+    }
+
+    if (isset($_GET['message']) && $_GET['message'] == 'NesloPresunoutUpload') {
+        echo '<script>VypisZpravyNahrani("ERROR", "nešlo přesunout";</script>';
+    }
+
+    if (isset($_GET['message']) && $_GET['message'] == 'DatabazeNeproslaUpload') {
+        echo '<script>VypisZpravyNahrani("ERROR", "nešla nahrát do databáze";</script>';
+    }
+    // ---------- KONEC Výpis pro nahrávání souboru KONEC ----------
 
     // 😡 --- PRO NEPRIHLASENE UZIVATELE --- 😡
     if(!$myDB->isUserLogged()){
@@ -43,11 +100,6 @@ use kivweb\Views\TemplateBasics;
 
 
 ?>
-
-             <!-- <form action="" method="POST" oninput="x.value=(pas1.value==pas2.value)?'OK':'Nestejná hesla'"
-                 autocomplete="off"> <input type="hidden" name="id_uzivatel" value="<?php //echo $_SESSION['id_uzivatel']; ?>">
-                <input type="hidden" name="id_pravo" value="<?php //echo $_SESSION['id_pravo']; ?>">         -->
-
 <div class="container mt-5">
     <div class="row"> 
 
@@ -112,7 +164,10 @@ use kivweb\Views\TemplateBasics;
 
         <!-- Fotka uživatele -->
         <?php 
-        $foto_uzivatel = isset($u['foto']) ? $h['foto'] : "default-profile-picture.svg";
+        $foto_uzivatel = isset($_SESSION['foto']) ? $_SESSION['foto'] : "default-profile-picture.svg";
+        
+        //echo $foto_uzivatel;
+        //die;
         
         ?>
 
@@ -121,7 +176,7 @@ use kivweb\Views\TemplateBasics;
             <div class="row">
                   <div class="col-sm-12 center-tlacitka"> 
                       <div class=" center-tlacitka">
-                            <img class="fotka" src="../img/profile_pictures/default-profile-picture.svg" alt="ProfilePic"><?php $foto_uzivatel ?>
+                            <img class="fotka" src="../img/profile_pictures/<?php echo $foto_uzivatel ?>" alt="ProfilePic">
                       </div>  
                   </div>
             </div>

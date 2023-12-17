@@ -36,12 +36,15 @@ if (isset($_GET['message']) && $_GET['message'] == 'VerifyNeprosel') {
     echo '<script>VypisZpravy("Error", "nebyl přihlášen z důvodu špatně zadaného hesla.");</script>';
 }
 
+if (isset($_GET['message']) && $_GET['message'] == 'Zaregistrovan') {
+    echo '<script>VypisZpravy("OK", "byl zaregistrován a nyní se musíte přihlásit");</script>';
+}
+
 
     ///////////// 😡 --- PRO NEPŘIHLÁŠENÉ UŽIVATELE --- 😡 ///////////////
     // pokud uzivatel neni prihlasen nebo nebyla ziskana jeho data, tak vypisu prihlasovaci formular
 
     if(!$myDB->isUserLogged()){
-        
 ?>
 
         <div class="container mt-5">
@@ -133,6 +136,8 @@ if (isset($_GET['message']) && $_GET['message'] == 'VerifyNeprosel') {
     // ziskam nazev
     $pravoNazev = ($pravo == null) ? "*Neznámé*" : $pravo;
 
+    $foto_uzivatel = isset($_SESSION['foto']) ? $_SESSION['foto'] : "default-profile-picture.svg";
+
 
 
 ?>
@@ -148,7 +153,8 @@ if (isset($_GET['message']) && $_GET['message'] == 'VerifyNeprosel') {
             <div class="col-sm-4">
                 <div class="login">
                 <fieldset>
-                    <legend><h3>Vítej <?php echo $_SESSION['jmeno'] ; ?></h3></legend>
+                    <legend><h3>Vítej 
+                            <img class="fotka-medium" src="../img/profile_pictures/<?php echo $foto_uzivatel ?>" alt="ProfilePic-mini"></h3></legend>
                     <div class="parametry">
                         <div class="row">
                             <div class="col-sm-12">

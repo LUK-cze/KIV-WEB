@@ -237,6 +237,28 @@ select {
   height: 200px;
   padding: 15px;
   border-radius: 50%;
+  background-size: cover;
+}
+
+.fotka-mini{
+  width: 17px;
+  height: 17px;
+  border-radius: 50%;
+  padding: 0px;
+  margin: 0px;
+
+  background-size: cover;
+}
+
+.fotka-medium{
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+
+  padding: 0px;
+  margin: 0px;
+
+  background-size: cover;
 }
 
 .col-md-4, .col-md-8, .col-md-12{

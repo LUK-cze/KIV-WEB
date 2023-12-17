@@ -25,7 +25,27 @@ use kivweb\Models\DatabaseModel;
     //$myDB = new MyDatabase();
 
     $rights = $myDB -> getAllRights();
-    
+
+    ?>
+    <script>
+        function VypisZpravy(status, akce) {
+            alert(status + ": Uživatel " + akce);
+        }
+      </script>
+    <?php
+
+
+    // ---------- Registrace zprávy ----------
+    // zaregistrovan je na loginu
+
+  if (isset($_GET['message']) && $_GET['message'] == 'Nezaregistrovan') {
+    echo '<script>VypisZpravy("ERROR", "nebyl zaregistrován");</script>';
+  }
+
+  if (isset($_GET['message']) && $_GET['message'] == 'NeuplneAtributy') {
+    echo '<script>VypisZpravy("ERROR", "nezadal všechny požadované atributy");</script>';
+  }
+
     // 😡 ---  PRO NEPRIHLASENE UZIVATELE --- 😡
     if(!$myDB->isUserLogged()){
 ?>

@@ -385,7 +385,30 @@ class DatabaseModel {
     
     }
 
-    ///////////////////  KONEC: Konkretni funkce  ////////////////////////////////////////////
+    // Tato funkce přidává fotku uživateli
+    public function addFoto(int $idUzivatel, string $foto){
+
+        // Ošetření před XSS je ošetrěno v controleru user update
+
+        $q = "UPDATE ". TABLE_UZIVATEL ." SET foto=:fotoFOTO WHERE id_uzivatel=:idUzivatelFOTO";
+
+        $vystup = $this->pdo->prepare($q);
+        $vystup->bindValue(":fotoFOTO", $foto);
+        $vystup->bindValue(":idUzivatelFOTO", $idUzivatel);
+
+        $proslo = $vystup -> execute();
+
+        if($proslo){
+            $this -> executeQuery($q);
+            $this->mySession->addSession("foto", $foto );
+            //echo "Foto nahráno do databáze";
+            return true; // Vracíme true, pokud bylo úspěšné provedení dotazu
+        } else {
+            //echo "Foto nenahráno do databáze";     
+            return false;
+        }
+
+    }
 
     ///////////////////  Sprava prihlaseni uzivatele  ////////////////////////////////////////
 
@@ -424,6 +447,7 @@ class DatabaseModel {
             $this->mySession->addSession("prijmeni", $vysledek[0]["prijmeni"] );
             $this->mySession->addSession("login", $vysledek[0]["login"] );
             $this->mySession->addSession("email", $vysledek[0]["email"] );
+            $this->mySession->addSession("foto", $vysledek[0]["foto"] );
 
             return true;
         }
@@ -481,64 +505,35 @@ class DatabaseModel {
     }
 
 
-    // Tato funkce přidává fotku uživateli
-    public function addFoto(int $idUzivatel, string $foto){
-
-        // Ošetření před XSS (Specialní charaktery, které by útočník zadával já převedu na jiné a neškodné)
-        $foto = htmlspecialchars($foto); // Foto je jen název fotky v naší databázi
-
-        $q = "UPDATE". TABLE_UZIVATEL ."SET foto=':fotoFOTO' WHERE id_uzivatel=$idUzivatel";
-
-        // Update fotky (defaultně je null)
-        $updateStatementWithValues = "foto=':fotoFOTO'";
-
-        $vystup = $this->pdo->prepare($updateStatementWithValues);
-        $vystup->bindValue(":fotoFOTO", $foto);
-
-
-
-        if($vystup->execute()){
-            $this -> executeQuery($q);
-            echo "Foto nahráno";
-            return true; // Vracíme true, pokud bylo úspěšné provedení dotazu
-        } else {
-            echo "Foto nenahráno";
-            return false;
-        }
-
-    }
-
     // Funkce pro vložení hry do databáze
-    public function addNewGame(string $nazev_hry, int $id_zanry, string $foto_hry, string $popisek_hry){
-
-        // TODO: Smaž jestli nakonec změníš strukturu projektu nebo databáze
+    public function addNewGame(string $nazev_hry, string $zanr, string $popisek_hry){
 
         // Ošetření před XSS (Specialní charaktery, které by útočník zadával já převedu na jiné a neškodné)
         $nazev_hry = htmlspecialchars($nazev_hry);
-        $id_zanry = htmlspecialchars($id_zanry);
-        $foto_hry = htmlspecialchars($foto_hry); // Foto je jen název fotky v naší databázi
+        $zanr = htmlspecialchars($zanr);
         $popisek_hry = htmlspecialchars($popisek_hry);
 
 
         // Hlavička pro vložení úživatelů do tabulky
-        $insertStatement = "nazev_hry, id_zanru, foto_hry, popisek_hry";
+        $insertStatement = "nazev_hry, zanr, popisek_hry";
         // Hodnoty pro vložení do tabulky s hrami
-        $insertValues = "':nazev_hryADDGAME', ':id_zanryADDGAME', ':foto_hryADDGAME', ':popisek_hryADDGAME'";
+        $insertValues = ":nazev_hryADDGAME, :zanrADDGAME, :popisek_hryADDGAME";
 
-        $q = "INSERT INTO " . TABLE_HRY . "($insertStatement) VALUES ($insertValues);";
+        $q = "INSERT INTO " . TABLE_HRY . " ($insertStatement) VALUES ($insertValues);";
 
         $vystup = $this->pdo->prepare($q);
         $vystup->bindValue(":nazev_hryADDGAME", $nazev_hry);
-        $vystup->bindValue(":id_zanryADDGAME", $id_zanry);
-        $vystup->bindValue(":foto_hryADDGAME", $foto_hry);
+        $vystup->bindValue(":zanrADDGAME", $zanr);
         $vystup->bindValue(":popisek_hryADDGAME", $popisek_hry);
 
         if($vystup->execute()){
             $this -> executeQuery($q);
-            echo "Uživatel byl zaregistrován";
+            var_dump($vystup);
+            die;
+            //echo "Hra byla vložena";
             return true; // Vracíme true, pokud bylo úspěšné provedení dotazu
         } else {
-            echo "Přidání hry se nezdařilo.";
+            //echo "Hra nebyla vložena";
         }
     }
 
@@ -556,9 +551,58 @@ class DatabaseModel {
         // pripravim dotaz
         $q = "SELECT * FROM ".TABLE_RECENZE;
 
-        $hry = $this->selectFromTable(TABLE_RECENZE, "", "", "hodnoceni");
+        $recenze = $this->selectFromTable(TABLE_RECENZE, "", "", "hodnoceni");
 
-        return $hry;
+        return $recenze;
+
+    }
+
+    public function getLoginByIdRecenze($uzivatelID){
+        // pripravim dotaz
+        $q = "SELECT recenze.id_recenze, uzivatele.login
+        FROM " . TABLE_RECENZE . "
+        JOIN " . TABLE_UZIVATEL . " ON recenze.id_uzivatel = uzivatele.id_uzivatel
+        WHERE recenze.id_uzivatel = $uzivatelID;";
+
+        $LoginById = $this -> executeQuery($q);
+
+        return $LoginById;
+    }
+
+    // Funkce na přidávání recenzí
+    public function addNewRecenze($idHry, $idUzivatele, $hodnoceni, $recenze_text, $datum){
+
+        // Ošetření před XSS (Specialní charaktery, které by útočník zadával já převedu na jiné a neškodné)
+        $idHry = htmlspecialchars($idHry);
+        $idUzivatele = htmlspecialchars($idUzivatele);
+        $hodnoceni = htmlspecialchars($hodnoceni);
+        $recenze_text = htmlspecialchars($recenze_text);
+        $datum = htmlspecialchars($datum);
+
+
+        // hlavicka pro vlozeni do tabulky uzivatelu
+        $insertStatement = "id_hry, id_uzivatel, hodnoceni, recenze_text, datum";
+
+        // hodnoty pro vlozeni do tabulky uzivatelu
+        $insertValues = ":id_hry, :id_uzivatel, :hodnoceni, :recenze_text, :datum";
+        // provedu dotaz a vratim jeho vysledek
+
+        $q = "INSERT INTO " . TABLE_RECENZE . "($insertStatement) VALUES ($insertValues);";
+
+        $vystup = $this->pdo->prepare($q);
+        $vystup->bindValue(":id_hry", $idHry);
+        $vystup->bindValue(":id_uzivatel", $idUzivatele);
+        $vystup->bindValue(":hodnoceni", $hodnoceni);
+        $vystup->bindValue(":recenze_text", $recenze_text);
+        $vystup->bindValue(":datum", $datum);
+
+        if($vystup->execute()){
+            //echo "Recenze byla přidána";
+            return true; // Vracíme true, pokud bylo úspěšné provedení dotazu
+        } else {
+            //echo "Recenze nebyla přidána";
+            return false;
+        }
 
     }
 

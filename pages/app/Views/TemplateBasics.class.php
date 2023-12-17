@@ -62,6 +62,7 @@ class TemplateBasics implements IView {
             $right = $_SESSION['id_pravo'];
         }
 
+        $foto_uzivatel = isset($_SESSION['foto']) ? $_SESSION['foto'] : "default-profile-picture.svg";
         ?>
         <html lang="en">
         <head>
@@ -83,6 +84,7 @@ class TemplateBasics implements IView {
         <link rel="stylesheet" href="../css/navbar.css">
         <link rel="stylesheet" href="../css/login.css">
         <link rel="stylesheet" href="../css/games.css">
+    
 
 
 
@@ -106,8 +108,11 @@ class TemplateBasics implements IView {
                 <li><a href="index.php?page=recenze">RECENZE</a></li>
                 <li><a href="index.php?page=hry">HRY</a></li>
                 <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">JÁ
-                      <span class="caret"></span></a>
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                        JÁ <?php if($myDB->isUserLogged()){ ?>
+                            <img class="fotka-mini" src="../img/profile_pictures/<?php echo $foto_uzivatel ?>" alt="ProfilePic-mini">
+                        <?php } ?>
+                            <span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             <?php if(!$myDB->isUserLogged()){ ?>
                                 <li><a href="index.php?page=registrace">ZAREGISTRUJ SE</a></li>

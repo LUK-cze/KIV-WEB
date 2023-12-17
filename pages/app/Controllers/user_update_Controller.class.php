@@ -15,6 +15,7 @@ Zde si uživatel může upravit svoje údaje co má uložené v databázi
 
 namespace kivweb\Controllers;
 
+use finfo;
 use kivweb\Models\DatabaseModel as myDB;
 use kivweb\Models\DatabaseModel;
 
@@ -49,8 +50,6 @@ class user_update_Controller implements IController {
         $tplData = [];
         // nazev
         $tplData['title'] = $pageTitle;
-        // data pohadek
-        $tplData['stories'] = $this->myDB->getAllIntroductions();
 
         
         // Pokud je uživatel už přihlášen tak získám jeho data
@@ -121,8 +120,117 @@ class user_update_Controller implements IController {
                         header("Location: ?page=update&message=NespravneAtributy");
                     }
                     echo "<br><br>";
+
                 }
 
+                if(isset($_POST['upload'])){
+                    // Zde kontroluji errory pokud error kod se nerovná nule (co znamená vše OK = obrázek byl nahrán)
+                    if($_FILES["ProfilePic"]["error"] !== UPLOAD_ERR_OK){
+                        
+                        switch ($_FILES["ProfilePic"]["error"]){
+                            case UPLOAD_ERR_PARTIAL:
+                                header("Location: ?page=update&message=CastecnyUpload");
+                                exit();
+                            break;
+
+                            case UPLOAD_ERR_PARTIAL:
+                                header("Location: ?page=update&message=CastecnyUpload");
+                                exit();
+                            break;
+
+                            case UPLOAD_ERR_NO_FILE:
+                                header("Location: ?page=update&message=NoUpload");
+                                exit();
+                            break;
+
+                            case UPLOAD_ERR_EXTENSION:
+                                header("Location: ?page=update&message=ExtensionUploadERR");
+                                exit();
+                            break;
+
+                            case UPLOAD_ERR_EXTENSION:
+                                header("Location: ?page=update&message=ExtensionUploadERR");
+                                exit();
+                            break;
+
+                            case UPLOAD_ERR_NO_TMP_DIR:
+                                header("Location: ?page=update&message=ZadnyTMPAdresar");
+                                exit();
+                            break;
+
+                            case UPLOAD_ERR_CANT_WRITE:
+                                header("Location: ?page=update&message=NesloZapsatUpload");
+                                exit();
+                            break;
+
+                            default:
+                                exit("Nastala neznámá chyba");
+                            break;
+                        }
+                    }
+
+                    
+                // Kontrola, že fotka má maximální velikost 10 MB (10485760 B)
+                if($_FILES["ProfilePic"]["size"] > 10485760){
+                    header("Location: ?page=update&message=MocVelkyUpload");
+                    exit();
+                }
+
+
+                $finfo = new finfo(FILEINFO_MIME_TYPE);
+
+                $fotka_typ = $finfo->file($_FILES["ProfilePic"]["tmp_name"]);
+
+
+
+                $povolene_typy = ["image/gif", "image/png", "image/jpeg"];
+
+                if (! in_array($_FILES["ProfilePic"]["type"], $povolene_typy)){
+                    header("Location: ?page=update&message=SpatnyTypUploadu");
+                    exit();
+                }
+
+
+                // Přesování souboru na správné místo 
+                // Ošetření útoků
+                $pathinfo = pathinfo($_FILES["ProfilePic"]["name"]);
+
+                $base = $pathinfo["filename"];
+
+                $base = preg_replace("/[^\w-]/", "_", $base);
+
+                $filename = $base . "." . $pathinfo["extension"];
+                // Konec ošetření proti škodlivím znakům 
+
+                $destinace = __DIR__."/../../../img/profile_pictures/".$filename;
+
+                // Ošetření nahrávaní fotky, která se už v databázi nachází 
+                $i = 1;
+
+                while(file_exists($destinace)){
+                    $filename = $base . "($i)." . $pathinfo["extension"];
+                    $destinace = __DIR__."/../../../img/profile_pictures/".$filename;
+                    
+                    $i++;
+                }
+                    
+
+                if(!move_uploaded_file($_FILES["ProfilePic"]["tmp_name"], $destinace)){
+                    header("Location: ?page=update&message=NesloPresunoutUpload");
+                }
+
+                // Když je vše OK
+                if (!empty($filename)){
+                    $res = $this -> myDB->addFoto($_SESSION["id_uzivatel"], $filename);
+                    header("Location: ?page=update&message=UploadProsel");
+                } else {
+                    header("Location: ?page=update&message=DatabazeNeproslaUpload");
+                }
+
+
+                
+
+          }
 
             // ziskam nazev prava uzivatele, abych ho mohl vypsat
             if($this -> myDB->isUserLogged()){
