@@ -120,7 +120,7 @@ class TemplateBasics implements IView {
                             <?php } else { ?>
                                 <li><a href="index.php?page=update">MŮJ PROFIL</a></li>
                             <?php if($right <= 2){ ?>
-                                <li><a href="index.php?page=sprava">SPRÁVA UŽIVATELŮ</a></li>
+                                <li><a href="index.php?page=sprava">SPRÁVA DATABÁZE</a></li>
                             <?php } 
                             }?>
 

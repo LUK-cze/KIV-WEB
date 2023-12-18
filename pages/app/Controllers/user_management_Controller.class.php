@@ -43,17 +43,51 @@ class user_management_Controller implements IController {
             $userData = $this -> myDB->getLoggedUserData();
         }
 
-        if(!empty($_POST['delete'])
+
+// --------------------------------- DELETE ---------------------------------
+        if(!empty($_POST['delete-uzivatel'])
             && isset($_POST['id_uzivatel'])
         ){
             // provedu smazani uzivatele
             $ok = $this->myDB->deleteUser(intval($_POST['id_uzivatel']));
             if($ok){
-                $tplData['delete'] = "OK: Uživatel s ID:$_POST[id_uzivatel] byl smazán z databáze.";
+                //$tplData['delete'] = "OK: Uživatel s ID:$_POST[id_uzivatel] byl smazán z databáze.";
+                header("Location: ?page=sprava&message=SmazanUzivatel");
             } else {
-                $tplData['delete'] = "CHYBA: Uživatele s ID:$_POST[id_uzivatel] se nepodařilo smazat z databáze.";
+                //$tplData['delete'] = "CHYBA: Uživatele s ID:$_POST[id_uzivatel] se nepodařilo smazat z databáze.";
+                header("Location: ?page=sprava&message=NesmazanUzivatel");
             }
         }
+
+        if(!empty($_POST['delete-hra'])
+             && isset($_POST['id_hry'])
+         ){
+            // provedu smazani uzivatele
+            $ok = $this->myDB->deleteGame(intval($_POST['id_hry']));
+            if($ok){
+                //$tplData['delete'] = "OK: Uživatel s ID:$_POST[id_uzivatel] byl smazán z databáze.";
+                header("Location: ?page=sprava&message=SmazanaHra");
+            } else {
+                //$tplData['delete'] = "CHYBA: Uživatele s ID:$_POST[id_uzivatel] se nepodařilo smazat z databáze.";
+                header("Location: ?page=sprava&message=NesmazanaHra");
+            }
+        }
+
+            if(!empty($_POST['delete-recenze'])
+            && isset($_POST['id_recenze'])
+        ){
+            // provedu smazani uzivatele
+            $ok = $this->myDB->deleteRecenze(intval($_POST['id_recenze']));
+            if($ok){
+                //$tplData['delete'] = "OK: Uživatel s ID:$_POST[id_uzivatel] byl smazán z databáze.";
+                header("Location: ?page=sprava&message=SmazanaRecenze");
+            } else {
+                //$tplData['delete'] = "CHYBA: Uživatele s ID:$_POST[id_uzivatel] se nepodařilo smazat z databáze.";
+                header("Location: ?page=sprava&message=NesmazanaRecenze");
+            }
+        }
+
+// --------------------------------- KONEC DELETE ---------------------------------
 
         if (!empty($_POST['zmenit']) && isset($_POST['id_uzivatel']) && isset($_POST['nove_pravo'])) {
 
@@ -80,6 +114,8 @@ class user_management_Controller implements IController {
  
         //// nactu aktualni data uzivatelu
         $tplData['uzivatele'] = $this->myDB->getAllUsers();
+        $tplData['hry'] = $this->myDB->getAllGames();
+        $tplData['recenze'] = $this->myDB->getAllRecenze();
 
         
 

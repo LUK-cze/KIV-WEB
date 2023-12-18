@@ -83,4 +83,13 @@ Glyphikony jsou ze stránky: https://icons.getbootstrap.com/
 .glyphicon-tower {
   color: #FF5964 !important;
   size: 30px;
+}
+
+/* -------------------------------  TABS ------------------------------- */
+.nav, .nav-tabs {
+  font-family: "VT323", monospace;
+  font-size: 20px;
+}
+.nav a, .nav-tabs a {
+  color: red;
 }/*# sourceMappingURL=navbar.css.map */

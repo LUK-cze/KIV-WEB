@@ -37,15 +37,6 @@ class games_Controller implements IController {
         // nazev
         $tplData['title'] = $pageTitle;
 
-       
-        /*
-        // TODO: Opravit nahravaní fotky do batabaze a do adresare 
-        var_dump($_POST);
-        var_dump($_FILES);
-        die;
-        */
-        
-
         if(isset($_POST['PridejHru'])){
             if(!empty($_POST["nazev_hry"]) && 
             !empty($_POST["zanr"]) &&
@@ -55,15 +46,18 @@ class games_Controller implements IController {
 
 
             if ($PridaniHry){
-                header("Location: ?page=update&message=Pridana");
+                header("Location: ?page=hry&message=Pridana");
             } else {
-                header("Location: ?page=update&message=Nepridana");
+                header("Location: ?page=hry&message=Nepridana");
             }
             
 
         }
+    }
 
-        if(isset($_POST['uploadFotoHry'])){
+        if(isset($_POST['uploadFotoHry']) ){
+            if(!empty($_POST["hra"])){
+
 
             // ---------------------- OŠETŘENÍ FOTKY ----------------------
             // Zde kontroluji errory pokud error kod se nerovná nule (co znamená vše OK = obrázek byl nahrán)
@@ -162,19 +156,26 @@ class games_Controller implements IController {
 
         // Když je vše OK
         if (!empty($filename)){
-            $res = $this -> myDB->addFoto($_POST["nazev_hry"], $filename);
+            $res = $this -> myDB->addGameFoto($_POST["hra"], $filename);
             header("Location: ?page=hry&message=UploadProsel");
         } else {
             header("Location: ?page=hry&message=DatabazeNeproslaUpload");
         }
 
-    } else {
+    }else {
         echo "NEUPLNE PARAMETRY";
         die;
         header("Location: ?page=hry&message=NeuplneAtributy");
-    }
-  }
 
+    } 
+
+}
+
+  /*
+  var_dump($_POST);
+  var_dump($_FILES);
+  die;
+  */
 
         //// nactu aktualni data her
         $tplData['hry'] = $this->myDB->getAllGames();

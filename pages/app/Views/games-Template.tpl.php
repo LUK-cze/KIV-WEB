@@ -94,6 +94,7 @@ if (isset($_GET['message']) && $_GET['message'] == 'DatabazeNeproslaUpload') {
 
 
 
+
 if($myDB->isUserLogged()){
   
   
@@ -143,7 +144,8 @@ if($myDB->isUserLogged()){
 
       <div class="row">
         <div class="col-md-12">
-          <form method="post" enctype="multipart/form-data">
+
+          <form action="" method="POST" enctype="multipart/form-data">
             <input type="file" name="GamePic" class="input-file"><br>
 
               <select name='hra'>

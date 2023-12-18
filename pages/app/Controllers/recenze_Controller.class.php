@@ -47,21 +47,20 @@ class recenze_Controller implements IController {
     $tplData['title'] = $pageTitle;
     // data pohadek
 
-
-
-
      /* ----------------- DEBUG -----------------
     var_dump($_POST);
     die;
     ----------------- DEBUG ----------------- */ 
 
     // Zpracování odesílaných formulářů
-    if(isset($_POST['recenze'])){
 
+    if(isset($_POST['recenze'])){
     if(!empty($_POST["hra"]) && !empty($_POST["recenze_text"]) && !empty($_POST["hodnoceni"])){
         $datumCasRecenze = date("Y-m-d H:i:s"); // Formát "Y-m-d H:i:s" znamená rok-měsíc-den hodina:minuta:sekunda
 
-        $pridatRecenzi = $this -> myDB->addNewRecenze($_POST["id_hry"], $_SESSION["id_uzivatel"], $_POST["hodnoceni"], $_POST["recenze_text"], $datumCasRecenze);
+
+
+        $pridatRecenzi = $this -> myDB->addNewRecenze($_POST["hra"], $_POST["id_hry"], $_SESSION["id_uzivatel"], $_SESSION["login"], $_POST["hodnoceni"], $_POST["recenze_text"], $datumCasRecenze);
 
             if($pridatRecenzi){
                 header("Location: ?page=recenze&message=HraPridana");
@@ -90,6 +89,13 @@ class recenze_Controller implements IController {
        
             $tplData['gameData'] = $this -> myDB -> getAllGames();
             $tplData["AllRecenze"] = $this -> myDB -> getAllRecenze();
+
+            /*
+            var_dump($tplData['gameData']);
+            echo "<br><br><br><br><br><br><br>";
+            var_dump($tplData['AllRecenze']);
+            die;
+            */
 
             // vratim sablonu naplnenou daty
             return $tplData;

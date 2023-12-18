@@ -1,0 +1,6 @@
+INSERT INTO `uzivatele` (`id_uzivatel`, `id_pravo`, `jmeno`, `prijmeni`, `login`, `heslo`, `email`, `foto`) VALUES
+(1, 1, 'Hlavní správce', 'spravce', 'admin', '$2y$10$aQCfLP.RZ3k5MGwXgws5/.Zkg5Op08WGzE.YmDwQ.UxHdWvF6BQp.', 'SuperAdmin@seznam.cz', NULL),
+(2, 3, 'Pokusný Autor', 'autor', 'autor', '$2y$10$E6.4.ubTOpmIoHkuOEWMeeEQy4my.Wed8jQ5f4XrQvzmCPuHR.S.a', 'Recenzent@seznam.cz', NULL),
+(3, 4, 'Pokusný Recenzent', 'recenzent', 'Recenzent', '$2y$10$XwosZjIWyNMMLsdK/mZ6KO3ryRSdkZMw1fMRNU4X58fIpT6E.J9u2', 'Autor@seznam.cz', NULL),
+(4, 1, 'Jan', 'Novák', 'Test', '$2y$10$sjq6tIiR0YYjCEL3rCv7cOHKgTBftroukHn7EwEdgKAYIAuQTbD/u', 'Jan@seznam.cz', 'maul(1).jpg'),
+(5, 2, 'lojza', 'omacka', 'banan', '$2y$10$LsqJDgzSK8uGzx.nyqFDxOKmSIwwT2WQgasZtcSqOYDFs5VIfI.Aq', 'hrac@nevim.cz', 'enlistedV2.jpg');

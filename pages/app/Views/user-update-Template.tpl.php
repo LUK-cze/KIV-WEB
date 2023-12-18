@@ -227,10 +227,10 @@ use kivweb\Views\TemplateBasics;
                         <div class="row">
                             <br>
                             <div class="pass col-sm-6">
-                                <input type="password" name="heslo" id="heslo" placeholder="Heslo" required>
+                                <input type="password" name="heslo" id="heslo" placeholder="Zadejte nové heslo" required>
                             </div>
                             <div class="pass col-sm-6">
-                                <input type="password" name="heslo2" id="heslo2" placeholder="Napište heslo znovu" required>
+                                <input type="password" name="heslo2" id="heslo2" placeholder="Zadejte nové heslo znovu" required>
                             </div>
                             <div class="pass col-sm-12">
                                 <input type="password" name="heslo_puvodni" id="heslo_puvodni" placeholder="Napište své původní heslo" required>

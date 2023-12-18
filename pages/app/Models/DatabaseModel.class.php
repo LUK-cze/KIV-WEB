@@ -191,23 +191,54 @@ class DatabaseModel {
         
         if($vystup->execute()){
             // dotaz proběhl vpořádku a vrátí všechny řádky, které dá do pole
-            return $vystup->fetchAll();
+            return true;
+        } else {
+            // dotaz neprošel
+            return null;
+        }
+        
+    }
+
+    
+        /**
+     *  Smaze danou hru z DB.
+     *  @param int $gameID ID hry.
+     */
+    public function deleteGame(int $gameID):bool {
+        // pripravim dotaz
+        $q = "DELETE FROM ".TABLE_HRY." WHERE id_hry=:gameID_DEL";
+        $vystup = $this->pdo->prepare($q);
+        $vystup->bindValue("gameID_DEL", $gameID);
+        
+        if($vystup->execute()){
+            // dotaz proběhl vpořádku a vrátí všechny řádky, které dá do pole
+            return true;
         } else {
             // dotaz neprošel
             return null;
         }
 
+    }
 
-        // provedu dotaz
-        $res = $this->pdo->query($q);
-        // pokud neni false, tak vratim vysledek, jinak null
-        if ($res) {
-            // neni false
+    
+        /**
+     *  Smaze daneho uzivatele z DB.
+     *  @param int $userId  ID uzivatele.
+     */
+    public function deleteRecenze(int $recenzeID):bool {
+        // pripravim dotaz
+        $q = "DELETE FROM ".TABLE_RECENZE." WHERE id_recenze=:recenzeID_DEL";
+        $vystup = $this->pdo->prepare($q);
+        $vystup->bindValue("recenzeID_DEL", $recenzeID);
+        
+        if($vystup->execute()){
+            // dotaz proběhl vpořádku a vrátí všechny řádky, které dá do pole
             return true;
         } else {
-            // je false
-            return false;
+            // dotaz neprošel
+            return null;
         }
+
     }
 
     ///////////////////  KONEC: Obecne funkce  ////////////////////////////////////////////
@@ -244,7 +275,6 @@ class DatabaseModel {
      * @return array        Data nalezeneho prava.
      */
     public function getRightNameById(int $id){
-
             $q = "SELECT nazev FROM ".TABLE_PRAVO." WHERE id_pravo = :id_pravo;";
 
             $vystup = $this->pdo->prepare($q);
@@ -410,6 +440,30 @@ class DatabaseModel {
 
     }
 
+    // Tato funkce přidává fotku hře
+    public function addGameFoto(int $idHry, string $foto){
+
+         // Ošetření před XSS je ošetrěno v controleru user update
+
+         $q = "UPDATE ". TABLE_HRY ." SET foto_hry=:foto_hryFOTO WHERE id_hry=:idHryFOTO";
+
+         $vystup = $this->pdo->prepare($q);
+         $vystup->bindValue(":foto_hryFOTO", $foto);
+         $vystup->bindValue(":idHryFOTO", $idHry);
+
+         $proslo = $vystup -> execute();
+
+         if($proslo){
+             $this -> executeQuery($q);
+             //echo "Foto nahráno do databáze";
+             return true; // Vracíme true, pokud bylo úspěšné provedení dotazu
+         } else {
+             //echo "Foto nenahráno do databáze";     
+             return false;
+            }
+    
+    }
+
     ///////////////////  Sprava prihlaseni uzivatele  ////////////////////////////////////////
 
     /**
@@ -527,13 +581,11 @@ class DatabaseModel {
         $vystup->bindValue(":popisek_hryADDGAME", $popisek_hry);
 
         if($vystup->execute()){
-            $this -> executeQuery($q);
-            var_dump($vystup);
-            die;
             //echo "Hra byla vložena";
             return true; // Vracíme true, pokud bylo úspěšné provedení dotazu
         } else {
             //echo "Hra nebyla vložena";
+            return false;
         }
     }
 
@@ -570,28 +622,32 @@ class DatabaseModel {
     }
 
     // Funkce na přidávání recenzí
-    public function addNewRecenze($idHry, $idUzivatele, $hodnoceni, $recenze_text, $datum){
+    public function addNewRecenze($nazevHry, $idHry, $idUzivatel, $login, $hodnoceni, $recenze_text, $datum){
 
         // Ošetření před XSS (Specialní charaktery, které by útočník zadával já převedu na jiné a neškodné)
+        $nazevHry = htmlspecialchars($nazevHry);
         $idHry = htmlspecialchars($idHry);
-        $idUzivatele = htmlspecialchars($idUzivatele);
+        $idUzivatel = htmlspecialchars($idUzivatel);
+        $login = htmlspecialchars($login);
         $hodnoceni = htmlspecialchars($hodnoceni);
         $recenze_text = htmlspecialchars($recenze_text);
         $datum = htmlspecialchars($datum);
 
 
         // hlavicka pro vlozeni do tabulky uzivatelu
-        $insertStatement = "id_hry, id_uzivatel, hodnoceni, recenze_text, datum";
+        $insertStatement = "nazev_hry, id_hry, id_uzivatel, login, hodnoceni, recenze_text, datum";
 
         // hodnoty pro vlozeni do tabulky uzivatelu
-        $insertValues = ":id_hry, :id_uzivatel, :hodnoceni, :recenze_text, :datum";
+        $insertValues = ":nazev_hry, :id_hry, :id_uzivatel, :login, :hodnoceni, :recenze_text, :datum";
         // provedu dotaz a vratim jeho vysledek
 
         $q = "INSERT INTO " . TABLE_RECENZE . "($insertStatement) VALUES ($insertValues);";
 
         $vystup = $this->pdo->prepare($q);
+        $vystup->bindValue(":nazev_hry", $nazevHry);
         $vystup->bindValue(":id_hry", $idHry);
-        $vystup->bindValue(":id_uzivatel", $idUzivatele);
+        $vystup->bindValue(":id_uzivatel", $idUzivatel);
+        $vystup->bindValue(":login", $login);
         $vystup->bindValue(":hodnoceni", $hodnoceni);
         $vystup->bindValue(":recenze_text", $recenze_text);
         $vystup->bindValue(":datum", $datum);
@@ -619,7 +675,6 @@ class DatabaseModel {
 
     if($vystup->execute()){
 
-        $this -> executeQuery($q);
         //echo "Právo změněno.";
         return true;
 

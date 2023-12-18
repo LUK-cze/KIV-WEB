@@ -12,7 +12,8 @@ use kivweb\Views\IView;
     $myDB = new DatabaseModel();
 
     // Data pro hry
-    $recenze = $myDB->getAllRecenze();
+    $recenze = $tplData["AllRecenze"];
+    $hry = $tplData["gameData"];
 
     ?>
     <script>
@@ -46,15 +47,19 @@ use kivweb\Views\IView;
 
     } else {
       ?>
+      
       <div class="row">
-            <div class="col-md-12">
+        <div class="col-md-3">
+        </div>
+
+            <div class="col-md-6">
                 <div class="login">
                 <form action="" method="POST"> <!-- index.php?page=uprava -->
                         <fieldset>
                         <legend><h3>Napiš recenzi!</h3></legend>
                         <select name='hra'>
                           <?php 
-                          foreach($tplData["gameData"] as $hra){ ?>
+                          foreach($hry as $hra){ ?>
                             <option value="<?php echo $hra["nazev_hry"] ?>"><?php echo $hra["nazev_hry"] ?></option>
                       <?php } 
                       ?>
@@ -84,7 +89,10 @@ use kivweb\Views\IView;
                         </fieldset>
                 </form>  
             </div>
-        </div>
+
+        <div class="col-md-3">
+      </div>
+    </div>
 
         <?php
     }
@@ -101,19 +109,18 @@ use kivweb\Views\IView;
       echo '<div class="row">';
 
       foreach ($skupina as $r) {
-
-    
         
         echo "
               <div class='col-sm-4'>
                   <div class='panel panel-default text-center'>
                     <div class='panel-heading' style='background-image: url(../img/recenze_panel/recenze-banner.svg);'>
-                      <h1 id='$r[id_hry]'> $r[id_hry] </h1>        
+                      <h1 id='$r[nazev_hry]'> $r[nazev_hry] </h1>        
                     </div>
                       <div class='panel-body'>
-                      <p class='autor'><strong>Id autora: $r[id_uzivatel] </strong></p>
-                      <p class='hodnoceni'><strong>Hodnocení:</strong> $r[hodnoceni]</p>
-                      <p class='recenze_text'><strong>Recenze:</strong> $r[recenze_text]</p>      
+                      <p class='autor'><strong>Autora: $r[login] </strong></p>
+                      <p class='hodnoceni'><strong>Datum přidání: </strong> $r[datum]</p>
+                      <p class='hodnoceni'><strong>Hodnocení: </strong> $r[hodnoceni] z 5</p>
+                      <p class='recenze_text'><strong>Recenze: </strong> $r[recenze_text]</p>      
                       </div> 
                   </div>
                 </div>
