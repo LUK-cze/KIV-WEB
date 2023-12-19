@@ -38,6 +38,10 @@ Zde můžou uživatelé s dostatečným právem upravovat zaregistrovane uživat
         function VypisZpravyDeleteRecenze(status, akce) {
             alert(status + ": Recenze " + akce);
         }
+
+        function zprava() {
+            alert();
+        }
     
     </script>
     <?php
@@ -68,7 +72,7 @@ Zde můžou uživatelé s dostatečným právem upravovat zaregistrovane uživat
     if (isset($_GET['message']) && $_GET['message'] == 'NesmazanaRecenze') {
         echo '<script>VypisZpravyDeleteRecenze("ERROR", "nebyla smzána");</script>';
     }
-
+    
 
 
     // 😡 --- PRO NEPŘIHLÁŠENÉ UŽIVATELE --- 😡
@@ -89,13 +93,6 @@ Zde můžou uživatelé s dostatečným právem upravovat zaregistrovane uživat
     //------------------- KONEC: PRO PŘIHLÁŠÉNE UŽIVATELE BEZ PRÁVA ADMIN -------------------
     } else {
     // 🤑 --- PRO PŘIHLÁŠÉNE UŽIVATELE S PRÁVEM ADMIN --- 🤑
-
-
-    //TODO: DULEŽITY KLIČ K VYŘESENÍ PROGLEMU U RECENZÍ ?
-        // Získám data všch uživatelů
-        // Dávám ho až sem aby se aktulizovala tabulka, když někoho smažu
-        //$users = $myDB->getAllUsers();
-
 
 ?>
 
@@ -119,7 +116,10 @@ Zde můžou uživatelé s dostatečným právem upravovat zaregistrovane uživat
                 <tr class="header_table"><th class="id_table">ID</th><th>Login</th><th>Jméno</th><th>Přijmení</th><th>E-mail</th><th class="pravo_table">Právo</th><th>Akce</th><th></th></tr>
                 <?php
                     // Pocházení uživatelů a jejich vypsání
-                    foreach ($users as $u) {
+                    foreach ($users as $u) { // if ($u['id_pravo'] != 1){
+                        if ($_SESSION['id_pravo'] == 1) {
+
+
                         echo "<tr><td class='id_table' >$u[id_uzivatel]</td><td>$u[login]</td><td>$u[jmeno]</td><td>$u[prijmeni]</td><td>$u[email]</td><td class='pravo_table'>$u[id_pravo]</td><td> 
                     <!-- Změna práva -->
                     <form action='' method='POST'>
@@ -141,8 +141,32 @@ Zde můžou uživatelé s dostatečným právem upravovat zaregistrovane uživat
                                   <button class='btn btn-res' type='submit' name='delete-uzivatel' value='delete-uzivatel'>X</button>
                               </form>"
                             ."</td></tr>";
-                    
+                    } else {
+                        if ($u['id_pravo'] != 1){
+
+                        echo "<tr><td class='id_table' >$u[id_uzivatel]</td><td>$u[login]</td><td>$u[jmeno]</td><td>$u[prijmeni]</td><td>$u[email]</td><td class='pravo_table'>$u[id_pravo]</td><td> 
+                    <!-- Změna práva -->
+                    <form action='' method='POST'>
+                        <input type='hidden' name='id_uzivatel' value='$u[id_uzivatel]'>
+                        <select name='nove_pravo'>
+                            <option value='2' " . ($u['id_pravo'] == 2 ? 'selected' : '') . ">Admin</option>
+                            <option value='3' " . ($u['id_pravo'] == 3 ? 'selected' : '') . ">Autor</option>
+                            <option value='4' " . ($u['id_pravo'] == 4 ? 'selected' : '') . ">Recenzert</option>
+                        </select>
+                        <button class='btn btn-sub' type='submit' name='zmenit' value='zmenit'>Změnit</button>
+                    </form>
+                    </td>
+                    <td>
+    
+                        "
+                            ."<form action='' method='POST'>
+                                  <input type='hidden' name='id_uzivatel' value='$u[id_uzivatel]'>
+                                  <button class='btn btn-res' type='submit' name='delete-uzivatel' value='delete-uzivatel'>X</button>
+                              </form>"
+                            ."</td></tr>";
+                        }
                     }
+                }
                 ?>
             </table>
             </div>
@@ -185,11 +209,11 @@ Zde můžou uživatelé s dostatečným právem upravovat zaregistrovane uživat
             <div class="col-md-12 table-container">
             <h2>Seznam uživatelů</h2>
             <table border="1">
-                <tr class="header_table"><th class="id_table">ID Recenze</th><th class="pravo_table">ID Hry</th><th class="pravo_table">ID Uživatele</th><th>Hodnocení</th><th>Datum</th><th></th></tr>
+                <tr class="header_table"><th class="id_table">ID Recenze</th><th class="id_table">ID Hry</th><th class="id_table">Jméno Recenzované Hry</th><th class="id_table">Uživatelské Jméno Autora</th><th class="pravo_table">ID Uživatele</th><th>Hodnocení</th><th>Datum</th><th></th></tr>
                 <?php
                     // Pocházení uživatelů a jejich vypsání
                     foreach ($recenze as $r) {
-                        echo "<tr><td class='id_table' >$r[id_recenze]</td><td>$r[id_hry]</td><td>$r[id_uzivatel]</td><td>$r[hodnoceni]</td><td>$r[datum]</td>
+                        echo "<tr><td class='id_table' >$r[id_recenze]</td><td>$r[id_hry]</td><td>$r[nazev_hry]</td><td>$r[login]</td><td>$r[id_uzivatel]</td><td>$r[hodnoceni]</td><td>$r[datum]</td>
                     </td>
                     <td>
 

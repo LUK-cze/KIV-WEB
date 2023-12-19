@@ -15,6 +15,8 @@ use kivweb\Views\IView;
     $recenze = $tplData["AllRecenze"];
     $hry = $tplData["gameData"];
 
+
+    // Funkce pro ty zprávy (může se objevit i jinde)
     ?>
     <script>
         function VypisZpravy(status, akce) {
@@ -24,8 +26,8 @@ use kivweb\Views\IView;
     </script>
     <?php
     
-
-    if (isset($_GET['message']) && $_GET['message'] == 'HraPridana') {
+// Zprávy z GET (bráno z URL)
+  if (isset($_GET['message']) && $_GET['message'] == 'HraPridana') {
       echo '<script>VypisZpravy("OK", "byla přidána");</script>';
   }
 
@@ -40,10 +42,8 @@ use kivweb\Views\IView;
 
 
     if($myDB->isUserLogged()){
-  
-  
-    if ($_SESSION['id_pravo'] >= 3) { 
-        echo "Pro přídávání recenzí musíš být hodnosti alespoň autor.";
+    if (!$_SESSION['id_pravo'] > 4) { 
+        echo "Pro přídávání recenzí musíš být hodnosti alespoň recenzent.";
 
     } else {
       ?>
@@ -106,9 +106,32 @@ use kivweb\Views\IView;
 
     foreach ($skupinyRecenzi as $skupina) {
       echo '<div class="container-fluid">';
-      echo '<div class="row">';
+      echo '<div class="row skupina">';
 
       foreach ($skupina as $r) {
+        // Vyzobrazení příslušný počet hvězdiček
+        switch($r['hodnoceni']){
+          case 1:
+            $hvezdicky = '<span class="glyphicon glyphicon-star"></span>';
+            break;
+          
+          case 2:
+            $hvezdicky = '<span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span>';
+            break;
+
+          case 3:
+            $hvezdicky = '<span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span>';
+            break;
+
+          case 4:
+            $hvezdicky = '<span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span>';
+            break;
+
+          case 5:
+            $hvezdicky = '<span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span>';
+            break;
+        }
+
         
         echo "
               <div class='col-sm-4'>
@@ -117,9 +140,9 @@ use kivweb\Views\IView;
                       <h1 id='$r[nazev_hry]'> $r[nazev_hry] </h1>        
                     </div>
                       <div class='panel-body'>
-                      <p class='autor'><strong>Autora: $r[login] </strong></p>
+                      <p class='autor'><strong>Autor: $r[login] </strong></p>
                       <p class='hodnoceni'><strong>Datum přidání: </strong> $r[datum]</p>
-                      <p class='hodnoceni'><strong>Hodnocení: </strong> $r[hodnoceni] z 5</p>
+                      <p class='hodnoceni'><strong>Hodnocení: </strong> $hvezdicky</p>
                       <p class='recenze_text'><strong>Recenze: </strong> $r[recenze_text]</p>      
                       </div> 
                   </div>

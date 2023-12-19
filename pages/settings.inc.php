@@ -42,26 +42,6 @@ use kivweb\Views\TemplateBasics;
 
 ///// vsechny stranky webu ////////
 
-/*
-TODO: Jestli nevyužiji tak smazat 
-
-    // Definování přípony
-    $phpExtension = ".inc.php";
-
-    // Dostupné stránky mého webu
-    // První parametr (např. login) je klíč a druhý je název souboru, který pod ním mám 
-    
-    define("WEB_PAGES", [
-        'login' => "user-login".$phpExtension,
-        'registrace' => "user-registration".$phpExtension,
-        'uprava' => "user-update".$phpExtension,
-        'management' => "user-management".$phpExtension,
-        'profil' => "user-profile".$phpExtension,
-        'recenze' => "recenze".$phpExtension,
-        'hry' => "games".$phpExtension
-    ]);
-
-
     /** Klic defaultni webove stranky. */
     const WEB_PAGE_DEFAULT_KEY = "login";
 

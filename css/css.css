@@ -88,6 +88,7 @@ th, td {
   background: -webkit-linear-gradient(#FF5964 25%, #FFE74C);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  -webkit-text-stroke: 2px #FFE74C;
 }
 
 .glyphicon-star-empty {

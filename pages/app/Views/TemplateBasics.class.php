@@ -122,7 +122,17 @@ class TemplateBasics implements IView {
                             <?php if($right <= 2){ ?>
                                 <li><a href="index.php?page=sprava">SPRÁVA DATABÁZE</a></li>
                             <?php } 
-                            }?>
+                            }
+                            if($myDB->isUserLogged()){ ?>
+                                <li> 
+                                    <div class="center-tlacitka">             
+                                        <form action="index.php" method="POST">
+                                            <button class="btn btn-res" type="submit" name="action" value="logout">Odhlaš se</button>
+                                        </form>
+                                    </div>
+                                </li>
+
+                            <?php } ?>
 
                         </ul>
                 </li>

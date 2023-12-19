@@ -51,10 +51,8 @@ class user_management_Controller implements IController {
             // provedu smazani uzivatele
             $ok = $this->myDB->deleteUser(intval($_POST['id_uzivatel']));
             if($ok){
-                //$tplData['delete'] = "OK: Uživatel s ID:$_POST[id_uzivatel] byl smazán z databáze.";
                 header("Location: ?page=sprava&message=SmazanUzivatel");
             } else {
-                //$tplData['delete'] = "CHYBA: Uživatele s ID:$_POST[id_uzivatel] se nepodařilo smazat z databáze.";
                 header("Location: ?page=sprava&message=NesmazanUzivatel");
             }
         }
@@ -65,10 +63,8 @@ class user_management_Controller implements IController {
             // provedu smazani uzivatele
             $ok = $this->myDB->deleteGame(intval($_POST['id_hry']));
             if($ok){
-                //$tplData['delete'] = "OK: Uživatel s ID:$_POST[id_uzivatel] byl smazán z databáze.";
                 header("Location: ?page=sprava&message=SmazanaHra");
             } else {
-                //$tplData['delete'] = "CHYBA: Uživatele s ID:$_POST[id_uzivatel] se nepodařilo smazat z databáze.";
                 header("Location: ?page=sprava&message=NesmazanaHra");
             }
         }
@@ -79,10 +75,8 @@ class user_management_Controller implements IController {
             // provedu smazani uzivatele
             $ok = $this->myDB->deleteRecenze(intval($_POST['id_recenze']));
             if($ok){
-                //$tplData['delete'] = "OK: Uživatel s ID:$_POST[id_uzivatel] byl smazán z databáze.";
                 header("Location: ?page=sprava&message=SmazanaRecenze");
             } else {
-                //$tplData['delete'] = "CHYBA: Uživatele s ID:$_POST[id_uzivatel] se nepodařilo smazat z databáze.";
                 header("Location: ?page=sprava&message=NesmazanaRecenze");
             }
         }
@@ -90,15 +84,15 @@ class user_management_Controller implements IController {
 // --------------------------------- KONEC DELETE ---------------------------------
 
         if (!empty($_POST['zmenit']) && isset($_POST['id_uzivatel']) && isset($_POST['nove_pravo'])) {
-
+                
             $zmenaPrava = $this->myDB->updatePravo($_POST['id_uzivatel'], $_POST['nove_pravo']);
-        
             ?>
             <script>
                 function VypisZpravy(status, userId) {
                     alert(status + ": Uživatel s ID " + userId + " byl změněn.");
                 }
         
+                // Jinak zapsaná if a else. Jen pro ukázku
                 <?php if ($zmenaPrava) : ?>
                     VypisZpravy("OK", <?php echo $_POST['id_uzivatel']; ?>);
                 <?php

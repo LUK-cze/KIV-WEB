@@ -10,6 +10,11 @@ Glyphikony jsou ze stránky: https://icons.getbootstrap.com/
   padding: 20px 10px;
   padding-left: 50px;
 }
+@media (max-width: 768px) {
+  .col-sm-4, .col-sm-8, .col-xs-12 {
+    padding-left: 10px;
+  }
+}
 
 .item h4 {
   font-size: 19px;
@@ -27,6 +32,7 @@ Glyphikony jsou ze stránky: https://icons.getbootstrap.com/
   text-align: center;
   display: block;
   background-color: white;
+  margin: 10px;
 }
 .panel:hover {
   border: 1px solid #F26419;
@@ -41,6 +47,20 @@ Glyphikony jsou ze stránky: https://icons.getbootstrap.com/
   text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
 }
 
+.skupina {
+  padding-right: 40px;
+}
+@media (max-width: 768px) {
+  .skupina {
+    padding-right: 0px;
+    padding-left: 12px;
+  }
+}
+
+.row {
+  margin-right: 0px;
+}
+
 .panel-heading {
   background-color: #F8333C;
   padding: 25px;
@@ -50,10 +70,13 @@ Glyphikony jsou ze stránky: https://icons.getbootstrap.com/
   border-bottom-left-radius: 0px;
   border-bottom-right-radius: 0px;
   height: 200px;
-  color: white !important;
+  color: #FFFFFF !important;
   background-size: cover;
   background-image: url(../img/svg/game-panel.svg);
   background-repeat: repeat;
+}
+.panel-heading h1 {
+  text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
 }
 
 .panel-body {
@@ -61,6 +84,8 @@ Glyphikony jsou ze stránky: https://icons.getbootstrap.com/
   height: 200px;
   contain: paint;
   overflow: auto; /* Přidáváme overflow pro scrolování */
+  padding: 15px;
+  padding-top: 20px;
 }
 
 textarea {
@@ -87,6 +112,11 @@ textarea {
   cursor: pointer;
   text-shadow: 5px 0px 40px rgba(0, 0, 0, 0.5);
 }
+@media (max-width: 500px) {
+  .hodnoceni input + label {
+    font-size: 30px;
+  }
+}
 .hodnoceni input:checked + label ~ label {
   /*
   Zde je to trošku těžší tak vysvětlim jak to funguje:
@@ -99,6 +129,11 @@ textarea {
 .hodnoceni label:active {
   transform: scale(0.8);
   transition: 0.3s ease;
+}
+
+.autor {
+  color: #F26419;
+  font-size: 25px;
 }
 
 @media screen and (max-width: 768px) {

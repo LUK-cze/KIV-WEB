@@ -5,6 +5,10 @@
   .col-sm-4, .col-sm-8, .col-xs-12 {
     padding: 20px 10px;
     padding-left: 50px;
+
+    @media (max-width: 768px){
+      padding-left: 10px;
+    }
   }
 
   .item h4 {
@@ -23,6 +27,7 @@
     text-align: center;
     display: block;
     background-color: white;
+    margin: 10px;
 
       &:hover{
         border: 1px solid $orange; 
@@ -44,6 +49,18 @@
     }
   }
 
+  .skupina{
+    padding-right: 40px;
+
+    @media (max-width: 768px){
+      padding-right: 0px;
+      padding-left: 12px;
+    }
+  }
+
+  .row{
+    margin-right: 0px;
+  }
 
   .panel-heading {
     background-color: $red;
@@ -54,7 +71,15 @@
     border-bottom-left-radius: 0px;
     border-bottom-right-radius: 0px;
     height: 200px;
-    color: white !important; 
+    color: $white !important; 
+    
+    h1{ 
+      text-shadow:
+      -1px -1px 0 #000,
+       1px -1px 0 #000,
+      -1px  1px 0 #000,
+       1px  1px 0 #000;
+    }
 
     background-size: cover;
 
@@ -68,6 +93,8 @@
     height: 200px;
     contain: paint;
     overflow: auto; /* Přidáváme overflow pro scrolování */
+    padding: 15px;
+    padding-top: 20px;
   }
 
 
@@ -97,6 +124,10 @@
       font-size: 50px;
       cursor: pointer;
       text-shadow: 5px 0px 40px rgba(0,0,0, .5);
+
+      @media (max-width: 500px){
+        font-size: 30px;
+      }
     }
 
     input:checked + label ~ label{
@@ -107,6 +138,7 @@
       které jdou po zaškrtnutém <input> (a jsou tedy sourozenci začátečního <input>).
       */
       background-image: linear-gradient(lightgray 25% , white) !important;
+
     }
 
     label:active{
@@ -114,10 +146,11 @@
       transition: 0.3s ease;
     }
 
+  }
 
-
-
-
+  .autor{
+    color: $orange;
+    font-size: 25px;
   }
 
   

@@ -45,6 +45,7 @@ class games_Controller implements IController {
             $PridaniHry = $this -> myDB->addNewGame($_POST["nazev_hry"], $_POST["zanr"], $_POST["popisek_hry"]);
 
 
+            // JavaScript funkce pro zprávy na stránce
             if ($PridaniHry){
                 header("Location: ?page=hry&message=Pridana");
             } else {

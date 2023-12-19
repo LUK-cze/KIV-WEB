@@ -351,13 +351,6 @@ class DatabaseModel {
         $vystup->bindValue(":email", $email);
         $vystup->bindValue(":id_pravo", $idPravo);
 
-        /*
-        // TODO: OPRAVIT (CHYBA: Invalid parameter number: number of bound variables does not match number of tokens)
-        echo var_dump($vystup);
-        die;
-        // Zde potřebujete získat hodnotu hesla
-        */
-
         if($vystup->execute()){
             //$this -> executeQuery($q);
             echo "Uživatel byl zaregistrován";

@@ -76,12 +76,10 @@ class user_login_Controller implements IController {
                 // pokusim se prihlasit uzivatele
                 $res = $this -> myDB->userLogin($_POST['login'], $hash);
                 if($res){
-                    //echo "OK: Uživatel byl přihlášen.";
                     header("Location: ?page=login&message=prihlasen#about");
                     
                     exit;
                 } else {
-                    //echo "ERROR: Přihlášení uživatele se nezdařilo.";
                     header("Location: ?page=login&message=NebylPrihlasen#about");
                     exit;
                 }
@@ -91,8 +89,6 @@ class user_login_Controller implements IController {
         }
             // Odhlášení
             else if($_POST['action'] == 'logout'){
-
-                //echo "OK: Uživatel byl odhlášen."; 
                 header("Location: ?page=login&message=odhlasen#about");
                 $this -> myDB->userLogout();
             }

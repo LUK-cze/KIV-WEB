@@ -45,7 +45,6 @@ class recenze_Controller implements IController {
     $tplData = [];
     // nazev
     $tplData['title'] = $pageTitle;
-    // data pohadek
 
      /* ----------------- DEBUG -----------------
     var_dump($_POST);
@@ -73,29 +72,9 @@ class recenze_Controller implements IController {
             exit();
         }
     }
-
-    /*
-    TODO:
-    SELECT recenze.id_recenze, uzivatele.login
-      FROM recenze
-      JOIN uzivatele ON recenze.id_uzivatel = uzivatele.id_uzivatel
-      WHERE recenze.id_uzivatel = 15;
-
-      // JINY PRIKAZ ALE PODOBNY
-      SELECT uzivatele.login FROM recenze JOIN uzivatele ON recenze.id_uzivatel = uzivatele.id_uzivatel WHERE recenze.id_uzivatel = 15;
-
-      zkusit rozchodit a zlepsit recenze
-    */
        
             $tplData['gameData'] = $this -> myDB -> getAllGames();
             $tplData["AllRecenze"] = $this -> myDB -> getAllRecenze();
-
-            /*
-            var_dump($tplData['gameData']);
-            echo "<br><br><br><br><br><br><br>";
-            var_dump($tplData['AllRecenze']);
-            die;
-            */
 
             // vratim sablonu naplnenou daty
             return $tplData;

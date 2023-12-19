@@ -83,10 +83,11 @@ use kivweb\Models\DatabaseModel;
                     </div>
                   </div>
 
-
+              <div class="center-tlacitka">
                 <button class="btn btn-sub" type="submit" name="action" value="registrace">Zaregistruj se</button>
                 <button class="btn btn-res" type="reset">Smazat údaje</button>
-          </div>        
+              </div>
+        </div>        
                 <h4>Maš už účet? Přihlaš se <a href="index.php?page=login">ZDE</a>.</h4>
                 <h5>Ověření hesla: <output name="x" for="heslo heslo2"></output></h5>
 
