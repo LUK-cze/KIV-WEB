@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
 -- Počítač: 127.0.0.1
--- Vytvořeno: Úte 19. pro 2023, 22:51
--- Verze serveru: 10.4.27-MariaDB
--- Verze PHP: 8.1.12
+-- Vytvořeno: Stř 20. pro 2023, 14:06
+-- Verze serveru: 10.4.22-MariaDB
+-- Verze PHP: 8.1.2
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -29,10 +29,10 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `hry` (
   `id_hry` int(11) NOT NULL,
-  `nazev_hry` varchar(50) NOT NULL,
-  `zanr` varchar(30) NOT NULL,
-  `foto_hry` varchar(50) DEFAULT NULL,
-  `popisek_hry` varchar(300) NOT NULL
+  `nazev_hry` varchar(50) COLLATE utf8_czech_ci NOT NULL,
+  `zanr` varchar(30) COLLATE utf8_czech_ci NOT NULL,
+  `foto_hry` varchar(50) COLLATE utf8_czech_ci DEFAULT NULL,
+  `popisek_hry` varchar(300) COLLATE utf8_czech_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci;
 
 --
@@ -118,7 +118,7 @@ INSERT INTO `hry` (`id_hry`, `nazev_hry`, `zanr`, `foto_hry`, `popisek_hry`) VAL
 
 CREATE TABLE `pravo` (
   `id_pravo` int(11) NOT NULL,
-  `nazev` varchar(45) NOT NULL,
+  `nazev` varchar(45) COLLATE utf8_czech_ci NOT NULL,
   `vaha` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci;
 
@@ -141,11 +141,11 @@ INSERT INTO `pravo` (`id_pravo`, `nazev`, `vaha`) VALUES
 CREATE TABLE `recenze` (
   `id_recenze` int(11) NOT NULL,
   `id_hry` int(11) NOT NULL,
-  `nazev_hry` varchar(50) NOT NULL,
+  `nazev_hry` varchar(50) COLLATE utf8_czech_ci NOT NULL,
   `id_uzivatel` int(11) NOT NULL,
-  `login` varchar(30) NOT NULL,
+  `login` varchar(30) COLLATE utf8_czech_ci NOT NULL,
   `hodnoceni` int(11) NOT NULL,
-  `recenze_text` varchar(2000) NOT NULL,
+  `recenze_text` varchar(2000) COLLATE utf8_czech_ci NOT NULL,
   `datum` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci;
 
@@ -181,12 +181,12 @@ INSERT INTO `recenze` (`id_recenze`, `id_hry`, `nazev_hry`, `id_uzivatel`, `logi
 CREATE TABLE `uzivatele` (
   `id_uzivatel` int(11) NOT NULL,
   `id_pravo` int(11) NOT NULL,
-  `jmeno` varchar(50) NOT NULL,
-  `prijmeni` varchar(45) NOT NULL,
-  `login` varchar(30) NOT NULL,
-  `heslo` varchar(255) NOT NULL,
-  `email` varchar(45) NOT NULL,
-  `foto` varchar(30) DEFAULT NULL
+  `jmeno` varchar(50) COLLATE utf8_czech_ci NOT NULL,
+  `prijmeni` varchar(45) COLLATE utf8_czech_ci NOT NULL,
+  `login` varchar(30) COLLATE utf8_czech_ci NOT NULL,
+  `heslo` varchar(255) COLLATE utf8_czech_ci NOT NULL,
+  `email` varchar(45) COLLATE utf8_czech_ci NOT NULL,
+  `foto` varchar(30) COLLATE utf8_czech_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci;
 
 --
@@ -197,10 +197,10 @@ INSERT INTO `uzivatele` (`id_uzivatel`, `id_pravo`, `jmeno`, `prijmeni`, `login`
 (1, 1, 'Hlavní správce', 'spravce', 'admin', '$2y$10$aQCfLP.RZ3k5MGwXgws5/.Zkg5Op08WGzE.YmDwQ.UxHdWvF6BQp.', 'SuperAdmin@seznam.cz', NULL),
 (2, 3, 'Pokusný Autor', 'autor', 'autor', '$2y$10$E6.4.ubTOpmIoHkuOEWMeeEQy4my.Wed8jQ5f4XrQvzmCPuHR.S.a', 'Autor@seznam.cz', NULL),
 (3, 4, 'Pokusný Recenzent', 'recenzent', 'Recenzent', '$2y$10$XwosZjIWyNMMLsdK/mZ6KO3ryRSdkZMw1fMRNU4X58fIpT6E.J9u2', 'Recenzent@seznam.cz', NULL),
-(4, 1, 'Jan', 'Novák', 'Test1', '$2y$10$tXH8fuKEtyeFMCTyElf6HOd3/Cz0Ur1XSJ7iMOX1eBWpPJ7tfbpNW', 'Jan@seznam.cz', 'maul(1).jpg'),
+(4, 2, 'Jan', 'Novák', 'Test1', '$2y$10$tXH8fuKEtyeFMCTyElf6HOd3/Cz0Ur1XSJ7iMOX1eBWpPJ7tfbpNW', 'Jan@seznam.cz', 'maul(1).jpg'),
 (5, 2, 'lojza', 'omacka', 'banan', '$2y$10$LsqJDgzSK8uGzx.nyqFDxOKmSIwwT2WQgasZtcSqOYDFs5VIfI.Aq', 'hrac@nevim.cz', 'enlistedV2.jpg'),
-(6, 1, 'Hanka', 'Putíková', 'Nuala', '$2y$10$oCoV4fek3cka7id09Zw3MO84AjFqYLBXsJbpRbFUrroHC88i41YcS', 'Hanka@seznam.cz', 'pes.jpeg'),
-(7, 1, 'Matěj', 'Putík', 'LUK', '$2y$10$or8Q9a3saD4q1MIZSInKGevULrsy5FfagHXNkG.vJxAclFNNU9nAS', 'DUKEczech@seznam.cz', 'revan.png'),
+(6, 2, 'Hanka', 'Putíková', 'Nuala', '$2y$10$oCoV4fek3cka7id09Zw3MO84AjFqYLBXsJbpRbFUrroHC88i41YcS', 'Hanka@seznam.cz', 'pes.jpeg'),
+(7, 2, 'Matěj', 'Putík', 'LUK', '$2y$10$or8Q9a3saD4q1MIZSInKGevULrsy5FfagHXNkG.vJxAclFNNU9nAS', 'DUKEczech@seznam.cz', 'revan.png'),
 (8, 2, 'Jan', 'Novák', 'gamer123', '$2a$12$AXVBBv08Ik0w/sDfq2gUxOYpAOwzu/qcOQGqQqE3VQ1dmL5P1DWNy', 'jan.novak@example.com', NULL),
 (9, 3, 'Eva', 'Svobodová', 'gaminggirl', '$2a$12$Mj4V0a3qzhrhdt/7o4Jpke9KcJI/Zaj4h0zXuqhlSOoruULOpCzn6', 'eva.svobodova@example.com', NULL),
 (10, 4, 'Petr', 'Krátký', 'speedrunner', '$2a$12$5h..UvyXH3s8nlg3Aw7hZOwoLliiz5ZAt5ikejjMq6oiECfBXYbxG', 'petr.kratky@example.com', NULL),
@@ -213,7 +213,8 @@ INSERT INTO `uzivatele` (`id_uzivatel`, `id_pravo`, `jmeno`, `prijmeni`, `login`
 (17, 3, 'Veronika', 'Gamerová', 'vera_gaming', '$2a$12$ETrPfgxL8V.8x50uCTLc/eBdxo6g5Ol8CJqAMku2fKmxG9eSJ4MSO', 'veronika.gamerova@example.com', NULL),
 (18, 4, 'Pavel', 'Zrychlený', 'fastpavel', '$2a$12$XrD0gejUXrHtY/Z97rLUi.t6pWSH6l34sXWSOegIm9c/1jH8VRiuq', 'pavel.zrychleny@example.com', NULL),
 (19, 2, 'Elena', 'Hraje', 'elena_plays', '$2a$12$kQvKnWj2i.a/lQZbppcmAOcHNlnhvHUVVj1jo9yAfgmeNkNoz1.Ki', 'elena.hraje@example.com', NULL),
-(20, 3, 'Ondřej', 'Recenzent', 'reviewer_ondrej', '$2a$12$JinEo1FmfcVI6LZO8LR9/ONS/vn1qUQv/xGFLDwVGV9TkxpsurkhC', 'ondrej.recenzent@example.com', NULL);
+(20, 3, 'Ondřej', 'Recenzent', 'reviewer_ondrej', '$2a$12$JinEo1FmfcVI6LZO8LR9/ONS/vn1qUQv/xGFLDwVGV9TkxpsurkhC', 'ondrej.recenzent@example.com', NULL),
+(21, 2, 'MiniAdmin', 'MiniAdmin', 'MiniAdmin', '$2y$10$KbWvosf3R/bGDh0OVXt8J.wwXDgLohh.stTr9h.32ef3c038yutMW', 'MiniAdmin@seznam.cz', NULL);
 
 -- --------------------------------------------------------
 
@@ -223,7 +224,7 @@ INSERT INTO `uzivatele` (`id_uzivatel`, `id_pravo`, `jmeno`, `prijmeni`, `login`
 
 CREATE TABLE `zanry` (
   `id_zanry` int(11) NOT NULL,
-  `nazev_zanru` varchar(50) NOT NULL
+  `nazev_zanru` varchar(50) COLLATE utf8_czech_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci;
 
 --
@@ -303,7 +304,7 @@ ALTER TABLE `recenze`
 -- AUTO_INCREMENT pro tabulku `uzivatele`
 --
 ALTER TABLE `uzivatele`
-  MODIFY `id_uzivatel` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id_uzivatel` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT pro tabulku `zanry`
